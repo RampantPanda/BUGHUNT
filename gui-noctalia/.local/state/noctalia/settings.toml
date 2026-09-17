@@ -195,6 +195,8 @@ scale = 1.4000000134110451
 enabled = []
 
 [shell]
+app_icon_color = "primary"
+app_icon_colorize = true
 password_style = "random"
 telemetry_enabled = true
 

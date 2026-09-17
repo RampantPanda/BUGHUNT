@@ -82,7 +82,7 @@ widget_order = [ "lockscreen-login-box@DP-2", "lockscreen-login-box@DP-1" ]
         show_caps_lock = true
         show_keyboard_layout = true
         show_login_button = true
-        show_password_hint = true
+#        show_password_hint = true
 
     [lockscreen_widgets.widget."lockscreen-login-box@DP-2"]
 	color="primary"
@@ -103,7 +103,7 @@ widget_order = [ "lockscreen-login-box@DP-2", "lockscreen-login-box@DP-1" ]
         show_caps_lock = true
         show_keyboard_layout = true
         show_login_button = true
-        show_password_hint = true
+ #       show_password_hint = true
 
 [plugin_settings."noctalia/screen_recorder"]
 restore_portal = false
@@ -140,9 +140,9 @@ type = "spacer"
 [widget.Spacer_2]
 type = "spacer"
 
-[widget.cat]
-cat_size = 34
-type = "dotnetrob/cat:cat"
+#[widget.cat]
+#cat_size = 34
+#type = "dotnetrob/cat:cat"
 
 [widget.clock]
 color = "primary"
@@ -167,16 +167,16 @@ show_label = false
 scale=2
 color="primary"
 
-[widget.recorder]
-type = "noctalia/screen_recorder:recorder"
-scale=1.5
-color="primary"
+#[widget.recorder]
+#type = "noctalia/screen_recorder:recorder"
+#scale=1.5
+#color="primary"
 
 [widget.tray]
 scale=1.5
-capsule=true
-capsule_border= "Primary"
-capsule_radius = 5
+#capsule=true
+#capsule_border= "Primary"
+#capsule_radius = 5
 
 [widget.notifications]
 scale=1.5
@@ -193,16 +193,16 @@ color="primary"
 [widget.volume]
 scale=1.5
 color="primary"
-capsule=true
-capsule_border= "Primary"
-capsule_radius = 5
+#capsule=true
+#capsule_border= "Primary"
+#capsule_radius = 5
 
 [widget.battery]
 scale=1.5
 color="primary"
-capsule=true
-capsule_border= "Primary"
-capsule_radius = 5
+#capsule=true
+#capsule_border= "Primary"
+#capsule_radius = 5
 
 [widget.session]
 scale=1.5
@@ -215,10 +215,9 @@ show_labels= true
 capsule_radius = 5
 active_pill_size=1
 inactive_pill_size=1
-capsule_border = "Primary"
+capsule_border = "primary"
 anchor = true
-display = "name"
-focused_color= "Primary"
-occupied_color="Secondary"
-empty_color="surface"
+focused_color= "primary"
+occupied_color="secondary"
+empty_color="tertiary"
 urgent_color="Error"
