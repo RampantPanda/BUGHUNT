@@ -1,6 +1,11 @@
+[theme]
+mode = "dark"
+source = "custom"
+custom_palette = "muthur"
 [bar.default]
-background_opacity = 0.89999997988343239
-center = [ "workspaces", "Spacer_2", "media", "Spacer_2", "cat" ]
+background_opacity = 0.9
+start = [ "Spacer", "workspaces", "Spacer_2", "active_window" ]
+center = [ "Spacer_2", "clock", "cat", "date", "Spacer_2" ]
 end = [
     "tray",
     "Spacer_2",
@@ -15,18 +20,16 @@ end = [
     "battery",
     "Spacer_2",
     "date",
-    "clock",
     "Spacer_2",
     "session",
     "Spacer"
 ]
 margin_edge = 0
 margin_ends = 0
-radius_bottom_left = 0
-radius_bottom_right = 0
+radius_bottom_left = 20
+radius_bottom_right = 20
 radius_top_left = 0
 radius_top_right = 0
-start = [ "Spacer", "launcher", "Spacer_2", "active_window" ]
 thickness = 40
 
 [wallpaper.default]
@@ -63,7 +66,7 @@ widget_order = [ "lockscreen-login-box@DP-2", "lockscreen-login-box@DP-1" ]
 
     [lockscreen_widgets.widget."lockscreen-login-box@DP-1"]
     box_height = 70.0
-    box_width = 400.0
+    box_width = 200.0
     cx = 1280.0
     cy = 1321.0
     output = "DP-1"
@@ -71,19 +74,21 @@ widget_order = [ "lockscreen-login-box@DP-2", "lockscreen-login-box@DP-1" ]
     type = "login_box"
 
         [lockscreen_widgets.widget."lockscreen-login-box@DP-1".settings]
+        color = "primary"
         background_color = "surface_variant"
-        background_opacity = 0.88
+        background_opacity = 0.5
         background_radius = 12.0
         input_opacity = 1.0
-        input_radius = 6.0
+        input_radius = 16.0
         show_caps_lock = true
         show_keyboard_layout = true
         show_login_button = true
         show_password_hint = true
 
     [lockscreen_widgets.widget."lockscreen-login-box@DP-2"]
+	color="primary"
     box_height = 70.0
-    box_width = 400.0
+    box_width = 200.0
     cx = 1280.0
     cy = 1321.0
     output = "DP-2"
@@ -92,7 +97,7 @@ widget_order = [ "lockscreen-login-box@DP-2", "lockscreen-login-box@DP-1" ]
 
         [lockscreen_widgets.widget."lockscreen-login-box@DP-2".settings]
         background_color = "surface_variant"
-        background_opacity = 0.88
+        background_opacity = 0.2
         background_radius = 12.0
         input_opacity = 1.0
         input_radius = 6.0
@@ -121,13 +126,13 @@ enabled = [ "noctalia/screen_recorder", "dotnetrob/cat", "noctalia/wallhaven" ]
 polkit_agent = true
 settings_show_advanced = true
 
-[theme]
-builtin = "Noctalia"
-mode = "dark"
-source = "wallpaper"
+#[theme]
+#builtin = "Noctalia"
+#mode = "dark"
+#source = "wallpaper"
 
-    [theme.templates]
-    builtin_ids = [ "gtk3", "gtk4", "kcolorscheme", "qt" ]
+#    [theme.templates]
+#    builtin_ids = [ "gtk3", "gtk4", "kcolorscheme", "qt" ]
 
 [widget.Spacer]
 length = 10
@@ -141,6 +146,7 @@ cat_size = 34
 type = "dotnetrob/cat:cat"
 
 [widget.date]
+background_color = "secondary"
 format = "{:%a %d %b -}"
 
 [widget.launcher]
@@ -154,5 +160,17 @@ show_label = false
 type = "noctalia/screen_recorder:recorder"
 
 [widget.workspaces]
+scale=2
+style = "regular"
+show_labels= true
+capsule_radius = 7
+active_pill_size=1
+inactive_pill_size=1
+capsule_border = "Primary"
 anchor = true
-display = "none"
+display = "name"
+focused_color= "Primary"
+occupied_color="Secondary"
+empty_color="Tertiary"
+urgent_color="Error"
+
