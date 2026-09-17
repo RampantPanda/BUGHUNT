@@ -2,21 +2,20 @@
 mode = "dark"
 source = "custom"
 custom_palette = "muthur"
+
 [bar.default]
 background_opacity = 0.9
-start = [ "Spacer", "workspaces", "Spacer_2", "active_window" ]
-center = [ "Spacer_2", "clock", "cat", "date", "Spacer_2" ]
+start = [ "Spacer", "workspaces" ]
+center = [ "Spacer_2", "clock", "Spacer_2" ]
 end = [
     "tray",
     "Spacer_2",
     "notifications",
     "clipboard",
-    "recorder",
     "Spacer_2",
     "network",
     "bluetooth",
     "volume",
-    "brightness",
     "battery",
     "Spacer_2",
     "date",
@@ -145,9 +144,19 @@ type = "spacer"
 cat_size = 34
 type = "dotnetrob/cat:cat"
 
+[widget.clock]
+color = "primary"
+scale = 2
+format= "{:%H / %M}"
+capsule=true
+capsule_padding=30
+capsule_border= "Primary"
+capsule_radius = 5
+
 [widget.date]
-background_color = "secondary"
-format = "{:%a %d %b -}"
+color = "primary"
+format = "{:%d / %m}"
+scale = 2
 
 [widget.launcher]
 custom_image = "/usr/share/icons/hicolor/scalable/apps/org.cachyos.hello.svg"
@@ -155,15 +164,55 @@ scale = 1.45
 
 [widget.network]
 show_label = false
+scale=2
+color="primary"
 
 [widget.recorder]
 type = "noctalia/screen_recorder:recorder"
+scale=1.5
+color="primary"
+
+[widget.tray]
+scale=1.5
+capsule=true
+capsule_border= "Primary"
+capsule_radius = 5
+
+[widget.notifications]
+scale=1.5
+color="primary"
+
+[widget.clipboard]
+scale=1.5
+color="primary"
+
+[widget.bluetooth]
+scale=1.5
+color="primary"
+
+[widget.volume]
+scale=1.5
+color="primary"
+capsule=true
+capsule_border= "Primary"
+capsule_radius = 5
+
+[widget.battery]
+scale=1.5
+color="primary"
+capsule=true
+capsule_border= "Primary"
+capsule_radius = 5
+
+[widget.session]
+scale=1.5
+color="primary"
 
 [widget.workspaces]
 scale=2
 style = "regular"
 show_labels= true
-capsule_radius = 7
+capsule_radius = 5
 active_pill_size=1
 inactive_pill_size=1
 capsule_border = "Primary"
@@ -171,6 +220,5 @@ anchor = true
 display = "name"
 focused_color= "Primary"
 occupied_color="Secondary"
-empty_color="Tertiary"
+empty_color="surface"
 urgent_color="Error"
-
