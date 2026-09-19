@@ -1,0 +1,65 @@
+window {
+    background: #050605;
+    color: #d2b45b;
+}
+
+* {
+    font-family: "IBM Plex Mono", "DejaVu Sans Mono", monospace;
+    font-size: 15px;
+}
+
+/*
+ * Status module
+ */
+#runshell {
+    color: #d2b45b;
+    font-family: "IBM Plex Mono", "DejaVu Sans Mono", monospace;
+    font-size: 15px;
+}
+
+/*
+ * Kill the normal friendly rounded GTK appearance.
+ */
+entry {
+    background: #090b09;
+    color: #d2b45b;
+
+    border: 1px solid #727761;
+    border-radius: 0;
+
+    padding: 7px 10px;
+
+    box-shadow: none;
+    outline: none;
+
+    caret-color: #d2b45b;
+}
+
+entry:focus {
+    border-color: #d2b45b;
+}
+
+/*
+ * Authentication/errors.
+ */
+#error-label {
+    color: #d34b42;
+}
+
+#warning-label {
+    color: #d2b45b;
+}
+
+/*
+ * We'll provide our own clock/date through runshell.
+ */
+#clock-label,
+#date-label {
+    opacity: 0;
+}
+#input-label {
+    opacity: 0;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+}

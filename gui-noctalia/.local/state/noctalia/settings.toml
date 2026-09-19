@@ -214,18 +214,27 @@ telemetry_enabled = true
 
 [theme]
 builtin = "Noctalia"
+community_palette = "Oxocarbon"
 custom_palette = "muthur"
+mode = "dark"
 source = "custom"
+wallpaper_scheme = "m3-content"
 
     [theme.templates]
     builtin_ids = [ "alacritty", "cava", "foot", "gtk3", "gtk4", "mango", "qt" ]
-    community_ids = [ "micro", "yazi" ]
+    community_ids = [ "yazi" ]
 
 [wallpaper]
 directory = "/usr/share/wallpapers/cachyos-wallpapers"
+directory_dark = "/home/pekka/Pictures/Wallpapers"
+directory_light = "/home/pekka/Pictures/Wallpapers"
+fill_mode = "fit"
 
     [wallpaper.default]
-    path = "/usr/share/wallpapers/cachyos-wallpapers/Skyscraper.png"
+    path = "/home/pekka/Pictures/Wallpapers/wp11049621.png"
 
     [wallpaper.last]
-    path = "/usr/share/wallpapers/cachyos-wallpapers/Skyscraper.png"
+    path = "/home/pekka/Pictures/Wallpapers/wp11049621.png"
+
+    [wallpaper.monitors.eDP-1]
+    path = "/home/pekka/Pictures/Wallpapers/wp11049621.png"
