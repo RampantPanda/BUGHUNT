@@ -14,7 +14,7 @@
     ],
     "modules-right": [
         //"pulseaudio",
-        "wireplumber",
+        "pulseaudio",
         "network",
         "custom/nextcloud",
         "battery",
@@ -76,6 +76,7 @@
     "tray": {
         // "icon-size": 21,
         "spacing": 10,
+        ""
         // "icons": {
         //   "blueman": "bluetooth",
         //   "TelegramDesktop": "$HOME/.local/share/icons/hicolor/16x16/apps/telegram.png"
@@ -141,18 +142,20 @@
         "format-ethernet": "ETHR",
         "format-disconnected": "DISC",
         "format-disabled": "DSBL",
-        "tooltip-format": "{ifname} via {gwaddr} ",
+        "tooltip-format": "ID:{essid}\nIP:{ipaddr}\nGW:{gwaddr}\nSIG:{signalStrengthApp}",
         "format-linked": "LNKD",
-        "format-alt": "{ifname}: {ipaddr}/{cidr}"
+        "format-alt": "NO CLICK"
     },
     "pulseaudio": {
-        // "scroll-step": 1, // %, can be a float
-        "format": "{volume}% {icon} {format_source}",
-        "format-bluetooth": "{volume}% {icon} {format_source}",
-        "format-bluetooth-muted": " {icon} {format_source}",
-        "format-muted": " {format_source}",
-        "format-source": "{volume}% ",
-        "format-source-muted": "",
+        "scroll-step": 5, // %, can be a float
+        "format": "VOL  {volume}",
+        "format-muted": "VOL OFF",
+        "on-click": "pavucontrol",
+        "format-bluetooth": "{volume}% BLT",
+        "format-bluetooth-muted": "OFF BLT",
+        "format-muted": "VOL OFF",
+//        "format-source": "{volume}% ",
+//        "format-source-muted": "",
         "format-icons": {
             "headphone": "",
             "hands-free": "",

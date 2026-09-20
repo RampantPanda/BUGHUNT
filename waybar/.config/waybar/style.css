@@ -6,7 +6,7 @@
 @import url("../colors/colors.css");
 window#waybar {
     background-color: @surface;
-    border: 3px solid @primary;
+    border: 3px solid @superior;
     color: #ffffff;
     transition-property: background-color;
     transition-duration: .5s;
@@ -48,18 +48,18 @@ button {
     box-shadow: inset 0 -3px #ffffff;
 }*/
 
-/* you can set a style on hover for any module like this */
+/* you can set a style on hover for any module like this
 #pulseaudio:hover {
     background-color: @surface;
     color: @primary;
-}
+}*/
 
 #workspaces button {
     padding: 6px;
     background-color: @surface;
     color: @primary;
-    border: 3px solid @primary;
-}
+    border: 3px solid @superior;
+    }
 
 #workspaces button:hover {
     background-color: alpha(@primary, 0.5);
@@ -97,12 +97,12 @@ button {
 #mpd {
     padding: 3px;
     color: @primary;
-    border: 3px solid @primary;
+    border: 3px solid @superior;
 	background-color: @surface;
 }
 
 #idle_inhibitor {
-	border: 3px solid @primary;
+border: 3px solid @superior;
 	padding: 3px;
 }
 
@@ -199,7 +199,7 @@ label:focus {
 }
 
 #network {
-    border-color: @primary
+border: 3px solid @superior;
 }
 
 #network.disconnected {
@@ -219,20 +219,21 @@ label:focus {
 }
 
 #pulseaudio {
-    background-color: @primary;
-    color: @surface;
+background-color: @primary;
+color: @surface;
+border: 3px solid @superior;
 }
 
 #pulseaudio.muted {
     background-color: @surface;
     color: @primary;
-    border: 3px solid @surface;
+    border: 3px solid @superior;
 }
 
 #wireplumber {
     background-color: @primary;
     color: @surface;
-    border: 3px solid @primary;
+    border: 3px solid @surface;
 }
 #wireplumber.muted {
     background-color: @surface;
@@ -262,7 +263,9 @@ label:focus {
 }
 
 #tray {
-    background-color: #2980b9;
+    background-color: @surface;
+    color: @primary;
+    border: 3px solid @primary;
 }
 
 #tray > .passive {
