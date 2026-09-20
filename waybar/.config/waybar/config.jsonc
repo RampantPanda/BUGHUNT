@@ -4,20 +4,20 @@
     "position": "top", // Waybar position (top|bottom|left|right)
     "height": 45, // Waybar height (to be removed for auto height)
     // "width": 1280, // Waybar width
-    "spacing": 4, // Gaps between modules (4px)
+    "spacing": 0, // Gaps between modules (4px)
     // Choose the order of the modules
     "modules-left": [
         "ext/workspaces",
-        "window",
     ],
     "modules-center": [
         "clock"
     ],
     "modules-right": [
-        "pulseaudio",
+        //"pulseaudio",
+        "wireplumber",
         "network",
         "custom/nextcloud",
-//        "battery",
+        "battery",
         "tray",
         "idle_inhibitor",
     ],
@@ -163,6 +163,11 @@
             "default": ["", "", ""]
         },
         "on-click": "pavucontrol"
+    },
+    "wireplumber": {
+    "format": "VOL  {volume}",
+    "format-muted": "VOL OFF",
+    "on-click": "pavucontrol"
     },
     "custom/media": {
         "format": "{icon} {text}",

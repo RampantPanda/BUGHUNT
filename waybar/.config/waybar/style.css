@@ -50,7 +50,8 @@ button {
 
 /* you can set a style on hover for any module like this */
 #pulseaudio:hover {
-    background-color: #a37800;
+    background-color: @surface;
+    color: @primary;
 }
 
 #workspaces button {
@@ -218,22 +219,24 @@ label:focus {
 }
 
 #pulseaudio {
-    background-color: #f1c40f;
-    color: #000000;
+    background-color: @primary;
+    color: @surface;
 }
 
 #pulseaudio.muted {
-    background-color: #90b1b1;
-    color: #2a5c45;
+    background-color: @surface;
+    color: @primary;
+    border: 3px solid @surface;
 }
 
 #wireplumber {
-    background-color: #fff0f5;
-    color: #000000;
+    background-color: @primary;
+    color: @surface;
+    border: 3px solid @primary;
 }
-
 #wireplumber.muted {
-    background-color: #f53c3c;
+    background-color: @surface;
+    color: @primary;
 }
 
 #custom-media {
