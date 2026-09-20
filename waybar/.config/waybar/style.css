@@ -131,13 +131,13 @@ border: 3px solid @superior;
 }
 
 #battery {
-    background-color: #ffffff;
-    color: #000000;
+    background-color: #1d170b;
+    color: #756000;
 }
 
 #battery.charging, #battery.plugged {
-    color: #ffffff;
-    background-color: #26A65B;
+    color: #1d170b;
+    background-color: #756000;
 }
 
 @keyframes blink {
@@ -149,10 +149,10 @@ border: 3px solid @superior;
 
 /* Using steps() instead of linear as a timing function to limit cpu usage */
 #battery.critical:not(.charging) {
-    background-color: #f53c3c;
-    color: #ffffff;
+    background-color: #752300;
+    color: #1d170b;
     animation-name: blink;
-    animation-duration: 0.5s;
+    animation-duration: 1.0s;
     animation-timing-function: steps(12);
     animation-iteration-count: infinite;
     animation-direction: alternate;

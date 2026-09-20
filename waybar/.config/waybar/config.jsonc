@@ -76,7 +76,6 @@
     "tray": {
         // "icon-size": 21,
         "spacing": 10,
-        ""
         // "icons": {
         //   "blueman": "bluetooth",
         //   "TelegramDesktop": "$HOME/.local/share/icons/hicolor/16x16/apps/telegram.png"
@@ -113,10 +112,10 @@
             "warning": 30,
             "critical": 15
         },
-        "format": "{capacity}% {icon}",
-        "format-full": "{capacity}% {icon}",
-        "format-charging": "{capacity}% ",
-        "format-plugged": "{capacity}% ",
+        "format": "BAT {capacity}",
+        "format-full": "BATFULL",
+        "format-charging": "CHG{capacity}%",
+        "format-plugged": "PLG{capacity}% ",
         "format-alt": "{time} {icon}",
         // "format-good": "", // An empty format will hide the module
         // "format-full": "",
