@@ -59,6 +59,8 @@ packages=(
 	noctalia
 	cliphist
 	swayidle
+	htop
+	starship
 )
 ## UPDATE AND INSTALL NECESSARY STUFF
 cd ~
