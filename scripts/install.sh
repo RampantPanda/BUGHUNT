@@ -61,6 +61,10 @@ packages=(
 	swayidle
 	htop
 	starship
+	ttc-iosevka
+	ttf-iosevkatermslab-nerd
+	ttf-iosevkaterm-nerd
+	ttf-iosevka-nerd
 )
 ## UPDATE AND INSTALL NECESSARY STUFF
 cd ~

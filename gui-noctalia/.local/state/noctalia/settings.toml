@@ -13,6 +13,7 @@ padding = 17
 radius = 16
 radius_bottom_left = 8
 radius_bottom_right = 8
+start = [ "Spacer", "workspaces", "keybinds" ]
 
 [hot_corners]
 enabled = true
@@ -191,8 +192,12 @@ background_opacity = 0.52999998815357685
 [osd]
 scale = 1.4000000134110451
 
+[plugin_settings."kenn/keybind-cheatsheet"]
+cheatsheet_placement = "attached"
+compositor = "mango"
+
 [plugins]
-enabled = []
+enabled = [ "kenn/keybind-cheatsheet" ]
 
 [shell]
 app_icon_color = "primary"
@@ -201,9 +206,13 @@ password_style = "random"
 telemetry_enabled = true
 
     [shell.panel]
+    clipboard_placement = "attached"
     launcher_placement = "attached"
+    open_near_click_clipboard = true
     open_near_click_control_center = true
     open_near_click_session = true
+    open_near_click_wallpaper = true
+    polkit_placement = "attached"
 
     [shell.screenshot]
     confirm_region = true
@@ -238,3 +247,6 @@ fill_mode = "fit"
 
     [wallpaper.monitors.eDP-1]
     path = "/home/pekka/Pictures/Wallpapers/wp11049621.png"
+
+[widget.keybinds]
+type = "kenn/keybind-cheatsheet:keybinds"

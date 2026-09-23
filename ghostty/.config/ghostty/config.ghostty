@@ -1,0 +1,11 @@
+theme = muthur
+shell-integration-features = no-cursor
+cursor-style = block
+cursor-style-blink = true
+cursor-color = #9c8000
+cursor-text = #1d170b
+font-family = Terminus (TTF)
+font-family-bold = Terminus (TTF)
+font-style = Regular
+font-style-bold = Bold
+font-size = 20

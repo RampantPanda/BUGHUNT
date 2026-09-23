@@ -1,0 +1,69 @@
+# MUTHUR
+
+background = #1d170b
+foreground = #c7bd94
+
+# Cursor: MUTHUR amber
+cursor-color = #9c8000
+cursor-text = #1d170b
+
+# Selection
+selection-background = #3b3000
+selection-foreground = #ddd3a8
+
+# Prevent applications from producing unreadably low contrast text
+minimum-contrast = 2.5
+
+
+# ── ANSI NORMAL ────────────────────────────────────────
+
+# black — surface
+palette = 0=#1d170b
+
+# red — alarm / error
+palette = 1=#a63c2d
+
+# green — CRT/status green
+palette = 2=#71935a
+
+# yellow — primary MUTHUR amber
+palette = 3=#9c8000
+
+# blue — muted industrial/CRT blue
+palette = 4=#527f8f
+
+# magenta — deliberately subdued
+palette = 5=#8b6577
+
+# cyan — blue-green terminal phosphor
+palette = 6=#57958d
+
+# white — warm grey
+palette = 7=#b8ae89
+
+
+# ── ANSI BRIGHT ────────────────────────────────────────
+
+# bright black — comments / secondary information
+palette = 8=#665d45
+
+# bright red
+palette = 9=#d05a43
+
+# bright green
+palette = 10=#9dbb72
+
+# bright yellow — superior MUTHUR amber
+palette = 11=#c5a629
+
+# bright blue
+palette = 12=#78a9b7
+
+# bright magenta
+palette = 13=#b88ba0
+
+# bright cyan
+palette = 14=#7dbdb2
+
+# bright white
+palette = 15=#e1d8b4
