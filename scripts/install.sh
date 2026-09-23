@@ -65,6 +65,8 @@ packages=(
 	ttf-iosevkatermslab-nerd
 	ttf-iosevkaterm-nerd
 	ttf-iosevka-nerd
+	brightnessctl
+	wpctl
 )
 ## UPDATE AND INSTALL NECESSARY STUFF
 cd ~

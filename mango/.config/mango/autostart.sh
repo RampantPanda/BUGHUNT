@@ -10,3 +10,6 @@ swayidle -w \
     timeout 900 'wlr-dpms off' \
         resume 'wlr-dpms on' \
     before-sleep "$HOME/scripts/gtklock.sh" &
+
+# bar
+waybar>/dev/null &
