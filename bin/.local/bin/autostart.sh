@@ -2,14 +2,15 @@
 wl-clip-persist --clipboard regular --reconnect-tries 0 &
 
 # Watch clipboard and store history
-wl-paste --type text --watch cliphist store &
+# wl-paste --type text --watch cliphist store &
 
 # watch idle
 swayidle -w \
-    timeout 600 "$HOME/scripts/gtklock.sh" \
-    timeout 900 'wlr-dpms off' \
-        resume 'wlr-dpms on' \
-    before-sleep "$HOME/scripts/gtklock.sh" &
-
+    timeout 300 "lock-screen.sh" \
+    timeout 600 "wlopm --off '*'" \
+        resume "wlopm --on '*'" \
+    timeout 1800 'systemctl suspend' \
+    before-sleep "lock-screen.sh" \
+    after-resume "wlopm --on '*'" &
 # bar
 waybar>/dev/null &
