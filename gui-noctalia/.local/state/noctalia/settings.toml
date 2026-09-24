@@ -6,14 +6,66 @@ border = "primary"
 border_width = 3.0
 capsule_group = []
 color = "primary"
+end = [
+    "tray",
+    "notifications",
+    "clipboard",
+    "network",
+    "bluetooth",
+    "volume",
+    "brightness",
+    "battery",
+    "control-center",
+    "session"
+]
+font_scale = 0.92999998666346073
 font_weight = 700
 icon_color = "primary"
-margin_ends = 2
+margin_ends = 15
 padding = 17
 radius = 16
-radius_bottom_left = 8
-radius_bottom_right = 8
+radius_bottom_left = 24
+radius_bottom_right = 24
+radius_top_left = 24
+radius_top_right = 24
+scale = 2.0000000223517418
 start = [ "Spacer", "workspaces", "keybinds" ]
+thickness = 43
+
+[desktop_widgets]
+schema_version = 2
+widget_order = [ "desktop-widget-0000000000000001", "desktop-widget-0000000000000002" ]
+
+    [desktop_widgets.grid]
+    cell_size = 16
+    major_interval = 4
+    visible = true
+
+    [desktop_widgets.widget.desktop-widget-0000000000000001]
+    box_height = 192.0
+    box_width = 384.0
+    cx = 1664.0
+    cy = 956.0
+    output = "eDP-1"
+    placement_height = 1080.0
+    placement_width = 1920.0
+    rotation = 0.0
+    type = "sysmon"
+
+        [desktop_widgets.widget.desktop-widget-0000000000000001.settings]
+        stat = "cpu_usage"
+        stat2 = "cpu_temp"
+
+    [desktop_widgets.widget.desktop-widget-0000000000000002]
+    box_height = 192.0
+    box_width = 368.0
+    cx = 258.0
+    cy = 956.0
+    output = "eDP-1"
+    placement_height = 1080.0
+    placement_width = 1920.0
+    rotation = 0.0
+    type = "media_player"
 
 [hot_corners]
 enabled = true
@@ -202,6 +254,7 @@ enabled = [ "kenn/keybind-cheatsheet" ]
 [shell]
 app_icon_color = "primary"
 app_icon_colorize = true
+corner_radius_scale = 0.40000000596046448
 password_style = "random"
 telemetry_enabled = true
 
@@ -248,5 +301,17 @@ fill_mode = "fit"
     [wallpaper.monitors.eDP-1]
     path = "/home/pekka/Pictures/Wallpapers/wp11049621.png"
 
+[widget.clock]
+capsule = true
+capsule_fill = "primary"
+color = "on_primary"
+
 [widget.keybinds]
 type = "kenn/keybind-cheatsheet:keybinds"
+
+[widget.network]
+scale = 0.80000000000000004
+
+[widget.workspaces]
+active_pill_size = 1.0
+font_family = "IosevkaTerm NFP ExtraBold Obl"
