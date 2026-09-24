@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+# logseq-cli-managed
+set -eu
+ELECTRON_RUN_AS_NODE=1 exec "/opt/appimages/Logseq-linux-x86_64.AppImage" "/tmp/.mount_logseqhAjPAl/resources/app.asar/js/logseq-cli.js" "$@"
