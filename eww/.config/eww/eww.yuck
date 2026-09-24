@@ -1,0 +1,57 @@
+;;(include "buttonbox.yuck")
+
+(defpoll disk_usage
+  :interval "60s"
+  "$HOME/.config/eww/scripts/du.sh")
+
+(defpoll proton_status
+  :interval "5s"
+  "$HOME/.config/eww/scripts/proton-status.sh")
+
+(defpoll ram_usage
+	:interval "5s"
+	"$HOME/.config/eww/scripts/ram-use.sh")
+
+(defwidget disk-widget []
+  (box
+    :class "disk-widget"
+    :orientation "horizontal"
+    (label :text disk_usage)))
+
+
+(defwidget proton-widget []
+  (box
+    :class "proton-status"
+    :orientation "horizontal"
+    :visible {proton_status != ""}
+    (label :text proton_status)))
+
+(defwidget ram-widget []
+	(box
+		:class "ram-widget"
+		:orientation "horizontal"
+		(label :text ram_usage)))
+
+(defwidget system-widget []
+  (box
+    :class "system-widget"
+    :orientation "vertical"
+    :spacing 6
+
+    (disk-widget)
+    (proton-widget)
+    (ram-widget)))
+
+
+(defwindow sysmon
+  :monitor 0
+  :geometry (geometry
+    :anchor "top right"
+    :x "30px"
+    :y "30px"
+    :width "220px"
+    :height "130px")
+  :stacking "bg"
+  :exclusive false
+  :focusable false
+  (system-widget))
