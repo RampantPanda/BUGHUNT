@@ -52,6 +52,7 @@ packages=(
 	libxkbcommon
 	wayland-protocols
 	scdoc
+	swaync
 )
 
 # Add/sign Chaotic-AUR key if necessary
