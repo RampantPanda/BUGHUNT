@@ -55,6 +55,7 @@
 
 .notification-background .notification:hover {
   background: @secondary;
+  border-radius: 0;
 }
 
 
