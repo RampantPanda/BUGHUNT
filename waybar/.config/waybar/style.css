@@ -1,6 +1,7 @@
 * {
-  font-family: "VCR OSD Mono";
+  font-family: "Terminus (TTF)";
   font-size: 22px;
+  font-weight: bold;
   letter-spacing: 1px;
 }
 @import url("../colors/colors.css");
