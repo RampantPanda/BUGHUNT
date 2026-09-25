@@ -1,0 +1,464 @@
+@import url("../colors/colors.css");
+
+/*
+ * Additional neutral for readable body text.
+ * Everything else comes from colors.css.
+ */
+@define-color text #d6c98f;
+
+
+/* =========================================================
+ * GLOBAL
+ * ========================================================= */
+
+* {
+  font-family: "Terminus (TTF)";
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.blank-window,
+.floating-notifications {
+  background: transparent;
+}
+
+
+/* =========================================================
+ * POPUP NOTIFICATIONS
+ * ========================================================= */
+
+.notification-row {
+  outline: none;
+}
+
+.notification-background {
+  background: @surface;
+  color: @text;
+
+  border: 1px solid @secondary;
+  border-radius: 0;
+
+  margin: 8px;
+  padding: 0;
+
+  box-shadow: none;
+}
+
+.notification-background .notification {
+  background: transparent;
+
+  border-radius: 0;
+
+  padding: 6px;
+}
+
+.notification-background .notification:hover {
+  background: @secondary;
+}
+
+
+/* =========================================================
+ * CONTENT
+ * ========================================================= */
+
+.notification .notification-content {
+  margin: 7px 9px;
+}
+
+
+/* Title / sender */
+
+.notification-content .summary {
+  color: @superior;
+
+  font-weight: bold;
+  font-size: 13px;
+
+  letter-spacing: 1px;
+}
+
+
+/* Main notification text */
+
+.notification-content .body {
+  color: @text;
+
+  font-size: 12px;
+}
+
+
+/* Timestamp */
+
+.notification-content .time {
+  color: @primary;
+
+  font-size: 11px;
+}
+
+
+/* =========================================================
+ * ICONS / IMAGES
+ * ========================================================= */
+
+.notification-content .image {
+  margin-right: 8px;
+
+  border-radius: 0;
+}
+
+.notification-content .app-icon {
+  border-radius: 0;
+}
+
+
+/* =========================================================
+ * URGENCY LEVELS
+ * ========================================================= */
+
+/*
+ * LOW
+ *
+ * Deliberately subdued.
+ */
+
+.notification-background .notification.low {
+  opacity: 0.70;
+}
+
+
+/*
+ * NORMAL
+ */
+
+.notification-background .notification.normal {
+  border-left: 3px solid @primary;
+}
+
+
+/*
+ * CRITICAL
+ */
+
+.notification-background .notification.critical {
+  background: @surface;
+
+  border-left: 3px solid @alert;
+}
+
+.notification-background .notification.critical .summary {
+  color: @alert;
+}
+
+
+/* =========================================================
+ * CLOSE BUTTON
+ * ========================================================= */
+
+.notification-background .close-button {
+  color: @primary;
+  background: transparent;
+
+  border: 1px solid transparent;
+  border-radius: 0;
+
+  margin: 6px;
+  padding: 3px;
+}
+
+.notification-background .close-button:hover {
+  color: @superior;
+
+  background: @secondary;
+
+  border-color: @primary;
+}
+
+.notification-background .close-button:active {
+  color: @surface;
+  background: @superior;
+
+  border-color: @superior;
+}
+
+
+/* =========================================================
+ * NOTIFICATION ACTIONS
+ * ========================================================= */
+
+.notification .notification-action {
+  margin: 3px;
+
+  padding: 0;
+}
+
+.notification .notification-action > button {
+  color: @primary;
+  background: @surface;
+
+  border: 1px solid @secondary;
+  border-radius: 0;
+
+  padding: 6px 10px;
+}
+
+.notification .notification-action > button:hover {
+  color: @superior;
+
+  background: @secondary;
+
+  border-color: @superior;
+}
+
+.notification .notification-action > button:active {
+  color: @surface;
+  background: @superior;
+
+  border-color: @superior;
+}
+
+
+/* =========================================================
+ * CONTROL CENTER
+ * ========================================================= */
+
+.control-center {
+  background: @surface;
+  color: @text;
+
+  border: 1px solid @secondary;
+  border-radius: 0;
+
+  padding: 10px;
+
+  box-shadow: none;
+}
+
+.control-center-list {
+  background: transparent;
+}
+
+
+/* Empty notification list */
+
+.control-center .control-center-list-placeholder {
+  color: @primary;
+
+  opacity: 1;
+
+  font-size: 12px;
+
+  letter-spacing: 1px;
+}
+
+
+/* =========================================================
+ * NOTIFICATIONS INSIDE CONTROL CENTER
+ * ========================================================= */
+
+.control-center .notification-background {
+  background: @surface;
+
+  border: 1px solid @secondary;
+  border-radius: 0;
+
+  margin: 4px 2px;
+}
+
+.control-center .notification-background:hover {
+  background: @secondary;
+
+  border-color: @primary;
+}
+
+
+/* =========================================================
+ * TITLE BAR
+ * ========================================================= */
+
+.widget-title {
+  margin: 3px 2px 10px 2px;
+
+  padding-bottom: 8px;
+
+  border-bottom: 1px solid @secondary;
+}
+
+.widget-title > label {
+  color: @superior;
+
+  font-size: 15px;
+  font-weight: bold;
+
+  letter-spacing: 2px;
+}
+
+
+/* PURGE button */
+
+.widget-title > button {
+  color: @primary;
+  background: transparent;
+
+  border: 1px solid @secondary;
+  border-radius: 0;
+
+  padding: 5px 10px;
+
+  font-size: 11px;
+
+  letter-spacing: 1px;
+}
+
+.widget-title > button:hover {
+  color: @superior;
+
+  background: @secondary;
+
+  border-color: @superior;
+}
+
+.widget-title > button:active {
+  color: @surface;
+  background: @superior;
+
+  border-color: @superior;
+}
+
+
+/* =========================================================
+ * DO NOT DISTURB
+ * ========================================================= */
+
+.widget-dnd {
+  color: @primary;
+
+  margin: 2px 2px 10px 2px;
+
+  padding: 6px 0 10px 0;
+
+  border-bottom: 1px solid @secondary;
+
+  font-size: 11px;
+
+  letter-spacing: 1px;
+}
+
+
+/* switch background */
+
+.widget-dnd > switch {
+  background: @surface;
+
+  border: 1px solid @secondary;
+  border-radius: 0;
+
+  box-shadow: none;
+
+  min-width: 34px;
+  min-height: 16px;
+}
+
+
+/* switch slider */
+
+.widget-dnd > switch slider {
+  background: @primary;
+
+  border-radius: 0;
+
+  min-width: 12px;
+  min-height: 12px;
+}
+
+
+/* DND active */
+
+.widget-dnd > switch:checked {
+  background: @secondary;
+
+  border-color: @superior;
+}
+
+.widget-dnd > switch:checked slider {
+  background: @superior;
+}
+
+
+/* =========================================================
+ * NOTIFICATION GROUPING
+ *
+ * Currently unused if grouping is disabled, but styled
+ * anyway so switching it on later doesn't produce GTK soup.
+ * ========================================================= */
+
+.notification-group {
+  outline: none;
+
+  background: transparent;
+}
+
+.notification-group:focus {
+  background: @secondary;
+
+  outline: none;
+}
+
+.notification-group .notification-group-headers {
+  color: @primary;
+}
+
+
+/* =========================================================
+ * SCROLLBAR
+ * ========================================================= */
+
+scrollbar {
+  background: transparent;
+}
+
+scrollbar trough {
+  background: transparent;
+
+  margin: 2px;
+}
+
+scrollbar slider {
+  background: @secondary;
+
+  border-radius: 0;
+
+  min-width: 4px;
+  min-height: 30px;
+}
+
+scrollbar slider:hover {
+  background: @primary;
+}
+
+
+/* =========================================================
+ * TOOLTIP
+ * ========================================================= */
+
+tooltip {
+  background: @surface;
+  color: @text;
+
+  border: 1px solid @secondary;
+  border-radius: 0;
+}
+
+tooltip label {
+  color: @text;
+}
+
+
+/* =========================================================
+ * SELECTION
+ * ========================================================= */
+
+selection {
+  color: @surface;
+  background: @superior;
+}
