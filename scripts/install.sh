@@ -1,11 +1,58 @@
-
-
 #!/usr/bin/env bash
-
-#!/usr/bin/env bash
-
+# variables
 file="/etc/pacman.conf"
 key="3056513887B78AEB"
+packages=(
+	nextcloud-client
+	darktable
+	rapid-photo-downloader
+	protonmail-bridge
+	proton-mail-bin
+	proton-vpn-gtk-app
+	proton-pass
+	vivaldi
+	vlc
+	mpd
+	rmpc
+	drawio-desktop
+	onlyoffice-bin
+	audacity
+	pencil2d
+	micro
+	qbittorrent
+	fish
+	audacity
+	yazi
+	ghostwriter
+	kate
+	thunderbird
+	github-cli
+	stow
+	thunar
+	gtklock
+	meson
+	ninja
+	pkgconf
+	gtk3
+	noctalia
+	cliphist
+	swayidle
+	htop
+	starship
+	ttf-iosevka
+	ttf-iosevkatermslab-nerd
+	ttf-iosevkaterm-nerd
+	ttf-iosevka-nerd
+	brightnessctl
+	wpctl
+	freetype2
+	harfbuzz
+	cairo
+	pango
+	libxkbcommon
+	wayland-protocols
+	scdoc
+)
 
 # Add/sign Chaotic-AUR key if necessary
 if ! sudo pacman-key --list-keys "$key" > /dev/null 2>&1; then
@@ -24,53 +71,22 @@ Include = /etc/pacman.d/chaotic-mirrorlist
 EOF
 fi
 
-packages=(
-	nextcloud-client 
-	darktable 
-	rapid-photo-downloader 
-	protonmail-bridge 
-	proton-mail-bin 
-	proton-vpn-gtk-app 
-	proton-pass 
-	vivaldi 
-	vlc 
-	mpd 
-	rmpc 
-	drawio-desktop 
-	onlyoffice-bin 
-	audacity 
-	pencil2d 
-	micro 
-	qbittorrent 
-	fish 
-	audacity 
-	yazi 
-	ghostwriter 
-	kate 
-	thunderbird 
-	github-cli 
-	stow 
-	thunar 
-	gtklock 
-	meson 
-	ninja 
-	pkgconf 
-	gtk3 
-	noctalia
-	cliphist
-	swayidle
-	htop
-	starship
-	ttc-iosevka
-	ttf-iosevkatermslab-nerd
-	ttf-iosevkaterm-nerd
-	ttf-iosevka-nerd
-	brightnessctl
-	wpctl
-)
+## put Terminus Font to its place
+sudo cp ../fonts/.local/share/fonts/terminus-ttf-4.49.3/*.ttf /usr/share/fonts/TTF/
 ## UPDATE AND INSTALL NECESSARY STUFF
-cd ~
-sudo pacman --needed -Syu "${packages[@]}"
+cd ~ &
+sudo pacman --needed -Syyu "${packages[@]}" &
+
+## Install tofi
+	git clone https://github.com/philj56/tofi.git &
+	cd tofi &
+	# Install
+	meson build && ninja -C build install &
+
+	#clean up
+	cd .. &
+	rm -rf tofi &
+
 ## INSTALL GTKLOCK MODULES
 #git clone https://gitlab.com/wef/gtklock-runshell-module.git
 #cd gtklock-runshell-module
