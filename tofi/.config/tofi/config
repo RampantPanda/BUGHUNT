@@ -13,10 +13,10 @@
 	# characters not in the chosen font will fail to render.
 	#
 	# Otherwise, fonts are interpreted in Pango format.
-	font = /usr/share/fonts/TTF/TerminusTTF-Bold.ttf
+	font = /usr/share/fonts/TTF/TerminusTTF-Bold-4.49.3.ttf
 
 	# Point size of text.
-	font-size = 20
+	font-size = 24
 
 	# Comma separated list of OpenType font feature settings to apply,
 	# if supported by the chosen font. The format is similar to the CSS
@@ -145,10 +145,10 @@
 	prompt-text = "START PROGRAM: "
 
 	# Extra horizontal padding between prompt and input.
-	prompt-padding = 0
+	prompt-padding = 10
 
 	# Placeholder input text.
-	placeholder-text = "(PROGRAM NAME)"
+	placeholder-text = " <PROGRAM NAME>"
 
 	# Maximum number of results to display.
 	# If 0, tofi will draw as many results as it can fit in the window.
@@ -180,7 +180,7 @@
 	outline-color = #756000
 
 	# Width of the border in pixels.
-	border-width = 4
+	border-width = 2
 
 	# Border color
 	border-color = #756000
