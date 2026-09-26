@@ -53,6 +53,11 @@ packages=(
 	wayland-protocols
 	scdoc
 	swaync
+	tigervnc
+	remmina
+	freerdp
+	libvncserver
+	kitty
 )
 
 # Add/sign Chaotic-AUR key if necessary
