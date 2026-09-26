@@ -45,7 +45,7 @@
   "hide-on-clear": false,
   "hide-on-action": false,
 
-  "text-empty": "MESSAGE BUFFER EMPTY",
+  "text-empty": "SYSTEM BUFFER EMPTY",
 
   "widgets": [
     "title",
@@ -59,13 +59,13 @@
     },
 
     "title": {
-      "text": "MESSAGE BUFFER",
+      "text": "SYSTEM BUFFER",
       "clear-all-button": true,
       "button-text": "PURGE"
     },
 
     "dnd": {
-      "text": "SIGNAL SILENCE"
+      "text": "SYSTEM SILENCE"
     }
   }
 }

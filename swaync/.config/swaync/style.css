@@ -13,7 +13,7 @@
 
 * {
   font-family: "Terminus (TTF)";
-  font-size: 18px;
+  font-size: 22px;
   font-weight: bold;
   letter-spacing: 1px;
 }
@@ -36,7 +36,7 @@
   background: @surface;
   color: @text;
 
-  border: 1px solid @secondary;
+  border: 2px solid @primary;
   border-radius: 0;
 
   margin: 8px;
@@ -46,7 +46,7 @@
 }
 
 .notification-background .notification {
-  background: transparent;
+  background: @surface;
 
   border-radius: 0;
 
@@ -68,15 +68,24 @@
 }
 
 
+/* Text container */
+
+.notification-content .text-box {
+  border-spacing: 6px;
+}
+
+
 /* Title / sender */
 
 .notification-content .summary {
   color: @superior;
 
   font-weight: bold;
-  font-size: 13px;
+  font-size: 18px;
 
   letter-spacing: 1px;
+
+  margin-bottom: 6px;
 }
 
 
@@ -85,7 +94,9 @@
 .notification-content .body {
   color: @text;
 
-  font-size: 12px;
+  font-size: 18px;
+
+  margin-top: 0;
 }
 
 
@@ -94,7 +105,7 @@
 .notification-content .time {
   color: @primary;
 
-  font-size: 11px;
+  font-size: 18px;
 }
 
 
@@ -227,8 +238,8 @@
   background: @surface;
   color: @text;
 
-  border: 1px solid @secondary;
-  border-radius: 0;
+  border: 3px solid @secondary;
+  border-radius: 0;n
 
   padding: 10px;
 
@@ -282,13 +293,13 @@
 
   padding-bottom: 8px;
 
-  border-bottom: 1px solid @secondary;
+  border-bottom: 2px solid @secondary;
 }
 
 .widget-title > label {
   color: @superior;
 
-  font-size: 15px;
+  font-size: 16px;
   font-weight: bold;
 
   letter-spacing: 2px;
@@ -299,9 +310,9 @@
 
 .widget-title > button {
   color: @primary;
-  background: transparent;
+  background-color @surface;
 
-  border: 1px solid @secondary;
+  border: 2px solid @secondary;
   border-radius: 0;
 
   padding: 5px 10px;

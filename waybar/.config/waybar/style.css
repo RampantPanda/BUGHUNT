@@ -55,6 +55,7 @@ button {
     color: @primary;
 }*/
 
+
 #workspaces button {
     padding: 6px;
     background-color: @surface;
@@ -132,31 +133,43 @@ border: 3px solid @superior;
 }
 
 #battery {
-    background-color: #1d170b;
-    color: #756000;
+    background-color: @surface;
+    color: @primary;
 }
 
 #battery.charging, #battery.plugged {
-    color: #1d170b;
-    background-color: #756000;
+    color: @surface;
+    background-color: @battery;
 }
 
 @keyframes blink {
     to {
-        background-color: #ffffff;
-        color: #000000;
+        background-color: @alert;
+        color: @surface;
     }
 }
 
 /* Using steps() instead of linear as a timing function to limit cpu usage */
 #battery.critical:not(.charging) {
-    background-color: #752300;
-    color: #1d170b;
+    background-color: @surface;
+    color: @primary;
     animation-name: blink;
-    animation-duration: 1.0s;
-    animation-timing-function: steps(12);
+    animation-duration: 0.3s;
+    animation-timing-function: steps(2);
     animation-iteration-count: infinite;
     animation-direction: alternate;
+}
+
+#battery.warning:not(.charging) {
+background-color: @alert;
+color: @surface;
+}
+
+#custom-notifications {
+    color: @primary;
+    background-color: @surface;
+    padding: 8px;
+    border: 3px solid @superior;
 }
 
 #power-profiles-daemon {

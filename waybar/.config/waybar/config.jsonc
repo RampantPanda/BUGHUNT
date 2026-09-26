@@ -20,6 +20,7 @@
         "battery",
         "tray",
         "idle_inhibitor",
+        "custom/notifications",
     ],
     // Modules configuration
 	"ext/workspaces":  {
@@ -70,8 +71,8 @@
             "activated": "ACTV",
             "deactivated": "IDLE"
         	},
-       	"tooltip-format-deactivated": "IDLE INHIBITOR DEACTIVATED",
-       	"tooltip-format-activated": "IDLE INHIBITOR ACTIVATED"
+       	"tooltip-format-deactivated": "IDLE \nINHIBITOR \nDEACTIVATED",
+       	"tooltip-format-activated": "IDLE \nINHIBITOR \nACTIVATED"
     },
     "tray": {
         // "icon-size": 21,
@@ -84,7 +85,7 @@
     "clock": {
         "timezone": "Europe/Helsinki",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-        "format-alt": "{:%Y-%m-%d}"
+        //"format-alt": "{:%Y-%m-%d}"
     },
     "cpu": {
         "format": "{usage}% ",
@@ -112,14 +113,15 @@
             "warning": 30,
             "critical": 15
         },
-        "format": "BAT {capacity}",
-        "format-full": "BATFULL",
-        "format-charging": "CHG{capacity}%",
-        "format-plugged": "PLG{capacity}% ",
-        "format-alt": "{time} {icon}",
+        "format": "BAT",
+        "format-full": "FUL",
+        "format-charging": "CHG",
+        "format-plugged": "PLG",
+        //"format-alt": "{time} {icon}",
+        "tooltip-format": "CAPACITY {capacity}%\nTIME TO ZERO {time}",
         // "format-good": "", // An empty format will hide the module
         // "format-full": "",
-        "format-icons": ["", "", "", "", ""]
+        //"format-icons": ["", "", "", "", ""]
     },
     "battery#bat2": {
         "bat": "BAT2"
@@ -143,13 +145,15 @@
         "format-disabled": "DSBL",
         "tooltip-format": "ID:{essid}\nIP:{ipaddr}\nGW:{gwaddr}\nSIG:{signalStrengthApp}",
         "format-linked": "LNKD",
-        "format-alt": "NO CLICK"
+        "on-click": "kitty --class nmtui --config ~/.config/kitty/nmtui.conf sh -c \"NEWT_COLORS='shadow=black,black;root=white,black' nmtui\""
+       // "format-alt": "NO CLICK"
     },
     "pulseaudio": {
         "scroll-step": 5, // %, can be a float
         "format": "VOL  {volume}",
-        "format-muted": "VOL OFF",
-        "on-click": "pavucontrol",
+        "format-muted": "VOL --",
+        "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+        "on-double-click": "pavucontrol",
         "format-bluetooth": "{volume}% BLT",
         "format-bluetooth-muted": "OFF BLT",
         "format-muted": "VOL OFF",
@@ -164,13 +168,19 @@
             "car": "",
             "default": ["", "", ""]
         },
-        "on-click": "pavucontrol"
     },
+
     "wireplumber": {
     "format": "VOL  {volume}",
     "format-muted": "VOL OFF",
     "on-click": "pavucontrol"
     },
+
+    "custom/notifications": {
+        "format": "NTF",
+        "on-click": "swaync-client -t",
+    },
+
     "custom/media": {
         "format": "{icon} {text}",
         "return-type": "json",
