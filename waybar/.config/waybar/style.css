@@ -139,7 +139,7 @@ border: 3px solid @superior;
 
 #battery.charging, #battery.plugged {
     color: @surface;
-    background-color: @battery;
+    background-color: @primary;
 }
 
 @keyframes blink {
@@ -359,4 +359,12 @@ border: 3px solid @superior;
 
 #privacy-item.audio-out {
     background-color: #0069d4;
+}
+tooltip {
+    background-color: @surface;
+    border: 2px solid @primary;
+    border-radius: 0;
+}
+tooltip label {
+    color: @primary;
 }

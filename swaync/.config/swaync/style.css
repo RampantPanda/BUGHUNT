@@ -36,7 +36,7 @@
   background: @surface;
   color: @text;
 
-  border: 2px solid @primary;
+  border: 3px solid @primary;
   border-radius: 0;
 
   margin: 8px;
@@ -171,7 +171,7 @@
   color: @primary;
   background: transparent;
 
-  border: 1px solid transparent;
+  border: 2px solid transparent;
   border-radius: 0;
 
   margin: 6px;
@@ -208,7 +208,7 @@
   color: @primary;
   background: @surface;
 
-  border: 1px solid @secondary;
+  border: 1px solid @primary;
   border-radius: 0;
 
   padding: 6px 10px;
@@ -217,7 +217,7 @@
 .notification .notification-action > button:hover {
   color: @superior;
 
-  background: @secondary;
+  background: @primary;
 
   border-color: @superior;
 }
@@ -271,7 +271,7 @@
 .control-center .notification-background {
   background: @surface;
 
-  border: 1px solid @secondary;
+  border: 2px solid @secondary;
   border-radius: 0;
 
   margin: 4px 2px;
@@ -349,7 +349,7 @@
 
   padding: 6px 0 10px 0;
 
-  border-bottom: 1px solid @secondary;
+  border-bottom: 2px solid @primary;
 
   font-size: 11px;
 
@@ -362,7 +362,7 @@
 .widget-dnd > switch {
   background: @surface;
 
-  border: 1px solid @secondary;
+  border: 1px solid @primary;
   border-radius: 0;
 
   box-shadow: none;
@@ -395,6 +395,7 @@
 .widget-dnd > switch:checked slider {
   background: @superior;
 }
+
 
 
 /* =========================================================
@@ -473,4 +474,13 @@ tooltip label {
 selection {
   color: @surface;
   background: @superior;
+}
+/* MAKE THE BELL INVISIBLE */
+
+.control-center .control-center-list-placeholder image {
+  opacity: 0;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
 }
