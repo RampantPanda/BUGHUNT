@@ -103,6 +103,23 @@ button {
 	background-color: @surface;
 }
 
+#bluetooth {
+    padding: 3px;
+    color:@primary;
+    background-color: @surface;
+    border: 3px solid @superior;
+}
+
+#bluetooth.connected {
+    color: @surface;
+    background-color: @primary;
+}
+
+#bluetooth.disabled {
+    text-decoration: line-through;
+}
+
+
 #idle_inhibitor {
 border: 3px solid @superior;
 	padding: 3px;
@@ -242,6 +259,12 @@ border: 3px solid @superior;
     background-color: @surface;
     color: @primary;
     border: 3px solid @superior;
+}
+
+#custom-power {
+background-color: @primary;
+color: @surface;
+border: 3px solid @superior;
 }
 
 #wireplumber {

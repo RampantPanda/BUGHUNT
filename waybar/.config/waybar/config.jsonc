@@ -13,7 +13,7 @@
         "clock"
     ],
     "modules-right": [
-        //"pulseaudio",
+        "bluetooth",
         "pulseaudio",
         "network",
         "custom/nextcloud",
@@ -21,8 +21,14 @@
         "tray",
         "idle_inhibitor",
         "custom/notifications",
+        "custom/power",
     ],
-    // Modules configuration
+
+    ////////////////////////////
+    // Modules configuration  //
+    ////////////////////////////
+
+
 	"ext/workspaces":  {
 		"format": "{icon}",
 		"on-click": "activate",
@@ -150,12 +156,12 @@
     },
     "pulseaudio": {
         "scroll-step": 5, // %, can be a float
-        "format": "VOL  {volume}",
-        "format-muted": "VOL --",
+        "format": "{volume}%",
+        "format-muted": "MUT",
         "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
         "on-double-click": "pavucontrol",
-        "format-bluetooth": "{volume}% BLT",
-        "format-bluetooth-muted": "OFF BLT",
+        "format-bluetooth": "{volume}%",
+        "format-bluetooth-muted": "OFF",
         "format-muted": "VOL OFF",
 //        "format-source": "{volume}% ",
 //        "format-source-muted": "",
@@ -168,6 +174,16 @@
             "car": "",
             "default": ["", "", ""]
         },
+    },
+
+    "bluetooth": {
+    "format": "BLUE",
+    "format-disabled": "BLUE",
+    "format-connected": "CNTD",
+    "tooltip-format-on": "BLUETOOTH ACTIVE",
+    "tooltip-format-connected": "{device_enumerate}",
+    "tooltip-format-enumerate-connected": "BLUETOOTH CONNECTED\n{device_alias}",
+    "on-click": "$HOME/.local/share/bin/bluetoothmenu.sh"
     },
 
     "wireplumber": {
@@ -194,14 +210,14 @@
         // "exec": "$HOME/.config/waybar/mediaplayer.py --player spotify 2> /dev/null" // Filter player based on name
     },
     "custom/power": {
-        "format" : "PWR",
+        "format" : "SYS",
 		"tooltip": false,
 		"menu": "on-click",
-		"menu-file": "$HOME/.config/waybar/power_menu.xml", // Menu file in resources folder
+		"menu-file": "$HOME/.config/waybar/powermenu.xml", // Menu file in resources folder
 		"menu-actions": {
-			"shutdown": "shutdown",
-			"reboot": "reboot",
-			"suspend": "systemctl suspend",
+			"SHUTDOWN": "shutdown",
+			"REBOOT": "reboot",
+			"SUSPEND": "systemctl suspend",
 			"hibernate": "systemctl hibernate"
 		},
     }
