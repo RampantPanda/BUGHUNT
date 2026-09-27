@@ -265,6 +265,7 @@ border: 3px solid @superior;
 background-color: @primary;
 color: @surface;
 border: 3px solid @superior;
+padding: 3px;
 }
 
 #wireplumber {
