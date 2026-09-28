@@ -1,0 +1,119 @@
+@import url("colors.css");
+
+/* Shared shell styling for Waybar, SwayNC, wlogout, gtklock, and Eww. */
+
+/* Default typography and square corners. Local size/font overrides follow
+ * the import; Eww keeps its existing reset and compact typography.
+ */
+* {
+    font-family: "Terminus (TTF)";
+    font-size: 22px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    border-radius: 0;
+}
+
+/* Thin borders for controls. Applications override only width/color when
+ * needed. Waybar's plain buttons explicitly opt out of borders.
+ */
+button,
+entry,
+tooltip,
+.widget-dnd > switch {
+    border: 1px solid @primary;
+}
+
+/* Main frames: one border width/style for panels and Waybar modules.
+ * Keep selector specificity equal to the local rules so overrides work.
+ */
+window#waybar,
+#workspaces button,
+#battery,
+#cpu,
+#memory,
+#disk,
+#temperature,
+#backlight,
+#network,
+#pulseaudio,
+#wireplumber,
+#custom-media,
+#tray,
+#mode,
+#scratchpad,
+#power-profiles-daemon,
+#mpd,
+#clock,
+#bluetooth,
+#idle_inhibitor,
+#custom-notifications,
+#custom-power,
+#custom-muthur,
+.notification-background,
+.control-center,
+.system-widget,
+.disk-widget,
+.proton-status,
+.ram-widget {
+    border: 3px solid @superior;
+}
+
+/* Standard Waybar module padding and inactive appearance. */
+#battery,
+#cpu,
+#memory,
+#disk,
+#temperature,
+#backlight,
+#network,
+#pulseaudio,
+#wireplumber,
+#custom-media,
+#tray,
+#mode,
+#scratchpad,
+#power-profiles-daemon,
+#mpd,
+#clock,
+#bluetooth,
+#idle_inhibitor,
+#custom-power,
+#custom-muthur {
+    padding: 3px;
+    color: @primary;
+    background-color: @surface;
+}
+
+/* Shared panel surfaces; individual tools keep their text/border accents. */
+window#waybar,
+.notification-background,
+.control-center,
+.notification-background .notification {
+    background-color: @surface;
+}
+
+.notification-background,
+.control-center {
+    color: @text;
+    box-shadow: none;
+}
+
+/* Eww's widgets use the same frame rule, with their existing palette. */
+.system-widget,
+.disk-widget,
+.proton-status,
+.ram-widget {
+    background-color: @eww_surface;
+    border-color: @primary;
+}
+
+.disk-widget,
+.proton-status,
+.ram-widget {
+    color: @primary;
+}
+
+/* Shared scrollbar geometry; widths and backgrounds remain local. */
+scrollbar slider {
+    min-height: 30px;
+}

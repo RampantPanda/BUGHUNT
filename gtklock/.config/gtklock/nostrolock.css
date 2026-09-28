@@ -1,53 +1,54 @@
+@import url("../colors/shell.css");
+
 window {
-    background: #050605;
-    color: #d2b45b;
+    background: @lock_surface;
+    color: @lock_text;
 }
 
 * {
     font-family: "IBM Plex Mono", "DejaVu Sans Mono", monospace;
     font-size: 15px;
+    font-weight: normal;
+    letter-spacing: 0;
 }
 
 /*
  * Status module
  */
 #runshell {
-    color: #d2b45b;
-    font-family: "IBM Plex Mono", "DejaVu Sans Mono", monospace;
-    font-size: 15px;
+    color: @lock_text;
 }
 
 /*
  * Kill the normal friendly rounded GTK appearance.
  */
 entry {
-    background: #090b09;
-    color: #d2b45b;
+    background: @lock_input;
+    color: @lock_text;
 
-    border: 1px solid #727761;
-    border-radius: 0;
+    border-color: @lock_border;
 
     padding: 7px 10px;
 
     box-shadow: none;
     outline: none;
 
-    caret-color: #d2b45b;
+    caret-color: @lock_text;
 }
 
 entry:focus {
-    border-color: #d2b45b;
+    border-color: @lock_text;
 }
 
 /*
  * Authentication/errors.
  */
 #error-label {
-    color: #d34b42;
+    color: @lock_error;
 }
 
 #warning-label {
-    color: #d2b45b;
+    color: @lock_text;
 }
 
 /*
@@ -75,17 +76,13 @@ margin: 0;
 padding: 0;
 }
 
-
 /* AUTHORIZE */
 #input-label {
-color: #d2b45b;
-font-family: "IBM Plex Mono", "DejaVu Sans Mono", monospace;
-font-size: 15px;
+color: @lock_text;
 font-weight: bold;
 
 margin-bottom: 4px;
 }
-
 
 /* We authenticate by pressing Enter.
  * Keep the actual widget in XML so gtklock can still access it.

@@ -1,15 +1,22 @@
+@import url("../colors/shell.css");
+
+* {
+    font-family: monospace;
+    font-size: 15px;
+    font-weight: normal;
+    letter-spacing: 0;
+}
+
 window {
-    background: #080b09;
-    color: #d8e1dc;
-    border: 2px solid #00d39e;
+    background: @cheatsheet_surface;
+    color: @cheatsheet_text;
+    border: 2px solid @cheatsheet_border;
 }
 
 textview,
 textview text {
-    background: #080b09;
-    color: #d8e1dc;
-    font-family: monospace;
-    font-size: 15px;
+    background: @cheatsheet_surface;
+    color: @cheatsheet_text;
 }
 
 textview {
@@ -17,17 +24,16 @@ textview {
 }
 
 scrollbar {
-    background: #080b09;
+    background: @cheatsheet_surface;
 }
 
 scrollbar slider {
-    background: #006e53;
-    border-radius: 0;
+    background: @cheatsheet_selection;
+
     min-width: 5px;
-    min-height: 30px;
 }
 
 selection {
-    background: #006e53;
-    color: #f2ae00;
+    background: @cheatsheet_selection;
+    color: @cheatsheet_accent;
 }

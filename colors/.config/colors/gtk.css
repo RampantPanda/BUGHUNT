@@ -1,0 +1,437 @@
+@import url("colors.css");
+
+/* MUTHUR / GTK 3 + 4
+ * Angular amber instrumentation, clear text, visible keyboard focus.
+ * Use over a stock GTK theme: keep its icons, sizing, and widget behavior.
+ * No scanlines, glow, or forced uppercase over application content.
+ */
+
+window,
+.background {
+    background-color: @gtk_bg;
+    color: @gtk_fg;
+    font-family: "Terminus (TTF)", "DejaVu Sans Mono", monospace;
+    font-size: 16px;
+    font-weight: normal;
+    letter-spacing: 0;
+}
+
+/* Geometry is shared. Native check/radio symbols remain intact. */
+button,
+entry,
+spinbutton,
+searchentry,
+dropdown,
+frame,
+.frame,
+.card,
+.view,
+iconview,
+notebook,
+notebook > header,
+notebook > header > tabs > tab,
+popover > contents,
+menu,
+menuitem,
+tooltip,
+switch,
+switch slider,
+scale trough,
+scale highlight,
+scale slider,
+progressbar trough,
+progressbar progress,
+scrollbar slider {
+    border-radius: 0;
+}
+
+headerbar,
+menubar,
+.menubar,
+toolbar,
+.toolbar,
+searchbar > revealer > box,
+actionbar > revealer > box,
+notebook > header {
+    color: @gtk_fg;
+    background-color: @gtk_panel;
+    background-image: none;
+    border-bottom: 1px solid @gtk_border;
+    box-shadow: none;
+}
+
+headerbar {
+    min-height: 36px;
+    padding: 6px 10px;
+}
+
+headerbar .title,
+.titlebar .title,
+.heading {
+    color: @gtk_accent;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+headerbar .subtitle,
+.dim-label,
+.subtitle,
+entry placeholder {
+    color: @gtk_muted;
+    opacity: 1;
+}
+
+/* Text surfaces keep a lighter foreground than the decorative amber. */
+.view,
+textview,
+textview text,
+treeview,
+list,
+listview,
+columnview,
+gridview,
+iconview {
+    color: @gtk_fg;
+    background-color: @gtk_view;
+}
+
+.sidebar,
+placessidebar,
+stacksidebar,
+.navigation-sidebar {
+    color: @gtk_fg;
+    background-color: @gtk_panel;
+}
+
+frame > border,
+.frame,
+.card {
+    border: 1px solid @primary;
+    box-shadow: none;
+}
+
+separator {
+    min-width: 1px;
+    min-height: 1px;
+    background-color: @primary;
+}
+
+/* Controls: a fine amber frame becomes a bright, solid active indicator. */
+button,
+entry,
+spinbutton,
+searchentry {
+    color: @gtk_fg;
+    background-color: @gtk_panel;
+    background-image: none;
+    border: 1px solid @gtk_border;
+    box-shadow: none;
+    text-shadow: none;
+    -gtk-icon-shadow: none;
+    outline-offset: 2px;
+    outline-color: @gtk_accent;
+}
+
+button {
+    min-height: 24px;
+    padding: 5px 10px;
+}
+
+button.flat {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+button:hover,
+button.flat:hover {
+    color: @gtk_selection_fg;
+    background-color: @gtk_hover;
+    border-color: @gtk_accent;
+}
+
+button:active,
+button:checked,
+button.suggested-action {
+    color: @gtk_accent_fg;
+    background-color: @gtk_accent;
+    border-color: @gtk_accent;
+}
+
+button.suggested-action:hover,
+button:checked:hover {
+    background-color: @gtk_selection_fg;
+    border-color: @gtk_selection_fg;
+    color: @gtk_accent_fg;
+}
+
+button.destructive-action {
+    color: @gtk_fg;
+    background-color: @gtk_error_bg;
+    border-color: @gtk_error;
+}
+
+button.destructive-action:hover,
+button.destructive-action:active {
+    color: @gtk_bg;
+    background-color: @gtk_error;
+    border-color: @gtk_error;
+}
+
+entry,
+searchentry {
+    min-height: 28px;
+    padding: 4px 8px;
+    background-color: @gtk_view;
+    caret-color: @gtk_accent;
+}
+
+spinbutton entry {
+    border-width: 0;
+}
+
+/* GTK 3-compatible focus selector, also used by GTK 4. Do not suppress it. */
+button:focus,
+entry:focus,
+searchentry:focus,
+spinbutton:focus,
+switch:focus,
+checkbutton:focus,
+radiobutton:focus,
+scale:focus,
+row:focus,
+tab:focus {
+    outline: 2px solid @gtk_accent;
+    outline-offset: 2px;
+}
+
+entry:focus,
+searchentry:focus {
+    border-color: @gtk_accent;
+}
+
+entry.error,
+entry.warning {
+    border-color: @gtk_error;
+}
+
+entry.warning {
+    border-color: @gtk_warning;
+}
+
+/* Selection is deliberately readable without relying on a glow effect. */
+selection,
+entry selection,
+textview text selection {
+    color: @gtk_selection_fg;
+    background-color: @gtk_selection;
+}
+
+row {
+    padding: 5px 8px;
+}
+
+row:hover,
+treeview.view:hover {
+    background-color: @gtk_hover;
+}
+
+.view:selected,
+row:selected,
+treeview.view:selected,
+iconview.view:selected {
+    color: @gtk_accent_fg;
+    background-color: @gtk_accent;
+    border-radius: 0;
+}
+
+row:selected label,
+row:selected image {
+    color: @gtk_accent_fg;
+}
+
+notebook > header > tabs > tab {
+    color: @gtk_muted;
+    padding: 7px 12px;
+    border-bottom: 2px solid transparent;
+    background-image: none;
+}
+
+notebook > header > tabs > tab:hover {
+    color: @gtk_fg;
+    background-color: @gtk_hover;
+}
+
+notebook > header > tabs > tab:checked {
+    color: @gtk_accent;
+    background-color: @gtk_view;
+    border-color: @gtk_accent;
+    box-shadow: none;
+}
+
+/* Menus and dialogs: opaque surfaces, fine frames, generous text spacing. */
+popover > contents,
+menu,
+tooltip {
+    color: @gtk_fg;
+    background-color: @gtk_panel;
+    background-image: none;
+    border: 1px solid @gtk_border;
+    box-shadow: none;
+    padding: 6px;
+}
+
+menuitem,
+modelbutton {
+    padding: 6px 10px;
+}
+
+menuitem:hover,
+modelbutton:hover {
+    color: @gtk_selection_fg;
+    background-color: @gtk_hover;
+}
+
+tooltip label {
+    color: @gtk_fg;
+}
+
+/* Binary states retain native check marks and radio dots. */
+check,
+radio {
+    min-width: 16px;
+    min-height: 16px;
+    color: @gtk_accent_fg;
+    background-color: @gtk_view;
+    border: 1px solid @gtk_border;
+    box-shadow: none;
+}
+
+check {
+    border-radius: 0;
+}
+
+check:checked,
+check:indeterminate,
+radio:checked,
+radio:indeterminate {
+    color: @gtk_accent_fg;
+    background-color: @gtk_accent;
+    border-color: @gtk_accent;
+}
+
+switch {
+    color: @gtk_muted;
+    background-color: @gtk_view;
+    border: 1px solid @gtk_border;
+    box-shadow: none;
+}
+
+switch slider {
+    min-width: 18px;
+    min-height: 18px;
+    background-color: @gtk_muted;
+    background-image: none;
+    border: 1px solid @gtk_bg;
+    box-shadow: none;
+}
+
+switch:checked {
+    color: @gtk_accent_fg;
+    background-color: @gtk_accent;
+    border-color: @gtk_accent;
+}
+
+switch:checked slider {
+    background-color: @gtk_bg;
+}
+
+scale trough,
+progressbar trough,
+levelbar trough {
+    min-height: 6px;
+    background-color: @gtk_view;
+    border: 1px solid @gtk_border;
+    box-shadow: none;
+}
+
+scale highlight,
+progressbar progress,
+levelbar block.filled {
+    background-color: @gtk_accent;
+    background-image: none;
+    border-color: @gtk_accent;
+    box-shadow: none;
+}
+
+scale slider {
+    min-width: 14px;
+    min-height: 14px;
+    background-color: @gtk_accent;
+    background-image: none;
+    border: 2px solid @gtk_bg;
+    box-shadow: none;
+}
+
+scrollbar {
+    background-color: @gtk_bg;
+}
+
+scrollbar slider {
+    min-width: 8px;
+    min-height: 8px;
+    background-color: @gtk_border;
+    border: 2px solid @gtk_bg;
+}
+
+scrollbar.vertical slider {
+    min-height: 32px;
+}
+
+scrollbar.horizontal slider {
+    min-width: 32px;
+}
+
+scrollbar slider:hover,
+scrollbar slider:active {
+    background-color: @gtk_accent;
+}
+
+/* Status hues come from Kitty; meaning is still conveyed by labels/icons. */
+.success { color: @gtk_success; }
+.warning { color: @gtk_warning; }
+.error { color: @gtk_error; }
+.accent { color: @gtk_accent; }
+
+link,
+button:link,
+button:visited {
+    color: @gtk_link;
+    text-decoration-line: underline;
+}
+
+/* Keep unavailable controls legible without making them look active. */
+button:disabled,
+entry:disabled,
+spinbutton:disabled,
+searchentry:disabled,
+switch:disabled {
+    color: @gtk_disabled;
+    background-color: @gtk_bg;
+    border-color: @primary;
+    opacity: 1;
+}
+
+button:disabled label,
+button:disabled image,
+label:disabled {
+    color: @gtk_disabled;
+}
+
+check:disabled,
+radio:disabled,
+switch:disabled slider,
+scale:disabled slider,
+scale:disabled highlight {
+    background-color: @gtk_disabled;
+    border-color: @gtk_bg;
+}

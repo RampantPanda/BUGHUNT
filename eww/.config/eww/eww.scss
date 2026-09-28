@@ -1,42 +1,19 @@
+/* Keep this as a CSS import: shell.css imports GTK's @define-color palette. */
+@import url("../colors/shell.css");
+
 * {
 	all: unset;
 }
-$primary: #756000;
-$surface: #1c170b;
 
 .disk-widget {
 	padding: 4px 6px;
-	color: $primary;
-	background-color: $surface;
-	border: 1px solid $primary;
 	border-radius: 4px;
 	font-family: "Noto Sans", monospace;
 	font-size: 12px;
 }
 
-
 .system-widget {
   padding: 10px 16px;
-  background-color: $surface;
-  border: 3px solid $primary;
-}
-
-.disk-widget {
-  color: $primary;
-  border: 3px solid $primary;
-  background-color: $surface;
-}
-
-.proton-status {
-  color: $primary;
-  border: 3px solid $primary;
-  background-color: $surface;
-}
-
-.ram-widget {
-	color: $primary;
-	border: 3px solid $primary;
-	background-color: $surface;
 }
 
 .system-control {
@@ -56,4 +33,3 @@ $surface: #1c170b;
 	font-size: 12px;
 	opacity: 0.65;
 }
-

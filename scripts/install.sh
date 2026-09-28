@@ -34,7 +34,6 @@ packages=(
 	ninja
 	pkgconf
 	gtk3
-	noctalia
 	cliphist
 	swayidle
 	htop

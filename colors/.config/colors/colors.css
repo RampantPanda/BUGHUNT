@@ -1,6 +1,118 @@
+/* Shared palette for the desktop theme and shell widgets.
+ * Keep widget rules in gtk.css / shell.css so palette imports have no side effects.
+ */
 @define-color primary #756000;
 @define-color surface #1d170b;
 @define-color secondary #3b3000;
 @define-color alert #752300;
 @define-color superior #9c8000;
 @define-color green #007500;
+@define-color text #d6c98f;
+
+/* Additional Waybar status colors. */
+@define-color white #ffffff;
+@define-color black #000000;
+@define-color terminal #3f3f3f;
+@define-color danger #f53c3c;
+@define-color balanced #2980b9;
+@define-color success #2ecc71;
+@define-color memory #9b59b6;
+@define-color disk #964b00;
+@define-color inactive #90b1b1;
+@define-color media #66cc99;
+@define-color media_text #2a5c45;
+@define-color vlc #ffa000;
+@define-color temperature #f0932b;
+@define-color attention #eb4d4b;
+@define-color paused #51a37a;
+@define-color language #00b093;
+@define-color language_text #740864;
+@define-color keyboard #97e1ad;
+@define-color screenshare #cf5700;
+@define-color audio_in #1ca000;
+@define-color audio_out #0069d4;
+
+/* Preserve the lockscreen and cheatsheet's distinct palettes. */
+@define-color lock_surface #050605;
+@define-color lock_text #d2b45b;
+@define-color lock_input #090b09;
+@define-color lock_border #727761;
+@define-color lock_error #d34b42;
+@define-color cheatsheet_surface #080b09;
+@define-color cheatsheet_text #d8e1dc;
+@define-color cheatsheet_border #00d39e;
+@define-color cheatsheet_selection #006e53;
+@define-color cheatsheet_accent #f2ae00;
+@define-color eww_surface #1c170b;
+
+/* MUTHUR desktop roles. Existing colors lead; Kitty supplies readable accents.
+ * The muted primary/green/alert colors are surfaces, not body-text colors.
+ */
+@define-color gtk_bg @surface;
+@define-color gtk_fg @text;
+@define-color gtk_panel mix(@surface, @secondary, 0.35);
+@define-color gtk_view shade(@surface, 0.75);
+@define-color gtk_hover @secondary;
+@define-color gtk_border @superior;
+@define-color gtk_accent #c5a629; /* Kitty bright yellow */
+@define-color gtk_accent_fg @surface;
+@define-color gtk_muted #b8ae89; /* Kitty normal white */
+@define-color gtk_disabled #998e6c;
+@define-color gtk_link #7dbdb2; /* Kitty bright cyan */
+@define-color gtk_success #9dbb72; /* Kitty bright green */
+@define-color gtk_warning @gtk_accent;
+@define-color gtk_error mix(#d05a43, @text, 0.4); /* Kitty red, lightened for text */
+@define-color gtk_error_bg @alert;
+@define-color gtk_selection @secondary;
+@define-color gtk_selection_fg #ddd3a8; /* Kitty selection foreground */
+
+/* GTK 3 / older GTK 4 / adw-gtk3 semantic colors. */
+@define-color theme_bg_color @gtk_bg;
+@define-color theme_fg_color @gtk_fg;
+@define-color theme_base_color @gtk_view;
+@define-color theme_text_color @gtk_fg;
+@define-color theme_selected_bg_color @gtk_accent;
+@define-color theme_selected_fg_color @gtk_accent_fg;
+@define-color theme_unfocused_bg_color @gtk_bg;
+@define-color theme_unfocused_fg_color @gtk_fg;
+@define-color theme_unfocused_base_color @gtk_view;
+@define-color theme_unfocused_text_color @gtk_fg;
+@define-color theme_unfocused_selected_bg_color @gtk_selection;
+@define-color theme_unfocused_selected_fg_color @gtk_selection_fg;
+@define-color insensitive_bg_color @gtk_bg;
+@define-color insensitive_fg_color @gtk_disabled;
+@define-color insensitive_base_color @gtk_view;
+@define-color borders @gtk_border;
+@define-color unfocused_borders @primary;
+@define-color warning_color @gtk_warning;
+@define-color error_color @gtk_error;
+@define-color success_color @gtk_success;
+@define-color accent_bg_color @gtk_accent;
+@define-color accent_fg_color @gtk_accent_fg;
+@define-color accent_color @gtk_accent;
+@define-color window_bg_color @gtk_bg;
+@define-color window_fg_color @gtk_fg;
+@define-color view_bg_color @gtk_view;
+@define-color view_fg_color @gtk_fg;
+@define-color headerbar_bg_color @gtk_panel;
+@define-color headerbar_fg_color @gtk_fg;
+@define-color headerbar_border_color @gtk_border;
+@define-color headerbar_backdrop_color @gtk_panel;
+@define-color sidebar_bg_color @gtk_panel;
+@define-color sidebar_fg_color @gtk_fg;
+@define-color sidebar_backdrop_color @gtk_panel;
+@define-color card_bg_color @gtk_panel;
+@define-color card_fg_color @gtk_fg;
+@define-color dialog_bg_color @gtk_bg;
+@define-color dialog_fg_color @gtk_fg;
+@define-color popover_bg_color @gtk_panel;
+@define-color popover_fg_color @gtk_fg;
+@define-color destructive_bg_color @gtk_error_bg;
+@define-color destructive_fg_color @gtk_fg;
+@define-color destructive_color @gtk_error;
+@define-color success_bg_color @gtk_success;
+@define-color success_fg_color @gtk_bg;
+@define-color warning_bg_color @gtk_warning;
+@define-color warning_fg_color @gtk_bg;
+@define-color error_bg_color @gtk_error_bg;
+@define-color error_fg_color @gtk_fg;
