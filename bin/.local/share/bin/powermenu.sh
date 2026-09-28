@@ -1,46 +1,6 @@
 #!/usr/bin/env bash
 
 # ==============================================================================
-# Power menu for Mango / Waybar / Fuzzel
-#
-# Requirements:
-#   - fuzzel
-#   - systemd / systemctl / loginctl
-#
-# Optional:
-#   - gtklock          Used for LOCK if installed
-#   - dm-tool          LightDM switch-user support
-#   - gdmflexiserver   GDM switch-user support
-#
-#
-# Menu:
-#
-#   LOCK
-#   LOGOUT
-#   SWITCH USER
-#   SUSPEND
-#   HIBERNATE          <- only shown when systemd-logind says it is available
-#   REBOOT
-#   POWER OFF
-#   EXIT: ESC
-#
-#
-# Example Waybar config:
-#
-#   "on-click": "/home/pekka/.local/share/bin/powermenu.sh"
-#
-#
-# This script deliberately separates:
-#
-#   1. Menu presentation
-#   2. Capability detection
-#   3. System actions
-#
-# That's a useful structure for larger Fuzzel menus.
-# ==============================================================================
-
-
-# ==============================================================================
 # BASH SETTINGS
 # ==============================================================================
 
@@ -56,14 +16,7 @@ set -u
 # fuzzel_power
 #
 # Common Fuzzel wrapper.
-#
 # All menus therefore open in exactly the same location.
-#
-# Change these three values to reposition every power-menu window:
-#
-#   --anchor
-#   --x-margin
-#   --y-margin
 # ------------------------------------------------------------------------------
 
 fuzzel_power() {
@@ -71,7 +24,7 @@ fuzzel_power() {
         --dmenu \
         --anchor=top-right \
         --x-margin=10 \
-        --y-margin=40 \
+        --y-margin=20 \
         "$@"
 }
 
@@ -88,17 +41,14 @@ fuzzel_power() {
 
 menu() {
     printf '%s\n' "$@" |
-        fuzzel_power --prompt="SYSTEM > "
+        fuzzel_power --prompt="> "
 }
 
 
 # ------------------------------------------------------------------------------
 # message
-#
 # Small informational popup using Fuzzel itself.
-#
 # Example:
-#
 #   message "HIBERNATION NOT AVAILABLE"
 # ------------------------------------------------------------------------------
 
@@ -215,18 +165,6 @@ can_hibernate() {
 # LOCK SCREEN
 # ==============================================================================
 
-# ------------------------------------------------------------------------------
-# lock_screen
-#
-# Your Mango setup already uses gtklock, so that is the preferred locker.
-#
-# If gtklock disappears at some point, we fall back to asking systemd-logind
-# to lock the current session.
-#
-# loginctl's generic lock command only works when the session/compositor has
-# something listening for the lock request, so gtklock is more deterministic
-# in your current setup.
-# ------------------------------------------------------------------------------
 
 lock_screen() {
 
@@ -394,4 +332,184 @@ switch_user() {
     # GDM fallback
     # --------------------------------------------------------------------------
 
-    if command -v gdmflexiserver >/
+    if command -v gdmflexiserver >/dev/null 2>&1; then
+
+        gdmflexiserver
+
+        return $?
+    fi
+
+
+    # --------------------------------------------------------------------------
+    # No known switching mechanism.
+    # --------------------------------------------------------------------------
+
+    message "USER SWITCHING NOT AVAILABLE"
+
+    return 1
+}
+
+
+# ==============================================================================
+# BUILD THE MAIN MENU
+# ==============================================================================
+
+# Bash arrays are useful here because the menu contents are dynamic.
+#
+# We always start with:
+#
+#   LOCK
+#   LOGOUT
+#   SWITCH USER
+#   SUSPEND
+#
+# Then HIBERNATE is inserted only if it is available.
+
+options=(
+    "LOCK"
+    "LOGOUT"
+    "SWITCH USER"
+    "SUSPEND"
+)
+
+
+# Add HIBERNATE conditionally.
+if can_hibernate; then
+    options+=("HIBERNATE")
+fi
+
+
+# Actions always available on a normal systemd desktop.
+options+=(
+    "REBOOT"
+    "POWER OFF"
+    "EXIT: ESC"
+)
+
+
+# Pass the complete array to our normal menu function.
+choice="$(
+    menu "${options[@]}"
+)"
+
+
+# ==============================================================================
+# HANDLE SELECTION
+# ==============================================================================
+
+case "$choice" in
+
+
+# ==============================================================================
+# LOCK
+# ==============================================================================
+
+    "LOCK")
+
+        lock_screen
+        ;;
+
+
+# ==============================================================================
+# LOGOUT
+#
+# Confirmation is intentional here because terminating the session kills all
+# GUI applications.
+# ==============================================================================
+
+    "LOGOUT")
+
+        if confirm "LOGOUT"; then
+            logout_session
+        fi
+        ;;
+
+
+# ==============================================================================
+# SWITCH USER
+# ==============================================================================
+
+    "SWITCH USER")
+
+        switch_user
+        ;;
+
+
+# ==============================================================================
+# SUSPEND
+#
+# systemctl uses systemd-logind/PolicyKit as appropriate when a normal desktop
+# user requests suspend.
+# ==============================================================================
+
+    "SUSPEND")
+
+        systemctl suspend
+        ;;
+
+
+# ==============================================================================
+# HIBERNATE
+#
+# This case can only normally be reached if can_hibernate succeeded while the
+# menu was constructed.
+#
+# We check again anyway because system state can technically change between
+# opening the menu and selecting the option.
+# ==============================================================================
+
+    "HIBERNATE")
+
+        if can_hibernate; then
+
+            systemctl hibernate
+
+        else
+
+            message "HIBERNATION NOT AVAILABLE"
+
+        fi
+        ;;
+
+
+# ==============================================================================
+# REBOOT
+# ==============================================================================
+
+    "REBOOT")
+
+        if confirm "REBOOT"; then
+            systemctl reboot
+        fi
+        ;;
+
+
+# ==============================================================================
+# POWER OFF
+# ==============================================================================
+
+    "POWER OFF")
+
+        if confirm "POWER OFF"; then
+            systemctl poweroff
+        fi
+        ;;
+
+
+# ==============================================================================
+# EXIT
+#
+# Selecting:
+#
+#   EXIT: ESC
+#
+# or pressing the actual Escape key both end up here.
+# ==============================================================================
+
+    "EXIT: ESC"|"")
+
+        exit 0
+        ;;
+
+esac
+```

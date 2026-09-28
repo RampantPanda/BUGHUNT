@@ -7,7 +7,7 @@
     "spacing": 0, // Gaps between modules (4px)
     // Choose the order of the modules
     "modules-left": [
-        "ext/workspaces",
+        "mango/workspaces",
     ],
     "modules-center": [
         "clock"
@@ -29,7 +29,7 @@
     ////////////////////////////
 
 
-	"ext/workspaces":  {
+	"mango/workspaces":  {
 		"format": "{icon}",
 		"on-click": "activate",
 		"format-icons": {
@@ -212,13 +212,6 @@
     "custom/power": {
         "format" : "SYS",
 		"tooltip": false,
-		"menu": "on-click",
-		"menu-file": "$HOME/.config/waybar/powermenu.xml", // Menu file in resources folder
-		"menu-actions": {
-			"SHUTDOWN": "shutdown",
-			"REBOOT": "reboot",
-			"SUSPEND": "systemctl suspend",
-			"hibernate": "systemctl hibernate"
-		},
+		"on-click": "$HOME/.local/share/bin/powermenu.sh"
     }
 }

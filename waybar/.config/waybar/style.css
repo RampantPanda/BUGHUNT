@@ -57,11 +57,16 @@ button {
 
 
 #workspaces button {
-    padding: 6px;
-    background-color: @surface;
+    padding: 4px;
+    background-color: @secondary;
     color: @primary;
     border: 3px solid @superior;
     }
+
+#workspaces button.empty {
+    background-color: @surface;
+    color: @primary;
+}
 
 #workspaces button:hover {
     background-color: alpha(@primary, 0.5);
@@ -81,7 +86,7 @@ button {
     box-shadow: inset 0 -3px #ffffff;
 }
 
-#clock,
+
 #battery,
 #cpu,
 #memory,
@@ -101,6 +106,13 @@ button {
     color: @primary;
     border: 3px solid @superior;
 	background-color: @surface;
+}
+
+#clock {
+    padding: 3px;
+    color: @surface;
+    border: 3px solid @superior;
+    background-color: @primary;
 }
 
 #bluetooth {
