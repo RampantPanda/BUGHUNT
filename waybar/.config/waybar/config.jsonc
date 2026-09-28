@@ -216,8 +216,8 @@
 		"on-click": "$HOME/.local/share/bin/powermenu.sh"
     },
     "custom/muthur": {
-        "format": "MUTHURR",
-        "tooltip" : ":) CREW IS EXPENDABLE :)",
+        "format": "MUTHUR",
+        "tooltip-format" : ":)\nCREW IS EXPENDABLE\n:)",
         "on-click": "/usr/bin/fuzzel --anchor=top-left",
         "on-click-right": "~/.config/waybar/cheatsheet.sh --title=MANGOKEYBINDREFERENCE"
 }

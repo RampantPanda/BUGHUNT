@@ -310,6 +310,7 @@ padding: 3px;
     background-color: @surface;
     color: @green;
     border: 3px solid @superior;
+    margin-right: 64px;
 }
 
 #temperature {
