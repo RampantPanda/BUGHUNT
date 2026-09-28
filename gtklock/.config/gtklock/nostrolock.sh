@@ -167,5 +167,4 @@ field "NETWORK"          "$network"
 field "DISK STATUS"      "$disk_free"
 field "BATTERY"          "$battery"
 
-printf '\n'
-printf '<span foreground="#d2b45b" weight="bold">AUTHORIZE</span>\n'
+
