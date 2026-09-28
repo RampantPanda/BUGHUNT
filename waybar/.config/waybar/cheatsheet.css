@@ -1,0 +1,33 @@
+window {
+    background: #080b09;
+    color: #d8e1dc;
+    border: 2px solid #00d39e;
+}
+
+textview,
+textview text {
+    background: #080b09;
+    color: #d8e1dc;
+    font-family: monospace;
+    font-size: 15px;
+}
+
+textview {
+    padding: 24px;
+}
+
+scrollbar {
+    background: #080b09;
+}
+
+scrollbar slider {
+    background: #006e53;
+    border-radius: 0;
+    min-width: 5px;
+    min-height: 30px;
+}
+
+selection {
+    background: #006e53;
+    color: #f2ae00;
+}

@@ -118,7 +118,7 @@ button {
 #bluetooth {
     padding: 3px;
     color:@primary;
-    background-color: @surface;
+    background-color: @secondary;
     border: 3px solid @superior;
 }
 
@@ -128,7 +128,8 @@ button {
 }
 
 #bluetooth.disabled {
-    text-decoration: line-through;
+    color: @primary;
+    background-color: @surface;
 }
 
 
@@ -148,7 +149,7 @@ border: 3px solid @superior;
 }
 
 #workspaces {
-    margin: 0 4px;
+    margin: 0 0px;
 }
 
 /* If workspaces is the leftmost module, omit left margin */
@@ -302,6 +303,13 @@ padding: 3px;
 
 #custom-media.custom-vlc {
     background-color: #ffa000;
+}
+
+#custom-muthur {
+    padding: 3px;
+    background-color: @surface;
+    color: @green;
+    border: 3px solid @superior;
 }
 
 #temperature {

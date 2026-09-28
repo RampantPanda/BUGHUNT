@@ -93,6 +93,17 @@ sudo pacman --needed -Syyu "${packages[@]}" &
 	cd .. &
 	rm -rf tofi &
 
+## Install gtklock modules
+
+cd ~ &
+git clone https://gitlab.com/wef/gtklock-runshell-module.git &
+cd gtklock-runshell-module &
+meson setup build --prefix=/usr &
+ninja -C build &
+sudo meson install -C build &
+cd .. &
+rm -rf gtklock-runshell-module &
+
 ## INSTALL GTKLOCK MODULES
 #git clone https://gitlab.com/wef/gtklock-runshell-module.git
 #cd gtklock-runshell-module

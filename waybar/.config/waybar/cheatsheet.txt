@@ -1,0 +1,140 @@
+OPERATOR COMMAND REFERENCE PRESS ESC TO CLOSE
+════════════════════════════════════════════════════════════════════
+PRESS ALT + H TO SHOW
+
+APPLICATIONS
+
+SUPER + RETURN             Kitty
+ALT + RETURN               Alacritty
+SUPER + E                  Thunar
+SUPER + B                  Firefox
+SUPER + W                  Waybar
+
+SUPER + SPACE              Tofi application launcher
+ALT + T                    Tofi application launcher
+ALT + F                    Fuzzel
+
+
+WINDOW CONTROL
+
+SUPER + Q                  Close window
+ALT + Q                    Close window
+
+ALT + TAB                  Next window
+
+SUPER + ←                  Focus left
+SUPER + →                  Focus right
+SUPER + ↑                  Focus up
+SUPER + ↓                  Focus down
+
+SUPER + SHIFT + ←          Swap window left
+SUPER + SHIFT + →          Swap window right
+SUPER + SHIFT + ↑          Swap window up
+SUPER + SHIFT + ↓          Swap window down
+
+
+WINDOW STATE
+
+SUPER + G                  Toggle global
+SUPER + TAB                Overview
+SUPER + F                  Toggle floating
+SUPER + SHIFT + F          Fullscreen
+SUPER + ALT + F            Fake fullscreen
+SUPER + O                  Toggle overlay
+SUPER + Z                  Scratchpad
+
+
+LAYOUT
+
+SUPER + X                  Cycle proportion preset
+SUPER + SHIFT + X          Set proportion to 100%
+SUPER + SHIFT + N          Switch layout
+
+
+WORKSPACES
+
+SUPER + 1..9               Switch to workspace 1..9
+SUPER + SHIFT + 1..9       Move window to workspace 1..9
+
+
+GAPS
+
+SUPER + SHIFT + X          Increase gaps
+SUPER + SHIFT + Z          Decrease gaps
+SUPER + SHIFT + R          Toggle gaps
+
+
+FLOATING WINDOW POSITION
+
+CTRL + SHIFT + ↑           Move up 50 px
+CTRL + SHIFT + ↓           Move down 50 px
+CTRL + SHIFT + ←           Move left 50 px
+CTRL + SHIFT + →           Move right 50 px
+
+
+FLOATING WINDOW SIZE
+
+CTRL + ALT + ↑             Shrink vertically
+CTRL + ALT + ↓             Grow vertically
+CTRL + ALT + ←             Shrink horizontally
+CTRL + ALT + →             Grow horizontally
+
+
+SCREEN CAPTURE
+
+PRINT                      Capture full screen
+CTRL + PRINT               Capture selected region
+
+
+AUDIO
+
+VOLUME UP                  Volume +5%
+VOLUME DOWN                Volume -5%
+MUTE                       Toggle output mute
+SHIFT + MUTE               Toggle microphone mute
+
+
+DISPLAY
+
+BRIGHTNESS UP              Brightness +2%
+SHIFT + BRIGHTNESS UP      Brightness 100%
+
+BRIGHTNESS DOWN            Brightness -2%
+SHIFT + BRIGHTNESS DOWN    Brightness 1%
+
+
+NOTIFICATIONS
+
+SUPER + N                  Toggle notification center
+
+
+SYSTEM
+
+ALT + L                    Lock screen
+SUPER + L                  Lock screen
+
+ALT + O                    Logout / power menu
+
+ALT + R                    Reload Mango configuration
+SUPER + R                  Reload Mango configuration
+
+CTRL + ALT + RETURN        Emergency terminal
+
+
+MOUSE
+
+SUPER + LEFT BUTTON        Move window
+SUPER + RIGHT BUTTON       Resize window
+MIDDLE BUTTON              Toggle maximize
+
+
+TOUCHPAD
+
+3-FINGER LEFT              Workspace right
+3-FINGER RIGHT             Workspace left
+4-FINGER UP                Overview
+
+
+════════════════════════════════════════════════════════════════════
+
+ESC                        CLOSE REFERENCE

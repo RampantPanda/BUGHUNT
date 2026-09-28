@@ -7,6 +7,7 @@
     "spacing": 0, // Gaps between modules (4px)
     // Choose the order of the modules
     "modules-left": [
+        "custom/muthur",
         "mango/workspaces",
     ],
     "modules-center": [
@@ -40,8 +41,8 @@
 			"5": "VID",
 			"6": "EML",
 			"7": "MSG",
-			"8": "AU1",
-			"9": "AU2"
+			"8": "REM",
+			"9": "AUX"
 		},
 	},
 
@@ -213,5 +214,11 @@
         "format" : "SYS",
 		"tooltip": false,
 		"on-click": "$HOME/.local/share/bin/powermenu.sh"
-    }
+    },
+    "custom/muthur": {
+        "format": "MUTHURR",
+        "tooltip" : ":) CREW IS EXPENDABLE :)",
+        "on-click": "/usr/bin/fuzzel --anchor=top-left",
+        "on-click-right": "~/.config/waybar/cheatsheet.sh --title=MANGOKEYBINDREFERENCE"
+}
 }
