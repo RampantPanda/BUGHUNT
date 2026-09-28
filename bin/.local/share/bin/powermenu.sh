@@ -38,10 +38,13 @@ fuzzel_power() {
 #
 #   choice="$(menu "LOCK" "SUSPEND" "EXIT: ESC")"
 # ------------------------------------------------------------------------------
-
 menu() {
+    local lines=$#
+
     printf '%s\n' "$@" |
-        fuzzel_power --prompt="> "
+        fuzzel_power \
+            --lines="$lines" \
+            --prompt="> "
 }
 
 
