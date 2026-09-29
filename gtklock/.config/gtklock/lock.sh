@@ -2,7 +2,7 @@
 
 CFG="${XDG_CONFIG_HOME:-$HOME/.config}/gtklock"
 
-exec gtklock \
+exec gtklock -d \
   --config "$CFG/config.ini" \
   --style "$CFG/nostrolock.css" \
   --layout "$CFG/layout.xml"

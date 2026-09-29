@@ -57,6 +57,8 @@ packages=(
 	freerdp
 	libvncserver
 	kitty
+	yad
+	waybar-git
 )
 
 # Add/sign Chaotic-AUR key if necessary
