@@ -59,6 +59,8 @@ packages=(
 	kitty
 	yad
 	waybar-git
+	ark
+	thunar-archive-plugin
 )
 
 # Add/sign Chaotic-AUR key if necessary
