@@ -8,7 +8,7 @@
         "separator": " > ",
         "color": {
             "keys": "green",
-            "separator": "bold_green",
+            "separator": "blue",
             "output" : "yellow"
         },
         "size": {
@@ -51,6 +51,8 @@
         "format" : "{size-available} free"
         },
         "break",
+		"break",
+		"break",
         {
         "type":"Wifi",
         "format":"{ssid}-{security}"
