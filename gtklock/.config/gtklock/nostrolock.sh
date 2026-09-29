@@ -15,7 +15,7 @@ field() {
     local name="$1"
     local value="$2"
 
-    printf '<span foreground="#8d937f">%-18s</span><span foreground="#d2b45b">%s</span>\n' \
+    printf '<span foreground="#8d937f">%-30s</span><span foreground="#d2b45b">%s</span>\n' \
         "$name" "$value"
 }
 
@@ -30,7 +30,11 @@ systemdate=$(date '+%Y-%m-%d')
 # Host
 # ------------------------------------------------------------
 
-hostname=$(hostname | escape_markup)
+hostname=$(
+    hostname |
+        tr '[:lower:]' '[:upper:]' |
+        escape_markup
+)
 
 # ------------------------------------------------------------
 # Uptime
@@ -43,15 +47,13 @@ hours=$(( (uptime_seconds % 86400) / 3600 ))
 minutes=$(( (uptime_seconds % 3600) / 60 ))
 
 if (( days > 0 )); then
-    uptime_text="${days} days, $(printf '%02d:%02d' "$hours" "$minutes")"
+    uptime_text=$(printf '%d DAYS, %02d:%02d' "$days" "$hours" "$minutes")
 else
-    uptime_text="$(printf '%02d:%02d' "$hours" "$minutes")"
+    uptime_text=$(printf '%02d:%02d' "$hours" "$minutes")
 fi
 
 # ------------------------------------------------------------
 # Last system update
-#
-# We define this as the newest package upgrade recorded by pacman.
 # ------------------------------------------------------------
 
 last_update_timestamp=$(
@@ -75,9 +77,7 @@ else
 fi
 
 # ------------------------------------------------------------
-# Approximate installation date.
-#
-# Find the oldest timestamp in available pacman logs.
+# Approximate installation date
 # ------------------------------------------------------------
 
 pacman_first_timestamp=""
@@ -99,7 +99,7 @@ done
 if [[ -n "$pacman_first_timestamp" ]]; then
     install_date=$(date -d "$pacman_first_timestamp" '+%Y-%m-%d' 2>/dev/null)
 else
-    install_date="unknown"
+    install_date="UNKNOWN"
 fi
 
 # ------------------------------------------------------------
@@ -113,9 +113,13 @@ ssid=$(
 )
 
 if [[ -z "$ssid" ]]; then
-    network="disconnected"
+    network="DISCONNECTED"
 else
-    network=$(printf '%s' "$ssid" | escape_markup)
+    network=$(
+        printf '%s' "$ssid" |
+            tr '[:lower:]' '[:upper:]' |
+            escape_markup
+    )
 fi
 
 # ------------------------------------------------------------
@@ -126,7 +130,7 @@ disk_free=$(
     df -P / |
         awk 'NR == 2 {
             gsub("%","",$5)
-            printf "%d%% free", 100-$5
+            printf "%d%% FREE", 100-$5
         }'
 )
 
@@ -134,37 +138,46 @@ disk_free=$(
 # Battery
 # ------------------------------------------------------------
 
-battery_dir=$(find /sys/class/power_supply -maxdepth 1 -type l -name 'BAT*' 2>/dev/null | head -n1)
+battery_dir=$(
+    find /sys/class/power_supply \
+        -maxdepth 1 \
+        -type l \
+        -name 'BAT*' \
+        2>/dev/null |
+        head -n1
+)
 
 if [[ -n "$battery_dir" ]]; then
+
     capacity=$(cat "$battery_dir/capacity" 2>/dev/null)
-    status=$(cat "$battery_dir/status" 2>/dev/null | tr '[:upper:]' '[:lower:]')
+
+    status=$(
+        cat "$battery_dir/status" 2>/dev/null |
+            tr '[:lower:]' '[:upper:]'
+    )
 
     battery="${capacity}% / ${status}"
-else
-    battery="not present"
-fi
 
+else
+    battery="NOT PRESENT"
+fi
 
 # ------------------------------------------------------------
 # Output
 # ------------------------------------------------------------
 
-field "SYSTEMTIME"       "$systemtime"
-field "SYSTEMDATE"       "$systemdate"
-field "HOSTNAME"         "$hostname"
-field "UPTIME"           "$uptime_text"
-
+field "SYSTEMNAME"      		"$hostname"
+field "SYSTEMTIME"     			"$systemtime"
+field "SYSTEMDATE"      		"$systemdate"
+field "UPTIME"					"$uptime_text"
 if [[ "$update_days" =~ ^[0-9]+$ ]] && (( update_days > 10 )); then
-    printf '<span foreground="#8d937f">%-18s</span><span foreground="#d34b42">%s days</span>\n' \
-        "SYSTEM UPDATED" "$update_days"
+    printf '<span foreground="#8d937f">%-18s</span><span foreground="#d34b42">%s DAYS</span>\n' \
+        "SYSTEM UPDATE DATE" "$update_days"
 else
-    field "SYSTEM UPDATED" "${update_days} days"
+    field "SYSTEM UPDATE DATE" "${update_days} DAYS"
 fi
-
-field "SYSTEM INSTALLED" "$install_date"
+field "SYSTEM INSTALL DATE" "$install_date"
 field "NETWORK"          "$network"
 field "DISK STATUS"      "$disk_free"
 field "BATTERY"          "$battery"
-
-
+field "CREW"			 "EXPENDABLE"

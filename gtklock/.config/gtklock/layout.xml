@@ -1,278 +1,140 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
-    Nostrolock layout
+  Nostrolock layout
 
-    Keep the gtklock widget IDs intact.
-    gtklock expects to find several of these by ID and updates them directly.
+  Main tuning knobs:
+    - Move auth block vertically: body-revealer -> margin-top
+    - Change password field width: input-field -> width-request
+    - Change spacing between rows: body-grid -> row-spacing
 
-    Styling belongs mostly in nostrolock.css.
-    This file should mainly control structure and spacing.
+  Keep gtklock's expected widget IDs present. Hide unused widgets in CSS
+  instead of deleting them.
 -->
-
 <interface>
+  <object class="GtkBox" id="window-box">
+    <property name="name">window-box</property>
+    <property name="halign">center</property>
+    <property name="valign">start</property>
+    <property name="orientation">vertical</property>
+    <property name="spacing">0</property>
 
-    <!-- =========================================================
-         ROOT CONTAINER
-         ========================================================= -->
-
-    <object class="GtkBox" id="window-box">
-
-        <property name="name">window-box</property>
-
-        <!-- Horizontal margins around the whole login area -->
-        <property name="margin-left">100</property>
-        <property name="margin-right">100</property>
-
-        <!-- Small outer vertical margins -->
-        <property name="margin-top">5</property>
-        <property name="margin-bottom">5</property>
-
+    <!-- Built-in clock: keep it present, hide with CSS -->
+    <child>
+      <object class="GtkLabel" id="clock-label">
+        <property name="name">clock-label</property>
         <property name="halign">center</property>
-        <property name="valign">fill</property>
-        <property name="orientation">vertical</property>
+        <property name="valign">start</property>
+      </object>
+    </child>
 
-        <!-- General spacing between children -->
-        <property name="spacing">5</property>
+    <!-- Built-in date: keep it present, hide with CSS -->
+    <child>
+      <object class="GtkLabel" id="date-label">
+        <property name="name">date-label</property>
+        <property name="halign">center</property>
+        <property name="valign">start</property>
+      </object>
+    </child>
 
-        <!-- =====================================================
-             BUILT-IN CLOCK
+    <!-- Authentication block -->
+    <child>
+      <object class="GtkRevealer" id="body-revealer">
+        <property name="transition-type">none</property>
+        <property name="reveal-child">1</property>
 
-             Nostrolock currently gets time/date from runshell,
-             so these can be hidden with CSS.
-
-             DO NOT remove them completely; gtklock may still
-             attempt to update them.
-             ===================================================== -->
-
-        <child>
-            <object class="GtkLabel" id="clock-label">
-                <property name="name">clock-label</property>
-                <property name="halign">center</property>
-                <property name="valign">start</property>
-                <property name="margin-bottom">0</property>
-            </object>
-        </child>
-
-        <!-- Built-in date label.
-             Also hidden via CSS for our layout. -->
+        <!-- Main vertical-position control. Tweak this by eye. -->
+        <property name="margin-top">660</property>
 
         <child>
-            <object class="GtkLabel" id="date-label">
-                <property name="name">date-label</property>
-                <property name="halign">center</property>
-                <property name="valign">start</property>
-                <property name="margin-bottom">0</property>
-            </object>
-        </child>
+          <object class="GtkGrid" id="body-grid">
+            <property name="row-spacing">8</property>
+            <property name="column-spacing">0</property>
 
-        <!-- =====================================================
-             TOP SPACER
+            <!-- AUTHORIZE label -->
+            <child>
+              <object class="GtkLabel" id="input-label">
+                <property name="name">input-label</property>
+                <property name="label">AUTHORIZE</property>
+                <property name="halign">start</property>
+              </object>
+              <packing>
+                <property name="left-attach">0</property>
+                <property name="top-attach">0</property>
+                <property name="width">1</property>
+              </packing>
+            </child>
 
-             This pushes the login controls toward the vertical
-             centre of the screen.
+            <!-- Real PAM-connected password field -->
+            <child>
+              <object class="GtkEntry" id="input-field">
+                <property name="name">input-field</property>
+                <!-- Reliable width control -->
+                <property name="width-request">320</property>
+                <property name="visibility">0</property>
+                <property name="caps-lock-warning">0</property>
+                <property name="input-purpose">password</property>
+                <property name="placeholder-text"></property>
+                <property name="secondary-icon-name">view-reveal-symbolic</property>
+                <signal name="icon-release" handler="window_pw_toggle_vis"/>
+                <signal name="activate" handler="window_pw_check"/>
+              </object>
+              <packing>
+                <property name="left-attach">0</property>
+                <property name="top-attach">1</property>
+                <property name="width">1</property>
+              </packing>
+            </child>
 
-             Reduce/remove this if you want AUTHORIZE higher.
-             ===================================================== -->
+            <!-- Module / transient message area -->
+            <child>
+              <object class="GtkBox" id="message-box">
+                <property name="no-show-all">1</property>
+              </object>
+              <packing>
+                <property name="left-attach">0</property>
+                <property name="top-attach">2</property>
+                <property name="width">1</property>
+              </packing>
+            </child>
 
-        <child>
-            <object class="GtkBox"/>
-            <packing>
-                <property name="expand">1</property>
-                <property name="fill">1</property>
-            </packing>
-        </child>
-
-        <!-- =====================================================
-             AUTHENTICATION AREA
-             ===================================================== -->
-
-        <child>
-
-            <object class="GtkRevealer" id="body-revealer">
-
-                <property name="transition-type">none</property>
-                <property name="reveal-child">1</property>
+            <!-- Warning / error / unlock row -->
+            <child>
+              <object class="GtkBox">
+                <property name="halign">start</property>
+                <property name="spacing">6</property>
 
                 <child>
-
-                    <object class="GtkGrid" id="body-grid">
-
-                        <!-- Vertical spacing between AUTH, password,
-                             messages, etc. -->
-                        <property name="row-spacing">8</property>
-                        <property name="column-spacing">5</property>
-
-                        <!-- =========================================
-                             AUTHORIZE LABEL
-
-                             gtklock expects input-label to exist.
-
-                             Text is defined here rather than in the
-                             shell script.
-                             ========================================= -->
-
-                        <child>
-
-                            <object class="GtkLabel" id="input-label">
-                                <property name="name">input-label</property>
-                                <property name="label">AUTHORIZE</property>
-                                <property name="halign">start</property>
-                            </object>
-
-                            <packing>
-                                <property name="left-attach">1</property>
-                                <property name="top-attach">0</property>
-                                <property name="width">2</property>
-                            </packing>
-
-                        </child>
-
-                        <!-- =========================================
-                             PASSWORD ENTRY
-
-                             This is gtklock's real PAM-connected
-                             password field. Do not replace it with
-                             another GtkEntry.
-                             ========================================= -->
-
-                        <child>
-
-                            <object class="GtkEntry" id="input-field">
-
-                                <property name="name">input-field</property>
-
-                                <!-- Width of password field -->
-                                <property name="width-request">380</property>
-
-                                <!-- Password characters are hidden -->
-                                <property name="visibility">0</property>
-                                <property name="caps-lock-warning">0</property>
-                                <property name="input-purpose">password</property>
-
-                                <!-- Leave blank if AUTHORIZE above
-                                     is sufficient. -->
-                                <property name="placeholder-text"></property>
-
-                                <!-- Password reveal icon -->
-                                <property name="secondary-icon-name">view-reveal-symbolic</property>
-
-                                <!-- gtklock callbacks -->
-                                <signal name="icon-release" handler="window_pw_toggle_vis"/>
-                                <signal name="activate" handler="window_pw_check"/>
-
-                            </object>
-
-                            <packing>
-                                <property name="left-attach">1</property>
-                                <property name="top-attach">1</property>
-                                <property name="width">2</property>
-                            </packing>
-
-                        </child>
-
-                        <!-- =========================================
-                             MODULE / MESSAGE AREA
-
-                             gtklock and modules can insert temporary
-                             content here.
-                             ========================================= -->
-
-                        <child>
-
-                            <object class="GtkBox" id="message-box">
-                                <!-- gtklock controls visibility -->
-                                <property name="no-show-all">1</property>
-                            </object>
-
-                            <packing>
-                                <property name="left-attach">1</property>
-                                <property name="top-attach">2</property>
-                                <property name="width">2</property>
-                            </packing>
-
-                        </child>
-
-                        <!-- =========================================
-                             STATUS / ERROR ROW
-                             ========================================= -->
-
-                        <child>
-
-                            <object class="GtkBox">
-                                <property name="halign">end</property>
-                                <property name="spacing">5</property>
-
-                                <!-- Caps-lock or similar warnings -->
-                                <child>
-                                    <object class="GtkLabel" id="warning-label">
-                                        <property name="name">warning-label</property>
-                                    </object>
-                                </child>
-
-                                <!-- PAM/authentication errors -->
-                                <child>
-                                    <object class="GtkLabel" id="error-label">
-                                        <property name="name">error-label</property>
-                                    </object>
-                                </child>
-
-                                <!-- =================================
-                                     UNLOCK BUTTON
-
-                                     Keep this widget present even if
-                                     CSS hides it.
-
-                                     Pressing Enter in the password
-                                     field still authenticates normally.
-                                     ================================= -->
-
-                                <child>
-                                    <object class="GtkButton" id="unlock-button">
-                                        <property name="name">unlock-button</property>
-                                        <property name="label">Unlock</property>
-                                        <signal name="clicked" handler="window_pw_check"/>
-                                    </object>
-                                </child>
-
-                            </object>
-
-                            <packing>
-                                <property name="left-attach">1</property>
-                                <property name="top-attach">3</property>
-                                <property name="width">2</property>
-                            </packing>
-
-                        </child>
-
-                    </object>
-
+                  <object class="GtkLabel" id="warning-label">
+                    <property name="name">warning-label</property>
+                  </object>
                 </child>
 
-            </object>
+                <child>
+                  <object class="GtkLabel" id="error-label">
+                    <property name="name">error-label</property>
+                  </object>
+                </child>
 
+                <!-- Keep this widget alive even if CSS hides it -->
+                <child>
+                  <object class="GtkButton" id="unlock-button">
+                    <property name="name">unlock-button</property>
+                    <property name="label">Unlock</property>
+                    <signal name="clicked" handler="window_pw_check"/>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="left-attach">0</property>
+                <property name="top-attach">3</property>
+                <property name="width">1</property>
+              </packing>
+            </child>
+
+          </object>
         </child>
+      </object>
+    </child>
 
-        <!-- =====================================================
-             BOTTOM SPACER
-
-             Together with the top spacer, this centres the body.
-
-             If you want the login box lower:
-                 make the top spacer larger.
-
-             If you want it higher:
-                 make the bottom spacer larger or remove the top one.
-             ===================================================== -->
-
-        <child>
-            <object class="GtkBox"/>
-            <packing>
-                <property name="expand">1</property>
-                <property name="fill">1</property>
-            </packing>
-        </child>
-
-    </object>
-
+  </object>
 </interface>

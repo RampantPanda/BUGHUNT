@@ -6,9 +6,9 @@ window {
 }
 
 * {
-    font-family: "IBM Plex Mono", "DejaVu Sans Mono", monospace;
-    font-size: 15px;
-    font-weight: normal;
+    font-family: "Terminus (TTF)", monospace;
+    font-size: 22px;
+    font-weight: bold;
     letter-spacing: 0;
 }
 
@@ -59,11 +59,17 @@ entry:focus {
     opacity: 0;
 }
 #input-label {
-    opacity: 0;
-    min-height: 0;
-    margin: 0;
+    opacity: 1;
+
+    color: #d2b45b;
+    font-family: "IBM Plex Mono", "DejaVu Sans Mono", monospace;
+    font-size: 15px;
+    font-weight: bold;
+
+    margin: 0 0 6px 0;
     padding: 0;
 }
+
 
 /* gtklock still updates these internally.
  * Hide them instead of deleting them from layout.xml.
@@ -82,6 +88,12 @@ color: @lock_text;
 font-weight: bold;
 
 margin-bottom: 4px;
+}
+
+
+#input-field {
+    background: #090b09;
+    color: #d2b45b;
 }
 
 /* We authenticate by pressing Enter.
