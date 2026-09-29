@@ -171,7 +171,7 @@ field "SYSTEMTIME"     			"$systemtime"
 field "SYSTEMDATE"      		"$systemdate"
 field "UPTIME"					"$uptime_text"
 if [[ "$update_days" =~ ^[0-9]+$ ]] && (( update_days > 10 )); then
-    printf '<span foreground="#8d937f">%-18s</span><span foreground="#d34b42">%s DAYS</span>\n' \
+    printf '<span foreground="#8d937f">%-30s</span><span foreground="#d34b42">%s DAYS</span>\n' \
         "SYSTEM UPDATE DATE" "$update_days"
 else
     field "SYSTEM UPDATE DATE" "${update_days} DAYS"
