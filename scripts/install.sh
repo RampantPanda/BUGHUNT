@@ -105,14 +105,17 @@ sudo meson install -C build &
 cd .. &
 rm -rf gtklock-runshell-module &
 
-## INSTALL GTKLOCK MODULES
-#git clone https://gitlab.com/wef/gtklock-runshell-module.git
-#cd gtklock-runshell-module
-#meson setup build --prefix=/usr
-#ninja -C build
-#sudo ninja -C build install
-#cd ..
-#sudo rm -r gtklock-runshell-module
+## Stow all the things
+# go to dotfiles, do a stow *
+
+## Fix laptop lid suspend
+# sudo mkdir -p /etc/systemd/logind.conf.d
+# sudo nano /etc/systemd/logind.conf.d/10-lid.conf
+# PUT THIS IN 10-lid.conf:
+#[Login]
+#HandleLidSwitch=suspend
+#HandleLidSwitchExternalPower=suspend
+
 ## CREATE DOWNLOADS SUBVOLUME
 #rm -r ~/Downloads
 #sudo btrfs subvolume create Downloads
