@@ -5,9 +5,11 @@
 	  "source": "~/.config/fastfetch/w.ansi",
 	},
     "display": {
-        "separator": "  ",
+        "separator": " > ",
         "color": {
-            "keys": "magenta"
+            "keys": "green",
+            "separator": "bold_green",
+            "output" : "yellow"
         },
         "size": {
             "ndigits": 0,
@@ -23,8 +25,8 @@
             "type": "title",
             "color": {
                 "user": "green",
-                "at": "red",
-                "host": "blue"
+                "at": "blue",
+                "host": "yellow"
             }
         },
         {
@@ -35,23 +37,26 @@
         	"type": "os",
         	"format": "{pretty-name}"
         },
-        "kernel",
+
         "break",
-        "Host",
-        {
+                {
         	"type": "Chassis",
         	"format": "{vendor}"
         },
 
         "break",
         "uptime",
-        "display",
         {
         "type" : "disk",
-        "format" : "{size-used}/{size-total} used"
+        "format" : "{size-available} free"
         },
         "break",
-        "Wifi",
-        "PublicIp"
+        {
+        "type":"Wifi",
+        "format":"{ssid}-{security}"
+        },
+        {"type":"PublicIp",
+        "format":"{ip}|{location}"
+        }
         ]
 }
