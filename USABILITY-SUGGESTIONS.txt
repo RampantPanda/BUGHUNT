@@ -1,0 +1,203 @@
+Rampant-Mango: suggested usability improvements
+==============================================
+
+Purpose
+
+Make this desktop straightforward to install, understand, customize, and update
+from a basic Arch installation. Keep the MUTHUR appearance, keyboard-driven
+workflow, readable config files, and ability to install individual Stow packages.
+
+These are proposals based on the repository and its README, not changes already
+implemented. The first priority is making the supplied configuration work without
+requiring readers to repair it during installation.
+
+
+Priority 1: Make the default setup work
+-------------------------------------
+
+1. Fix the known first-login problems in the repository itself.
+
+   Remove the stray characters at the start of Mango's cfg/autostart.conf and
+   the trailing Markdown fences in bluetoothmenu.sh and powermenu.sh. Correct
+   the malformed Super+L and emergency-terminal bindings. Resolve the duplicate
+   Super+X actions and review the Shift+X bindings for conflicts.
+
+   Make tofi select the bundled Terminus font by family name instead of assuming
+   it was copied into /usr/share/fonts/TTF. Remove the undefined custom/nextcloud
+   bar entry until it has a working implementation.
+
+   Done when: a new checkout needs only personal preferences changed, and the
+   README's first-login section no longer doubles as a list of source repairs.
+
+2. Give every lock action the same implementation.
+
+   Use gtklock/.config/gtklock/lock.sh as the single entry point for keyboard
+   shortcuts, both power menus, idle locking, and sleep handling. Either connect
+   loginctl lock requests to that entry point or stop advertising an unhandled
+   loginctl action. Handle repeat requests without launching competing lockers.
+
+   Make the status module optional. If it is unavailable, offer a basic themed
+   lockscreen rather than making installation depend on a custom module build.
+   Verify lock readiness before allowing any lock-and-suspend path to proceed;
+   the mere existence of a background process is not sufficient evidence.
+
+   Done when: each advertised lock route can be locked and unlocked, repeat
+   requests behave sensibly, and suspend/resume has been checked in a real session.
+
+3. Make menu actions reliable and consistent.
+
+   Keep the existing Fuzzel menu as the primary power menu. If wlogout remains,
+   have both interfaces call shared action helpers so locking, logout scope,
+   hibernation availability, and confirmations behave consistently.
+
+   Prefer logging out of the current session. Reserve ending all of a user's
+   sessions for an explicitly named action. Hide or explain user switching when
+   there is no compatible display manager. Report action failures visibly.
+
+   Use one screenshot helper for both capture bindings. It should create the
+   destination directory, treat cancelled selection as cancellation, and announce
+   success only after the image was saved. Include the saved path in the message.
+
+   Done when: menu labels describe the actual effect and failed actions do not
+   look like successful ones.
+
+
+Priority 2: Make installation predictable
+----------------------------------------
+
+4. Replace the old installer with a small, explicit setup workflow.
+
+   Retire scripts/install.sh as the installation entry point until it is fixed.
+   Separate dependency installation, config linking, and system service setup.
+   Each stage should be independently runnable and stop on failure.
+
+   A config setup script should locate the repository from its own path, use an
+   explicit package list, simulate Stow first, and explain conflicts. It should
+   preserve existing configs and never use --adopt as an automatic conflict fix.
+   Keep user configuration operations unprivileged. Request sudo only for the
+   particular system operation that needs it.
+
+   Default to showing the proposed changes. If backup support is added, record
+   original paths so restoration does not depend on remembering what was moved.
+   Do not add third-party repositories as an implicit setup step.
+
+   Done when: running setup twice is harmless, running it from another directory
+   works, and an interrupted run can be resumed without deleting unrelated files.
+
+5. Maintain a small dependency list with optional groups.
+
+   Separate the desktop's requirements from personal applications. Useful groups
+   would be core desktop, optional widgets, theme development, and personal apps.
+   Distinguish official-repository packages from AUR packages and source builds.
+   State which commands each less-obvious package provides.
+
+   Document the Mango, Waybar, gtklock, and status-module versions actually tested
+   together. Record this as compatibility information rather than encouraging
+   partial Arch upgrades. Prefer a package-managed status module when practical;
+   otherwise document how its source installation is updated and removed.
+
+   Done when: someone can install the desktop without installing the entire
+   personal application collection or guessing what provides a missing command.
+
+6. Add a read-only check command.
+
+   A scripts/check-setup.sh command could check required executables, executable
+   permissions, Stow targets, shared CSS paths, font resolution, screenshot output
+   location, and the optional gtklock module. Distinguish missing requirements
+   from optional features that have simply not been installed.
+
+   Support a repository-only mode that works before a graphical session exists.
+   Keep runtime checks separate, with bounded timeouts. Print a specific suggested
+   correction for each problem, but do not install packages or change services.
+
+   Done when: one command identifies common setup mistakes without altering the
+   machine or hanging while waiting for a desktop daemon.
+
+
+Priority 3: Make personal changes easier to maintain
+--------------------------------------------------
+
+7. Separate shared defaults from machine-specific choices.
+
+   Provide examples for keyboard layout, display arrangement, timezone, preferred
+   applications, laptop idle policy, and optional startup programs. Keep Finnish
+   and Europe/Helsinki as the owner's defaults, but make the places to change them
+   obvious. Offer a desktop example without battery and lid-related assumptions.
+
+   For Mango, consider a documented local override file loaded after shared
+   defaults, once its handling of missing files and repeated settings is checked.
+   Create an empty local file during setup if one is required. For applications
+   without suitable override support, clearly identify the file to edit rather
+   than adding a complex configuration framework.
+
+   Done when: routine machine changes have a predictable home and pulling shared
+   updates rarely conflicts with personal settings.
+
+8. Clean the installed packages without losing useful experiments.
+
+   Move inactive menu experiments, backups, empty placeholders, and editor swap
+   files out of the Stow package trees. Keep worthwhile experiments under an
+   explicitly unstowed examples/ or archive/ directory. Remove or replace the
+   Logseq helper that embeds a temporary AppImage mount path.
+
+   Consider standardizing executable helpers under ~/.local/bin. If doing so,
+   update every caller and document the migration together. The existing location
+   can also work if it remains deliberate and consistently documented.
+
+   Add Git ignore rules for generated personal data and editor files, plus Stow
+   ignore rules where those files must not be installed. Git ignore rules alone
+   do not prevent Stow from linking a file. Consider --no-folding for directories
+   where applications write personal state; already-folded installations would
+   need an explicit migration.
+
+   Done when: every installed helper has a clear purpose and ordinary application
+   use does not fill the checkout with bookmarks, swap files, or local artifacts.
+
+9. Keep controls and documentation in agreement.
+
+   Use one maintained keybinding reference. Either generate the Yad cheatsheet
+   from annotated Mango bindings or check it against those bindings when they
+   change. Remove redundant reference files that can silently disagree.
+
+   Add one representative desktop screenshot and a short first-session walkthrough:
+   open a terminal, launch an app, move it between workspaces, adjust networking,
+   lock and unlock, and reload a config. Explain global, overlay, and scratchpad
+   behavior with practical examples. Mark optional features clearly.
+
+   Done when: someone can learn the main workflow without reading compositor
+   configuration syntax, and the cheatsheet does not advertise conflicting keys.
+
+
+Priority 4: Reduce maintenance surprises
+--------------------------------------
+
+10. Check installation and shared changes automatically.
+
+    Add a lightweight check covering active shell-script syntax, required local
+    references, the existing GTK theme checker, and Stow install/restow/removal
+    against a temporary home directory. Include an existing-config conflict case
+    to verify that setup preserves the original file.
+
+    Keep actual lock/unlock, suspend/resume, Bluetooth pairing, and screen sharing
+    in a short manual release checklist; syntax checks cannot establish those
+    behaviors. Record the environment used for those checks.
+
+    Preserve the existing shared CSS approach. If synchronizing the native Mango,
+    Kitty, Fuzzel, tofi, and editor palettes becomes frequent work, consider a
+    small generator for colors only. Keep generated outputs checked in and mark
+    their source clearly. Avoid adding a build requirement just to install a theme.
+
+    Done when: common regressions are caught before an update reaches the live
+    desktop, and the remaining manual checks are explicit.
+
+
+Suggested implementation order
+------------------------------
+
+First, fix the broken defaults and standardize locking, screenshots, and power
+actions. Next, replace the installer and add dependency and setup checks. Then
+clean the package trees and make personal overrides and the key reference easier
+to maintain. Add palette generation only if manual synchronization warrants it.
+
+Keep each change independently reviewable. Update the README alongside behavior
+changes, replacing resolved workaround instructions with the new normal setup.
