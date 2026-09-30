@@ -1,54 +1,54 @@
 @import url("../colors/shell.css");
 
 window {
-    background: @lock_surface;
-    color: @lock_text;
+    background: @surface;
+    color: @primary;
 }
 
 * {
     font-family: "Terminus (TTF)", monospace;
     font-size: 22px;
     font-weight: bold;
-    letter-spacing: 0;
+    letter-spacing: 2px;
 }
 
 /*
  * Status module
  */
 #runshell {
-    color: @lock_text;
+    color: @primary;
 }
 
 /*
  * Kill the normal friendly rounded GTK appearance.
  */
 entry {
-    background: @lock_input;
-    color: @lock_text;
+    background: @surface;
+    color: @superior;
 
-    border-color: @lock_border;
+    border-color: @primary;
 
     padding: 7px 10px;
 
     box-shadow: none;
     outline: none;
 
-    caret-color: @lock_text;
+    caret-color: @primary;
 }
 
 entry:focus {
-    border-color: @lock_text;
+    border-color: @primary;
 }
 
 /*
  * Authentication/errors.
  */
 #error-label {
-    color: @lock_error;
+    color: @alert;
 }
 
 #warning-label {
-    color: @lock_text;
+    color: @alert;
 }
 
 /*
@@ -84,7 +84,7 @@ padding: 0;
 
 /* AUTHORIZE */
 #input-label {
-color: @lock_text;
+color: @primary;
 font-weight: bold;
 
 margin-bottom: 4px;
@@ -92,8 +92,8 @@ margin-bottom: 4px;
 
 
 #input-field {
-    background: #090b09;
-    color: #d2b45b;
+    background: @primary;
+    color: @surface;
 }
 
 /* We authenticate by pressing Enter.

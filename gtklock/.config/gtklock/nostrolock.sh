@@ -15,7 +15,7 @@ field() {
     local name="$1"
     local value="$2"
 
-    printf '<span foreground="#8d937f">%-30s</span><span foreground="#d2b45b">%s</span>\n' \
+    printf '> %-30s%s\n' \
         "$name" "$value"
 }
 
@@ -174,7 +174,7 @@ if [[ "$update_days" =~ ^[0-9]+$ ]] && (( update_days > 10 )); then
     printf '<span foreground="#8d937f">%-30s</span><span foreground="#d34b42">%s DAYS</span>\n' \
         "SYSTEM UPDATE DATE" "$update_days"
 else
-    field "SYSTEM UPDATE DATE" "${update_days} DAYS"
+    field "SYSTEM UPDATE DATE" "${update_days} DAYS AGO"
 fi
 field "SYSTEM INSTALL DATE" "$install_date"
 field "NETWORK"          "$network"
