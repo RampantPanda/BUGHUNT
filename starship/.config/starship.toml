@@ -1,162 +1,71 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
 format = """
-[][#9A348E)[]\
-$os\
-$username\
-[](bg:#DA627D fg:#9A348E)\
+[](color_primary)\
+$hostname\
+[](bg:color_secondary fg:color_primary)\
 $directory\
-[](fg:#DA627D bg:#FCA17D)\
+[](fg:color_secondary bg:color_primary)\
 $git_branch\
-$git_status\
-[](fg:#FCA17D bg:#86BBD8)\
-$c\
-$elixir\
-$elm\
-$golang\
-$gradle\
-$haskell\
-$java\
-$julia\
-$maven\
-$nodejs\
-$bun\
-$nim\
-$rust\
-$scala\
-[](fg:#86BBD8 bg:#06969A)\
-$docker_context\
-[](fg:#06969A bg:#33658A)\
+[](fg:color_primary bg:color_secondary)\
 $time\
-[ ](fg:#33658A)\
-"""
+[](fg:color_secondary bg:color_surface)\
+$line_break$character"""
 
-# Disable the blank line at the start of the prompt
-# add_newline = false
+palette = 'muthur_dark'
 
-# You can also replace your username with a neat symbol like   or disable this
-# and use the os module below
-[username]
-show_always = true
-style_user = "bg:#9A348E"
-style_root = "bg:#9A348E"
-format = '[$user ]($style)'
+[palettes.muthur_dark]
+color_primary = '#756000'
+color_surface = '#1d170b'
+color_secondary = '#3b3000'
+color_alert = '#752300'
+color_superior = '#9c8000'
+color_green = '#007500'
+color_text = '#d6c98f'
+color_orange = '#d65d0e'
+color_purple = '#b16286'
+color_red = '#cc241d'
+color_yellow = '#d79921'
+
+# ~/.config/starship.toml
+
+[hostname]
+ssh_only = false
+format = "[$hostname](fg:color_surface bg:color_primary)"
 disabled = false
 
-# An alternative to the username module which displays a symbol that
-# represents the current operating system
-[os]
-style = "bg:#9A348E"
-disabled = true # Disabled by default
+[username]
+show_always = false
+style_user = "bg:color_primary fg:color_surface"
+style_root = "bg:color_alert fg:color_surface"
+format = '[ $user ]($style)'
 
 [directory]
-style = "bg:#DA627D"
+style = "bg:color_secondary fg:color_superior"
 format = "[ $path ]($style)"
 truncation_length = 3
 truncation_symbol = "…/"
 
-# Here is how you can shorten some long paths by text replacement
-# similar to mapped_locations in Oh My Posh:
-[directory.substitutions]
-"Documents" = "󰈙 "
-"Downloads" = " "
-"Music" = " "
-"Pictures" = " "
-# Keep in mind that the order matters. For example:
-# "Important Documents" = " 󰈙 "
-# will not be replaced, because "Documents" was already substituted before.
-# So either put "Important Documents" before "Documents" or use the substituted version:
-# "Important 󰈙 " = " 󰈙 "
-
-[c]
-symbol = " "
-style = "bg:#86BBD8"
-format = '[ $symbol ($version) ]($style)'
-
-[cpp]
-symbol = " "
-style = "bg:#86BBD8"
-format = '[ $symbol ($version) ]($style)'
-
-[docker_context]
-symbol = " "
-style = "bg:#06969A"
-format = '[ $symbol $context ]($style)'
-
-[elixir]
-symbol = " "
-style = "bg:#86BBD8"
-format = '[ $symbol ($version) ]($style)'
-
-[elm]
-symbol = " "
-style = "bg:#86BBD8"
-format = '[ $symbol ($version) ]($style)'
-
 [git_branch]
-symbol = ""
-style = "bg:#FCA17D"
-format = '[ $symbol $branch ]($style)'
+symbol = "git"
+style = "bg:color_primary"
+format = '[[ $symbol ](fg:color_surface bg:color_primary)]($style)'
 
-[git_status]
-style = "bg:#FCA17D"
-format = '[$all_status$ahead_behind ]($style)'
-
-[golang]
-symbol = " "
-style = "bg:#86BBD8"
-format = '[ $symbol ($version) ]($style)'
-
-[gradle]
-style = "bg:#86BBD8"
-format = '[ $symbol ($version) ]($style)'
-
-[haskell]
-symbol = " "
-style = "bg:#86BBD8"
-format = '[ $symbol ($version) ]($style)'
-
-[java]
-symbol = " "
-style = "bg:#86BBD8"
-format = '[ $symbol ($version) ]($style)'
-
-[julia]
-symbol = " "
-style = "bg:#86BBD8"
-format = '[ $symbol ($version) ]($style)'
-
-[maven]
-style = "bg:#86BBD8"
-format = '[ $symbol ($version) ]($style)'
-
-[nodejs]
-symbol = ""
-style = "bg:#86BBD8"
-format = '[ $symbol ($version) ]($style)'
-
-[bun]
-symbol = ""
-style = "bg:#86BBD8"
-format = '[ $symbol ($version) ]($style)'
-
-[nim]
-symbol = "󰆥 "
-style = "bg:#86BBD8"
-format = '[ $symbol ($version) ]($style)'
-
-[rust]
-symbol = ""
-style = "bg:#86BBD8"
-format = '[ $symbol ($version) ]($style)'
-
-[scala]
-symbol = " "
-style = "bg:#86BBD8"
-format = '[ $symbol ($version) ]($style)'
 
 [time]
 disabled = false
-time_format = "%R" # Hour:Minute Format
-style = "bg:#33658A"
-format = '[ ♥ $time ]($style)'
+time_format = "%R"
+style = "bg:color_bg1"
+format = '[[$time](fg:color_superior bg:color_secondary)]($style)'
+
+[line_break]
+disabled = false
+
+[character]
+disabled = false
+success_symbol = '[>>](bold fg:color_primary)'
+error_symbol = '[>>](bold fg:color_alert)'
+vimcmd_symbol = '[](bold fg:color_green)'
+vimcmd_replace_one_symbol = '[](bold fg:color_purple)'
+vimcmd_replace_symbol = '[](bold fg:color_purple)'
+vimcmd_visual_symbol = '[](bold fg:color_yellow)'
