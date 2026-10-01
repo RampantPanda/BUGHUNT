@@ -4,22 +4,15 @@ PRESS ALT + H TO SHOW
 
 APPLICATIONS
 
-SUPER + RETURN             Kitty
-ALT + RETURN               Alacritty
-SUPER + E                  Thunar
-SUPER + B                  Firefox
-SUPER + W                  Waybar
-
-SUPER + SPACE              Tofi application launcher
-ALT + T                    Tofi application launcher
-ALT + F                    Fuzzel
+SUPER + T		           Terminal
+SUPER + E                  File explorer
+SUPER + B                  Browser
+SUPER + SPACE              Application launcher
 
 
 WINDOW CONTROL
 
 SUPER + Q                  Close window
-ALT + Q                    Close window
-
 ALT + TAB                  Next window
 
 SUPER + ←                  Focus left
@@ -46,7 +39,7 @@ SUPER + Z                  Scratchpad
 
 LAYOUT
 
-SUPER + SHIFT + X          Set proportion to 100%
+to 100%
 SUPER + SHIFT + T		   Set tiling layout
 SUPER + SHIFT + S		   Set scrolling layout
 SUPER + SHIFT + C		   Set center tile layout
@@ -97,7 +90,7 @@ SUPER + N                  Toggle notification center
 SYSTEM
 
 SUPER + L                  Lock screen
-ALT + O                    Logout / power menu
+SUPER + O                    Logout / power menu
 SUPER + R                  Reload Mango configuration
 
 
