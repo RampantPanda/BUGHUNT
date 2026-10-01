@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 CSS="$HOME/.config/waybar/cheatsheet.css"
-TEXT="$HOME/.config/waybar/keybinds.txt"
+TEXT="$HOME/.config/waybar/cheatsheet.txt"
 
 export GTK_THEME="Adwaita:dark"
 
