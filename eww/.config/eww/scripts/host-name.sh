@@ -1,0 +1,1 @@
+printf "HOST > $(hostname)\n"

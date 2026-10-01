@@ -1,0 +1,60 @@
+/* Keep this as a CSS import: shell.css imports GTK's @define-color palette. */
+@import url("../../../colors/.config/colors/colors.css");
+
+* {
+	all: unset;
+	border-radius: 0px;
+	font-family: "Terminus (TTF)";
+	font-size: 22px;
+}
+
+.host-widget {
+	padding: 4px 2px;
+	border: 4px solid @primary;
+	background-color: @surface;
+	color: @primary;
+}
+
+.system-widget {
+  padding: 12px 6px;
+  	border: 4px solid @primary;
+	background-color: @surface;
+}
+
+.disk-widget {
+	padding: 4px 2px;
+	border: 4px solid @primary;
+	background-color: @surface;
+	color: @primary; 
+}
+.proton-widget {
+	padding: 4px 2px;
+	border: 4px solid @primary;
+	background-color: @surface;
+	color: @primary;
+}
+
+.ram-widget {
+	padding: 4px 2px;
+	border: 4px solid @primary;
+	background-color: @surface;
+	color: @primary;
+}
+
+.system-control {
+	padding: 10px;
+}
+
+.system-id {
+	margin-bottom: 4px;
+}
+
+.system-user {
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.system-host {
+	font-size: 12px;
+	opacity: 0.65;
+}

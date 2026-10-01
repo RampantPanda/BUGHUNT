@@ -1,5 +1,32 @@
-;;(include "buttonbox.yuck")
+;; THIS IS THE WINDOW
+(defwindow sysmon
+  :monitor 0
+  :geometry (geometry
+    :anchor "top right"
+    :x "30px"
+    :y "30px"
+    :width "300px"
+    :height "430px")
+  :stacking "bg"
+  :exclusive false
+  :focusable false
+  (system-widget))
+  
+;; THIS IS THE ONLY WIDGET IN THE WINDOW
+;; THERE CAN ONLY BE ONE
+(defwidget system-widget []
+  (box
+    :class "system-widget"
+    :orientation "vertical"
+    :spacing 6
 
+	(host-widget)
+    (disk-widget)
+    (ram-widget)
+    (proton-widget)
+    ))  
+
+;; THESE ARE THE POLLS THAT PULL THE DATA
 (defpoll disk_usage
   :interval "60s"
   "$HOME/.config/eww/scripts/du.sh")
@@ -11,17 +38,21 @@
 (defpoll ram_usage
 	:interval "5s"
 	"$HOME/.config/eww/scripts/ram-use.sh")
-
+	
+(defpoll hostname
+  :interval "6000s"
+  "$HOME/.config/eww/scripts/host-name.sh")
+	
+;; THESE ARE THE WIDGETS INSIDE THE SYSTEM WIDGET
 (defwidget disk-widget []
   (box
     :class "disk-widget"
     :orientation "horizontal"
     (label :text disk_usage)))
 
-
 (defwidget proton-widget []
   (box
-    :class "proton-status"
+    :class "proton-widget"
     :orientation "horizontal"
     :visible {proton_status != ""}
     (label :text proton_status)))
@@ -32,26 +63,12 @@
 		:orientation "horizontal"
 		(label :text ram_usage)))
 
-(defwidget system-widget []
-  (box
-    :class "system-widget"
-    :orientation "vertical"
-    :spacing 6
-
-    (disk-widget)
-    (proton-widget)
-    (ram-widget)))
+(defwidget host-widget []
+	(box
+		:class "host-widget"
+		:orientation "horizontal"
+		(label :text hostname)))
 
 
-(defwindow sysmon
-  :monitor 0
-  :geometry (geometry
-    :anchor "top right"
-    :x "30px"
-    :y "30px"
-    :width "220px"
-    :height "130px")
-  :stacking "bg"
-  :exclusive false
-  :focusable false
-  (system-widget))
+
+
