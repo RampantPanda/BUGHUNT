@@ -18,23 +18,23 @@
     <property name="orientation">vertical</property>
     <property name="spacing">0</property>
 
-    <!-- Built-in clock: keep it present, hide with CSS -->
-    <child>
-      <object class="GtkLabel" id="clock-label">
-        <property name="name">clock-label</property>
-        <property name="halign">center</property>
-        <property name="valign">start</property>
-      </object>
-    </child>
+<child>
+  <object class="GtkLabel" id="clock-label">
+    <property name="name">clock-label</property>
+    <property name="label"></property>
+    <property name="halign">center</property>
+    <property name="valign">start</property>
+  </object>
+</child>
 
-    <!-- Built-in date: keep it present, hide with CSS -->
-    <child>
-      <object class="GtkLabel" id="date-label">
-        <property name="name">date-label</property>
-        <property name="halign">center</property>
-        <property name="valign">start</property>
-      </object>
-    </child>
+<child>
+  <object class="GtkLabel" id="date-label">
+    <property name="name">date-label</property>
+    <property name="label"></property>
+    <property name="halign">center</property>
+    <property name="valign">start</property>
+  </object>
+</child>
 
     <!-- Authentication block -->
     <child>

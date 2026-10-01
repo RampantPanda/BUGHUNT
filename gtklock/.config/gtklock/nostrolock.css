@@ -12,6 +12,7 @@ window {
     letter-spacing: 2px;
 }
 
+
 /*
  * Status module
  */
@@ -19,14 +20,27 @@ window {
     color: @primary;
 }
 
+
 /*
- * Kill the normal friendly rounded GTK appearance.
+ * Authentication input
  */
-entry {
+#input-label {
+    color: @primary;
+
+    font-family: "IBM Plex Mono", "DejaVu Sans Mono", monospace;
+    font-size: 15px;
+    font-weight: bold;
+
+    margin: 0 0 4px 0;
+    padding: 0;
+}
+
+#input-field {
     background: @surface;
     color: @superior;
 
-    border-color: @primary;
+    border: 2px solid @primary;
+    border-radius: 0;
 
     padding: 7px 10px;
 
@@ -36,77 +50,46 @@ entry {
     caret-color: @primary;
 }
 
-entry:focus {
+#input-field:focus {
     border-color: @primary;
 }
 
-/*
- * Authentication/errors.
- */
-#error-label {
-    color: @alert;
-}
 
+/*
+ * Authentication/errors
+ */
+#error-label,
 #warning-label {
     color: @alert;
 }
 
-/*
- * We'll provide our own clock/date through runshell.
- */
 #clock-label,
 #date-label {
-    opacity: 0;
-}
-#input-label {
-    opacity: 1;
+    color: transparent;
+    background: transparent;
 
-    color: #d2b45b;
-    font-family: "IBM Plex Mono", "DejaVu Sans Mono", monospace;
-    font-size: 15px;
-    font-weight: bold;
+    font-size: 1;
+    min-width: 0;
+    min-height: 0;
 
-    margin: 0 0 6px 0;
+    margin: 0;
     padding: 0;
+
+    border: 0;
 }
 
-
-/* gtklock still updates these internally.
- * Hide them instead of deleting them from layout.xml.
- */
-#clock-label,
-#date-label {
-opacity: 0;
-min-height: 0;
-margin: 0;
-padding: 0;
-}
-
-/* AUTHORIZE */
-#input-label {
-color: @primary;
-font-weight: bold;
-
-margin-bottom: 4px;
-}
-
-
-#input-field {
-    background: @primary;
-    color: @surface;
-}
-
-/* We authenticate by pressing Enter.
- * Keep the actual widget in XML so gtklock can still access it.
+/*
+ * Authentication is performed with Enter.
+ * Keep the button in the widget tree but invisible.
  */
 #unlock-button {
-opacity: 0;
+    opacity: 0;
 
-min-width: 0;
-min-height: 0;
+    min-width: 0;
+    min-height: 0;
 
-margin: 0;
-padding: 0;
+    margin: 0;
+    padding: 0;
 
-border: 0;
+    border: 0;
 }
