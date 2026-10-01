@@ -7,11 +7,10 @@
     "spacing": 0, // Gaps between modules (4px)
     // Choose the order of the modules
     "modules-left": [
-        "custom/muthur",
-        "mango/workspaces",
+        "mango/workspaces"
     ],
     "modules-center": [
-        "clock"
+        "custom/muthur"
     ],
     "modules-right": [
         "bluetooth",
@@ -23,6 +22,7 @@
         "idle_inhibitor",
         "custom/notifications",
         "custom/power",
+        "clock"
     ],
 
     ////////////////////////////
@@ -217,7 +217,6 @@
     },
     "custom/muthur": {
         "format": "MUTHUR",
-        "tooltip-format" : ":)\nCREW IS EXPENDABLE\n:)",
         "on-click": "/usr/bin/fuzzel --anchor=top-left",
         "on-click-right": "~/.config/waybar/cheatsheet.sh --title=MANGOKEYBINDREFERENCE"
 }
