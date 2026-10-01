@@ -55,3 +55,4 @@ dropdown:focus-within {
     --dim-opacity: 0.85;
     --disabled-opacity: 0.75;
 }
+@import 'colors.css';
