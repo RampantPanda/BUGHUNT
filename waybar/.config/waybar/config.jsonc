@@ -13,12 +13,11 @@
         "custom/muthur"
     ],
     "modules-right": [
-        "bluetooth",
+        "group/traydrawer",
         "pulseaudio",
         "network",
         "custom/nextcloud",
         "battery",
-        "tray",
         "idle_inhibitor",
         "custom/notifications",
         "custom/power",
@@ -177,15 +176,17 @@
         },
     },
 
-    "bluetooth": {
-    "format": "BLUE",
-    "format-disabled": "OFF ",
-    "format-connected": "CNTD",
-    "tooltip-format-on": "BLUETOOTH ACTIVE",
-    "tooltip-format-connected": "{device_enumerate}",
-    "tooltip-format-enumerate-connected": "BLUETOOTH CONNECTED\n{device_alias}",
-    "on-click": "$HOME/.local/share/bin/bluetoothmenu.sh"
-    },
+"bluetooth": {
+    "format": "",
+    "format-disabled": "󰂲",
+    "format-off": "󰂲",
+    "format-on": "",
+    "format-connected": "󰂱",
+    "format-connected-battery": "󰂱",
+    "tooltip-format": "BLUETOOTH",
+    "tooltip-format-connected": "{device_alias}",
+    "on-click": "blueman-manager"
+},
 
     "wireplumber": {
     "format": "VOL  {volume}",
@@ -215,7 +216,7 @@
     },
     "custom/power": {
         "format" : "PWR",
-		"tooltip": "POWER & SESSION CONTROLS",
+		"tooltip-format": "POWER &amp; SESSION CONTROLS",
 		"on-click": "$HOME/.config/waybar/powermenu.sh",
 		"on-click-right": "$HOME/.config/gtklock/lock.sh"
     },
@@ -223,5 +224,30 @@
         "format": "MUTHUR",
         "on-click": "/usr/bin/fuzzel --anchor=top-left",
         "on-click-right": "~/.config/waybar/cheatsheet.sh --title=MANGOKEYBINDREFERENCE"
+},
+"group/traydrawer": {
+    "orientation": "horizontal",
+    "drawer": {
+        "transition-duration": 200,
+        "click-to-reveal": true,
+        "start-expanded": false,
+        "transition-left-to-right": false
+    },
+    "modules": [
+        "custom/traytoggle",
+        "bluetooth",
+        "tray",
+
+    ]
+},
+
+"custom/traytoggle": {
+    "format": "SYS",
+    "tooltip-format": "ACTIVE SUBSYSTEMS"
+},
+
+"tray": {
+    "icon-size": 16,
+    "spacing": 6
 }
 }
