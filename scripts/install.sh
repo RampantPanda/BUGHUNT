@@ -107,8 +107,11 @@ sudo meson install -C build &
 cd .. &
 rm -rf gtklock-runshell-module &
 
+## install markless
+yay -S markless manuskript
+
 ## Stow all the things
-# go to dotfiles, do a stow *
+# go to dotfiles, do a stow 
 
 ## Fix laptop lid suspend
 # sudo mkdir -p /etc/systemd/logind.conf.d
