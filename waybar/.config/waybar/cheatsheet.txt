@@ -46,8 +46,10 @@ SUPER + Z                  Scratchpad
 
 LAYOUT
 
-SUPER + X                  Cycle proportion preset
 SUPER + SHIFT + X          Set proportion to 100%
+SUPER + SHIFT + T		   Set tiling layout
+SUPER + SHIFT + S		   Set scrolling layout
+SUPER + SHIFT + C		   Set center tile layout
 SUPER + SHIFT + N          Switch layout
 
 
@@ -86,22 +88,6 @@ PRINT                      Capture full screen
 CTRL + PRINT               Capture selected region
 
 
-AUDIO
-
-VOLUME UP                  Volume +5%
-VOLUME DOWN                Volume -5%
-MUTE                       Toggle output mute
-SHIFT + MUTE               Toggle microphone mute
-
-
-DISPLAY
-
-BRIGHTNESS UP              Brightness +2%
-SHIFT + BRIGHTNESS UP      Brightness 100%
-
-BRIGHTNESS DOWN            Brightness -2%
-SHIFT + BRIGHTNESS DOWN    Brightness 1%
-
 
 NOTIFICATIONS
 
@@ -110,15 +96,9 @@ SUPER + N                  Toggle notification center
 
 SYSTEM
 
-ALT + L                    Lock screen
 SUPER + L                  Lock screen
-
 ALT + O                    Logout / power menu
-
-ALT + R                    Reload Mango configuration
 SUPER + R                  Reload Mango configuration
-
-CTRL + ALT + RETURN        Emergency terminal
 
 
 MOUSE
