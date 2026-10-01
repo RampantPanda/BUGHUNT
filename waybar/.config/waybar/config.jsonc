@@ -126,8 +126,8 @@
         "format-plugged": "PLG",
         //"format-alt": "{time} {icon}",
         "tooltip-format": "CAPACITY {capacity}%\nTIME TO ZERO {time}",
-        // "format-good": "", // An empty format will hide the module
-        // "format-full": "",
+        // "format-good": "-", // An empty format will hide the module
+        // "format-full": "-",
         //"format-icons": ["", "", "", "", ""]
     },
     "battery#bat2": {
@@ -214,9 +214,10 @@
         // "exec": "$HOME/.config/waybar/mediaplayer.py --player spotify 2> /dev/null" // Filter player based on name
     },
     "custom/power": {
-        "format" : "SYS",
-		"tooltip": false,
-		"on-click": "$HOME/.config/waybar/powermenu.sh"
+        "format" : "PWR",
+		"tooltip": "POWER & SESSION CONTROLS",
+		"on-click": "$HOME/.config/waybar/powermenu.sh",
+		"on-click-right": "$HOME/.config/gtklock/lock.sh"
     },
     "custom/muthur": {
         "format": "MUTHUR",
