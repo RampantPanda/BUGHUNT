@@ -188,7 +188,7 @@ color: @surface;
     background-color: @surface;
 }
 
-#custom-traytoggle {
+#custom-traytoggle, #custom-systoggle {
     padding: 0 4px;
     color: @primary;
     border: 3px solid @superior;
@@ -205,6 +205,17 @@ color: @surface;
     background-color: @primary;
 }
 
+#systemdrawer{
+	color: @primary;
+	background-color: @surface;
+	border: 3px solid @superior;
+	padding: 3px;
+}
+
+#systemdrawer.expanded #custom-systemtoggle {
+    color: @surface;
+    background-color: @primary;
+}
 
 #power-profiles-daemon {
     padding-right: 15px;
@@ -229,13 +240,10 @@ label:focus {
     background-color: @black;
 }
 
-#cpu {
-    background-color: @success;
-    color: @black;
-}
-
-#memory {
-    background-color: @memory;
+#cpu,#memory,#temperature {
+    background-color: @surface;
+    color: @primary;
+    border: 0px;
 }
 
 #disk {
@@ -308,12 +316,8 @@ color: @surface;
     margin-right: 64px;
 }
 
-#temperature {
-    background-color: @temperature;
-}
-
 #temperature.critical {
-    background-color: @attention;
+    background-color: @alert;
 }
 
 #tray {
