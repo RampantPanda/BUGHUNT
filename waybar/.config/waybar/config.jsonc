@@ -213,7 +213,7 @@
     "custom/power": {
         "format" : "SYS",
 		"tooltip": false,
-		"on-click": "$HOME/.local/share/bin/powermenu.sh"
+		"on-click": "$HOME/.config/waybar/powermenu.sh"
     },
     "custom/muthur": {
         "format": "MUTHUR",
