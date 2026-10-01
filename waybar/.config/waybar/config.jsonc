@@ -223,7 +223,7 @@
     },
     "custom/muthur": {
         "format": "MUTHUR",
-        "on-click": "/usr/bin/fuzzel --anchor=top-left",
+        "on-click": "/usr/bin/fuzzel --anchor=top",
         "on-click-right": "~/.config/waybar/cheatsheet.sh --title=MANGOKEYBINDREFERENCE"
 },
 "group/traydrawer": {
