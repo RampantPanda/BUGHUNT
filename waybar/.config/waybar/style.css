@@ -152,11 +152,35 @@ background-color: @alert;
 color: @surface;
 }
 
+
+
 #custom-notifications {
-    color: @primary;
-    background-color: @surface;
+    color: @surface;
+    background-color: @primary;
     padding: 8px;
 }
+
+#custom-notifications.notification {
+    color: @surface;
+    background-color: @superior;
+}
+
+#custom-notifications.none {
+    color: @surface;
+    background-color: @primary;
+}
+
+#custom-notifications.dnd-notification {
+    color: @primary;
+    background-color: @surface;
+}
+
+#custom-notifications.dnd-none {
+    color: @primary;
+    background-color: @surface;
+}
+
+
 
 #power-profiles-daemon {
     padding-right: 15px;

@@ -162,9 +162,9 @@
         "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
         "on-double-click": "pavucontrol",
         "format-bluetooth": "{volume}%",
-        "format-bluetooth-muted": "OFF",
-        "format-muted": "VOL OFF",
-//        "format-source": "{volume}% ",
+        "format-bluetooth-muted": "MUTE",
+        "format-muted": "MUTE",
+//        "format-source": " {volume}% ",
 //        "format-source-muted": "",
         "format-icons": {
             "headphone": "",
@@ -179,7 +179,7 @@
 
     "bluetooth": {
     "format": "BLUE",
-    "format-disabled": "BLUE",
+    "format-disabled": "OFF ",
     "format-connected": "CNTD",
     "tooltip-format-on": "BLUETOOTH ACTIVE",
     "tooltip-format-connected": "{device_enumerate}",
@@ -192,12 +192,15 @@
     "format-muted": "VOL OFF",
     "on-click": "pavucontrol"
     },
-
-    "custom/notifications": {
-        "format": "NTF",
-        "on-click": "swaync-client -t",
-    },
-
+   
+   "custom/notifications": {
+    "format": "{}",
+    "return-type": "json",
+    "exec": "~/.config/waybar/noti-waybar.sh",
+    "on-click": "swaync-client -t -sw",
+    "on-click-right": "swaync-client -d -sw",
+	},
+	
     "custom/media": {
         "format": "{icon} {text}",
         "return-type": "json",
