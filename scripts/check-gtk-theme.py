@@ -95,12 +95,12 @@ def main():
         return
     with tempfile.TemporaryDirectory(prefix='muthur-theme-check-') as directory:
         config = Path(directory)
-        for app in ('colors', 'waybar', 'swaync', 'wlogout', 'gtklock', 'eww'):
+        for app in ('colors', 'waybar', 'swaync', 'gtklock', 'eww'):
             shutil.copytree(ROOT / app / '.config' / app, config / app)
         shutil.copytree(ROOT / 'gtk/.config', config, dirs_exist_ok=True)
         groups = {
             '3.0': ('gtk-3.0/gtk.css', 'waybar/style.css', 'waybar/cheatsheet.css',
-                    'wlogout/style.css', 'gtklock/nostrolock.css', 'eww/eww.scss'),
+                    'gtklock/nostrolock.css', 'eww/eww.css'),
             '4.0': ('gtk-4.0/gtk.css', 'swaync/style.css'),
         }
         for version, paths in groups.items():
