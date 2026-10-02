@@ -925,4 +925,3 @@ case "$choice" in
         ;;
 
 esac
-```
