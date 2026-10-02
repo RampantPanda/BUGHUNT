@@ -26,7 +26,6 @@
 	#
 	# font-features = "smcp, c2sc" (all small caps)
 	# font-features = "liga 0" (disable ligatures)
-	font-features = "smpc, c2sc"
 
 	# Comma separated list of OpenType font variation settings to apply
 	# to variable fonts. The format is similar to the CSS
