@@ -346,7 +346,8 @@ Run `fastfetch` manually for the system summary. Its `PublicIp` module makes an
 external lookup; remove that module if you do not want it.
 
 Eww's [`eww.css`](eww/.config/eww/eww.css) imports the shared palette through
-`../colors/colors.css`; stow `colors` alongside `eww` so that path resolves.
+a local `colors.css` symlink into the repository's `colors` package. This keeps
+the import working when Eww resolves the stowed config path to the checkout.
 With a Wayland-capable Eww installed and its config stowed:
 
 ```sh
