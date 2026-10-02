@@ -8,11 +8,16 @@ SUPER + T                  Terminal
 SUPER + E                  File explorer
 SUPER + B                  Browser
 SUPER + SPACE              Application launcher
+ALT + T                    Tofi application launcher
+ALT + F                    Fuzzel application launcher
+SUPER + X                  Geany
+ALT + H                    Keyboard reference
 
 
 WINDOW CONTROL
 
 SUPER + Q                  Close window
+ALT + Q                    Close window
 ALT + TAB                  Next window
 
 SUPER + ←                  Focus left
@@ -25,8 +30,6 @@ SUPER + SHIFT + →          Swap window right
 SUPER + SHIFT + ↑          Swap window up
 SUPER + SHIFT + ↓          Swap window down
 
-SUPER + TAB                Toggle overlay
-
 
 WINDOW STATE
 
@@ -35,13 +38,13 @@ SUPER + TAB                Overview
 SUPER + F                  Toggle floating
 SUPER + SHIFT + F          Fullscreen
 SUPER + ALT + F            Fake fullscreen
-SUPER + O                  Toggle overlay
 SUPER + Z                  Scratchpad
 
 
 LAYOUT
 
-to 100%
+SUPER + SHIFT + Z          Cycle scroller proportion
+SUPER + SHIFT + X          Scroller width 100%
 SUPER + SHIFT + T          Set tiling layout
 SUPER + SHIFT + S          Set scrolling layout
 SUPER + SHIFT + C          Set center tile layout
@@ -51,13 +54,13 @@ SUPER + SHIFT + N          Switch layout
 WORKSPACES
 
 SUPER + 1..9               Switch to workspace
-SUPER + SHIFT + 1..9       Move window to workspace
+SUPER + SHIFT + 1..9       Move window to workspace and follow
 
 GAPS
 
-SUPER + SHIFT + X          Increase gaps
-SUPER + SHIFT + Z          Decrease gaps
-SUPER + SHIFT + R          Toggle gaps
+SUPER + ALT + X            Increase gaps
+SUPER + ALT + Z            Decrease gaps
+SUPER + ALT + R            Toggle gaps
 
 
 FLOATING WINDOW POSITION
@@ -70,10 +73,10 @@ CTRL + SHIFT + →           Move right 50 px
 
 FLOATING WINDOW SIZE
 
-CTRL + ALT + ↑             Shrink vertically
-CTRL + ALT + ↓             Grow vertically
-CTRL + ALT + ←             Shrink horizontally
-CTRL + ALT + →             Grow horizontally
+CTRL + ALT + ↑             Shrink vertically 50 px
+CTRL + ALT + ↓             Grow vertically 50 px
+CTRL + ALT + ←             Shrink horizontally 50 px
+CTRL + ALT + →             Grow horizontally 50 px
 
 
 SCREEN CAPTURE
@@ -81,6 +84,23 @@ SCREEN CAPTURE
 PRINT                      Capture full screen
 CTRL + PRINT               Capture selected region
 
+Saved to ~/Pictures/Screenshots
+
+
+AUDIO
+
+VOLUME UP                  Volume +5%
+VOLUME DOWN                Volume -5%
+MUTE                       Toggle output mute
+SHIFT + MUTE               Toggle microphone mute
+
+
+DISPLAY
+
+BRIGHTNESS UP              Brightness +2%
+BRIGHTNESS DOWN            Brightness -2%
+SHIFT + BRIGHTNESS UP      Brightness 100%
+SHIFT + BRIGHTNESS DOWN    Brightness 1%
 
 
 NOTIFICATIONS
@@ -90,9 +110,12 @@ SUPER + N                  Toggle notification center
 
 SYSTEM
 
+ALT + L                    Lock screen
 SUPER + L                  Lock screen
-SUPER + O                  Logout / power menu
+SUPER + O                  Fuzzel power menu
 SUPER + R                  Reload Mango configuration
+ALT + R                    Reload Mango configuration
+CTRL + ALT + RETURN        Emergency terminal (Ghostty)
 
 
 MOUSE
