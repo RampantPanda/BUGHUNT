@@ -1,5 +1,5 @@
-/* Load the shared GTK palette relative to the installed config directory. */
-@import url("../colors/colors.css");
+/* Use the local palette symlink: Eww canonicalizes the stowed config path. */
+@import url("colors.css");
 
 * {
 	all: unset;
