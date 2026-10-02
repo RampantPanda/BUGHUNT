@@ -2,21 +2,16 @@
 
 Panda likes Mango.
 
-An Arch Linux desktop built around the Mango Wayland compositor and a MUTHUR /
-Nostromo-inspired theme: dark brown backgrounds, amber frames, Terminus text,
-square controls, and a terminal-like status bar. The everyday workflow is
-keyboard-driven tiling, with launchers and bar menus for applications, networking,
-Bluetooth, notifications, and power controls.
+This is my Linux desktop built around the Mango Wayland compositor and a theme inspired by the autogun UI in Aliens. Really. That's why the text is ugly, the contrast is bad and everything is clunky. However, I try to make it pretty snappy to use and use it as my main desktop. There will be versions that are less ugly, but still look like they came from a 1980's scifi flick. 
 
-These are personal, editable dotfiles managed with GNU Stow. This guide assumes
-a working basic Arch installation, a regular user with `sudo`, internet access,
-and graphics drivers suitable for Wayland. You should be comfortable editing
-config files and building an AUR package. Disk setup, the bootloader, and graphics
-driver installation are outside this repository.
+The workflow is aimed at being keyboard-centric, for speed. There are more launchers than is needed, but more is more.
+
+This is aimed at being used on Arch-based distros. I have used EndeavourOS, CachyOS and Garudalinux when writing and testing. Haven't really noticed anything different between them. Could work in any distro, dunno.
+
+Use GNU Stow (or GNU/Stow) to manage the files.
 
 **Use the manual setup below.** [`scripts/install.sh`](scripts/install.sh) is an
-old setup draft, not a working unattended installer. It changes the system's
-package repositories, includes personal applications, backgrounds dependent build
+old setup draft for my own use to make reinstalls faster and it should not be used by anyone. It changes the system's package repositories, includes personal applications, backgrounds dependent build
 steps, and leaves Stow installation as a comment. You do not need Chaotic-AUR or
 CachyOS to use these configs.
 
@@ -32,7 +27,7 @@ CachyOS to use these configs.
 ## What is included
 
 Each package directory mirrors paths relative to your home directory. For example,
-`kitty/.config/kitty/kitty.conf` becomes `~/.config/kitty/kitty.conf` when stowed.
+`kitty/.config/kitty/kitty.conf` becomes `~/.config/kitty/kitty.conf` when stowed with "stow kitty" ran in the ~/dotfiles directory.
 Stow creates symlinks, so editing the installed config also edits this checkout.
 Keep the checkout wherever you install it; the examples use `~/dotfiles`.
 
@@ -44,18 +39,22 @@ Keep the checkout wherever you install it; the examples use `~/dotfiles`.
 | `tofi`, `fuzzel` | Application launchers; Fuzzel also displays script menus |
 | `swaync` | Notification daemon and control center |
 | `gtklock` | Themed lockscreen with a live system-status readout |
-| `wlogout` | Alternative graphical power menu |
 | `bin` | Helpers installed under `~/.local/share/bin` |
 | `colors` | Shared CSS, plus Geany, Kate syntax, and KDE color schemes |
 | `gtk` | GTK 3/4 user styles and settings, and the Muthur icon theme |
 | `fonts` | Bundled Terminus TTF fonts |
 | `fastfetch` | Optional system summary with custom ANSI artwork |
-| `eww` | Optional disk, RAM, and Proton connection widget; not started automatically |
+| `eww` | Host, disk, RAM, and Proton connection widget; enabled in Mango startup |
+| `starship` | Optional Muthur-colored shell prompt; shell initialization is not included |
+
+`geany/geany` also contains editor settings, but its current directory layout
+does not target `~/.config/geany` when stowed normally. The Geany color scheme
+and some support files are included in `colors`.
 
 `scripts` contains maintenance tools and the old installer; it is not a Stow
-package. There is no shell configuration, display manager setup, wallpaper
-service, or application account configuration here. The large application list
-in the old installer is personal software preference, not a dependency list.
+package. There is no shell startup configuration, display manager setup, wallpaper
+service, or application account configuration here. **The large application list
+in the old installer is personal software preference, not a dependency list.**
 
 ## Install on Arch
 
@@ -70,7 +69,7 @@ sudo pacman -Syu --needed \
   base-devel git stow fontconfig \
   kitty fuzzel swaync gtklock swayidle wlopm \
   wl-clip-persist wl-clipboard grim slurp libnotify brightnessctl \
-  networkmanager bluez bluez-utils \
+  networkmanager bluez bluez-utils blueman jq \
   pipewire pipewire-pulse wireplumber pavucontrol \
   thunar firefox geany yad \
   capitaine-cursors adwaita-icon-theme gsettings-desktop-schemas \
@@ -80,25 +79,17 @@ sudo pacman -Syu --needed \
 
 `wireplumber` supplies `wpctl`; `libnotify` supplies `notify-send`;
 `networkmanager` supplies both `nmcli` and `nmtui`. The bar's `pulseaudio` module
-works with PipeWire through `pipewire-pulse`.
+works with PipeWire through `pipewire-pulse`. `blueman` supplies the bar's
+Bluetooth manager; `jq` is used by its notification-status script.
 
-Install Mango, a Waybar build with `mango/workspaces` support, tofi, and wlogout
+Install Mango, a Waybar build with `mango/workspaces` support, and tofi
 from the AUR. With an existing `yay` installation:
 
 ```sh
-yay -S --needed mangowm-git waybar-git tofi wlogout
+yay -S --needed mangowm-git waybar-git tofi
 ```
 
-If you need an AUR helper first, build it as your regular user and inspect the
-PKGBUILD before running `makepkg`, then run the command above:
-
-```sh
-mkdir -p ~/src
-git clone https://aur.archlinux.org/yay.git ~/src/yay
-cd ~/src/yay
-less PKGBUILD
-makepkg -si
-```
+Mangowm and waybar are installed as -git versions, because they had some neat stuff the regular packages didn't have at the time of writing this. 
 
 The compositor package is `mangowm-git`, but its executable is `mango`.
 See [Mango's installation guide](https://mangowm.github.io/docs/installation/).
@@ -108,8 +99,9 @@ workspace buttons. The old installer also selects `waybar-git`.
 [Tofi's upstream instructions](https://github.com/philj56/tofi#arch) cover its AUR
 package and source build.
 
-Optional packages include `fastfetch`, `eww`, `alacritty` for the secondary terminal
-binding, and `kate`. `ark` and `thunar-archive-plugin` add archive integration to
+Optional packages include `fastfetch`, `eww`, `starship`, and `kate`. Install
+`ghostty` to use the `Ctrl+Alt+Return` emergency-terminal binding.
+`ark` and `thunar-archive-plugin` add archive integration to
 Thunar; `gvfs` and `udisks2` are useful for removable media. Install personal
 applications such as Nextcloud, Proton, photography tools, and office software
 separately.
@@ -142,7 +134,7 @@ cd ~/dotfiles
 mkdir -p ~/.config ~/.local/share ~/Pictures/Screenshots
 
 stow --simulate --verbose --target="$HOME" \
-  colors fonts gtk mango kitty waybar swaync gtklock fuzzel tofi wlogout bin
+  colors fonts gtk mango kitty waybar swaync gtklock fuzzel tofi bin
 ```
 
 The simulation reports proposed links and conflicts. Move existing conflicting
@@ -164,7 +156,7 @@ When the simulation is clean:
 
 ```sh
 stow --verbose --target="$HOME" \
-  colors fonts gtk mango kitty waybar swaync gtklock fuzzel tofi wlogout bin
+  colors fonts gtk mango kitty waybar swaync gtklock fuzzel tofi bin
 fc-cache -f
 gsettings set org.gnome.desktop.interface icon-theme 'Muthur'
 ```
@@ -177,12 +169,11 @@ assume the standard `~/.config` and `~/.local/share` paths.
 Optional configs can be linked later:
 
 ```sh
-stow --target="$HOME" fastfetch eww
+stow --target="$HOME" fastfetch eww starship
 ```
 
-The helper scripts live in `~/.local/share/bin`, not `~/.local/bin`. Existing
-bindings call them by full path, so changing `PATH` is optional. To invoke them
-by name, add this to your Bash startup configuration:
+The helper scripts live in `~/.local/share/bin`. To invoke them by name, add
+this to your Bash startup configuration:
 
 ```sh
 export PATH="$HOME/.local/share/bin:$PATH"
@@ -228,8 +219,7 @@ if screen sharing or file dialogs do not work.
 
 ## Before the first login
 
-Make these local adjustments in your checkout. The repository currently contains
-some unfinished edits, so correct them before relying on the menus or locking:
+Review these local settings in your checkout before the first login:
 
 1. **Keyboard and display.** In
    [`cfg/input.conf`](mango/.config/mango/cfg/input.conf), `xkb_rules_layout = fi`
@@ -237,45 +227,17 @@ some unfinished edits, so correct them before relying on the menus or locking:
    [`cfg/monitors.conf`](mango/.config/mango/cfg/monitors.conf) has only a commented
    example. Install `wlr-randr` and run it inside a Wayland session to inspect
    outputs if you need explicit monitor rules.
-2. **Autostart typo.** Remove the stray `99;6u99;6u99;6u` at the start of
-   `cfg/autostart.conf`, leaving its first line as a comment.
-3. **Menu script syntax.** Remove the final line containing three backticks from
-   [`bluetoothmenu.sh`](bin/.local/share/bin/bluetoothmenu.sh) and
-   [`powermenu.sh`](bin/.local/share/bin/powermenu.sh). Both currently fail
-   `bash -n` because of that leftover Markdown fence. Check them afterward:
 
-   ```sh
-   bash -n bin/.local/share/bin/bluetoothmenu.sh
-   bash -n bin/.local/share/bin/powermenu.sh
-   ```
+2. **Eww startup.** [`autostart.conf`](mango/.config/mango/cfg/autostart.conf)
+   starts `eww daemon` with `exec-once` and opens `sysmon` with `exec`.
+   Install Eww and stow both `eww` and `colors`, or comment out both startup
+   entries if you do not use the widget.
 
-4. **Tofi font.** Its `font` setting points under `/usr/share/fonts/TTF`, while
-   Stow installs the bundled fonts under your home directory. In
-   [`tofi/config`](tofi/.config/tofi/config), replace that line with
-   `font = Terminus (TTF)`. Alternatively, use the absolute path to your installed
-   `~/.local/share/fonts/terminus-ttf-4.49.3/TerminusTTF-Bold-4.49.3.ttf`, spelling
-   out your home directory.
-5. **Conflicting and malformed bindings.** In
-   [`cfg/keybinds.conf`](mango/.config/mango/cfg/keybinds.conf), `Super+X` is assigned
-   to both Geany and cycling layout proportions. Keep your preferred action and
-   rebind the other. Also review the `Super+Shift+X`/`Super+Shift+x` gap and
-   proportion bindings. Replace the malformed `Super+L` binding with:
-
-   ```ini
-   bind = SUPER, l, spawn, /bin/sh -c '$HOME/.config/gtklock/lock.sh'
-   ```
-
-   The intended emergency Ghostty binding has a misplaced modifier separator;
-   if you want it, install Ghostty and use
-   `bind = CTRL+ALT, Return, spawn, ghostty`.
-6. **Use the same locker everywhere.** Try `~/.config/gtklock/lock.sh`, which
-   explicitly selects the theme and layout. The Fuzzel power script currently
-   calls bare `gtklock`; change that call in `lock_screen()` to
-   `"$HOME/.config/gtklock/lock.sh"` for the same appearance. Wlogout's lock action
-   uses `loginctl lock-session`, but the supplied swayidle command has no `lock`
-   event handler. Set that action to `"$HOME/.config/gtklock/lock.sh"` in the
-   wlogout layout, or add a swayidle `lock` handler yourself. Test locking and
-   password unlock before leaving automatic suspend enabled.
+3. **GTK preferences.** Both GTK settings files currently select `breeze-dark`
+   icons, `breeze_cursors`, and Noto Sans. If you want the bundled icons, set
+   `gtk-icon-theme-name=Muthur` in both files as well as the GSettings command
+   above. Choose installed fonts and cursors to match your system; Mango's
+   cursor setting separately uses `capitaine-cursors`.
 
 Create `~/Pictures/Screenshots` even if your normal Pictures directory has a
 localized name: both screenshot bindings use that exact path. Change Waybar's
@@ -287,23 +249,25 @@ display manager if the package installed a session entry. The launch command is
 in [Mango's quick start](https://mangowm.github.io/docs/quick-start/). This repo
 supplies its own config; do not copy the upstream example over it.
 
-Once corrected, startup launches clipboard persistence, swayidle, Waybar, and
-SwayNC. It does not launch Eww, Nextcloud, or the personal applications listed in
-the old installer.
+Startup launches clipboard persistence, swayidle, Waybar, and SwayNC, and includes
+the Eww entries noted above. It does not launch Nextcloud or the personal
+applications listed in the old installer.
 
 ## Daily use
 
 `Super` means the Windows/logo key. The source of truth is
 [`cfg/keybinds.conf`](mango/.config/mango/cfg/keybinds.conf), not Mango's upstream
 defaults. `Alt+H` opens a reference window; its
-[`keybinds.txt`](waybar/.config/waybar/keybinds.txt) is maintained manually.
+[`cheatsheet.txt`](waybar/.config/waybar/cheatsheet.txt) is maintained manually.
+The older `keybinds.txt` is not loaded by the reference window.
 
 | Keys | Action |
 | --- | --- |
-| `Super+Return` / `Alt+Return` | Kitty / optional Alacritty |
+| `Super+T` | Kitty |
 | `Super+Space` or `Alt+T` | Tofi application launcher |
 | `Alt+F` | Fuzzel application launcher |
-| `Super+E` / `Super+B` | Thunar / Firefox |
+| `Super+E` / `Super+B` | File Manager / Firefox |
+| `Super+X` | Geany |
 | `Super+Q` or `Alt+Q` | Close the focused window |
 | `Alt+Tab` / `Super+arrows` | Next window / directional focus |
 | `Super+Shift+arrows` | Exchange windows in that direction |
@@ -312,14 +276,19 @@ defaults. `Alt+H` opens a reference window; its
 | `Super+Tab` | Toggle overview |
 | `Super+F` / `Super+Shift+F` | Floating / fullscreen |
 | `Super+Alt+F` | Fake fullscreen |
-| `Super+G` / `Super+O` / `Super+Z` | Toggle global / overlay / scratchpad |
+| `Super+G` / `Super+Z` | Toggle global / scratchpad |
 | `Super+Shift+N` | Cycle layout |
+| `Super+Shift+T` / `Super+Shift+S` / `Super+Shift+C` | Tile / scroller / center tile layout |
+| `Super+Shift+X` / `Super+Shift+Z` | 100% scroller width / cycle scroller proportion |
+| `Super+Alt+X` / `Super+Alt+Z` / `Super+Alt+R` | Increase / decrease / toggle gaps |
 | `Super+left drag` / `Super+right drag` | Move / resize a window |
 | `Ctrl+Shift+arrows` / `Ctrl+Alt+arrows` | Move / resize in 50-pixel steps |
 | `Print` / `Ctrl+Print` | Save full-screen / selected-region PNG |
 | `Super+N` | Notification control center |
-| `Alt+L` | Themed lockscreen |
-| `Alt+O` | Wlogout power menu |
+| `Alt+L` or `Super+L` | Themed lockscreen |
+| `Super+O` | Fuzzel power menu |
+| `Ctrl+Alt+Return` | Emergency terminal (Ghostty) |
+| `Alt+H` | Keyboard reference |
 | `Super+R` or `Alt+R` | Reload Mango's configuration |
 
 Media keys change volume in 5% steps; mute toggles output mute, and `Shift+mute`
@@ -339,22 +308,23 @@ application-to-workspace assignments.
 | `MUTHUR` | Left-click for Fuzzel; right-click for the keyboard reference |
 | Workspace label | Activate that workspace |
 | Clock | Hover for the calendar |
-| Bluetooth | Enable/disable, connect known devices, disconnect, or pair new devices |
+| `NFO` | Expand/collapse CPU, RAM, and temperature readings |
+| `SYS` | Expand/collapse Bluetooth and the system tray |
+| Bluetooth (inside `SYS`) | Open Blueman Manager |
 | Volume | Scroll to adjust, click to mute, double-click for Pavucontrol |
 | Network | Open `nmtui` in a floating Kitty window |
 | `IDLE` / `ACTV` | Toggle the idle inhibitor |
-| `NTF` | Open notifications |
-| `SYS` | Open the Fuzzel power menu |
+| Notification status (`000`, `!!!`, `---`, `-!-`) | Click to open notifications; right-click to toggle Do Not Disturb |
+| `PWR` | Open the Fuzzel power menu; right-click to lock |
 
-After the script syntax correction, the Fuzzel menu offers lock, logout, user
+The Fuzzel menu offers lock, logout, user
 switching, suspend, reboot, and power off. Hibernate appears when logind reports
 it available. Logout, reboot, and power off have confirmation menus. User
 switching depends on having a compatible display manager.
 
-Wlogout is a separate menu. Its logout action uses
-`loginctl terminate-user $USER`, which ends **all sessions for that user**. Its
-hibernate button is always present, but hibernation still needs working system
-configuration; these dotfiles do not configure swap or resume.
+Logout uses `loginctl terminate-session` for the current session. Hibernation
+still needs working system configuration; these dotfiles do not configure swap
+or resume. No Wlogout config is included.
 
 ### Idle and locking
 
@@ -375,6 +345,8 @@ there even when networking works.
 Run `fastfetch` manually for the system summary. Its `PublicIp` module makes an
 external lookup; remove that module if you do not want it.
 
+Eww's [`eww.css`](eww/.config/eww/eww.css) imports the shared palette through
+`../colors/colors.css`; stow `colors` alongside `eww` so that path resolves.
 With a Wayland-capable Eww installed and its config stowed:
 
 ```sh
@@ -385,6 +357,10 @@ eww open sysmon
 Use `eww close sysmon` to hide it. The widget targets monitor `0`; change the
 geometry in `eww.yuck` for your display. Its Proton indicator searches
 NetworkManager output for a Proton connection; adapt it if you use another VPN.
+
+The optional Starship config supplies the prompt's colors and segments. Stowing
+it does not initialize Starship in your shell; keep that setup in your own shell
+configuration.
 
 ## Customize the desktop
 
@@ -403,6 +379,7 @@ files first and `themes/muthur.conf` last.
 | Compositor colors | [`muthur.conf`](mango/.config/mango/themes/muthur.conf) |
 | Bar modules, click actions, timezone | [`config.jsonc`](waybar/.config/waybar/config.jsonc) |
 | Terminal font, padding, colors | [`kitty.conf`](kitty/.config/kitty/kitty.conf) |
+| Shell prompt colors and segments | [`starship.toml`](starship/.config/starship.toml) |
 | Lock status text and positioning | [`nostrolock.sh`](gtklock/.config/gtklock/nostrolock.sh), [`config.ini`](gtklock/.config/gtklock/config.ini), [`layout.xml`](gtklock/.config/gtklock/layout.xml) |
 
 ### Shared styling
@@ -413,22 +390,21 @@ files first and `themes/muthur.conf` last.
 | [`shell.css`](colors/.config/colors/shell.css) | Shell fonts, square corners, borders, panel backgrounds, and Waybar spacing |
 | [`gtk.css`](colors/.config/colors/gtk.css) | GTK 3/4 desktop widget styling |
 
-Waybar and its cheatsheet, SwayNC, wlogout, gtklock, and Eww import `shell.css`,
+Waybar and its cheatsheet, SwayNC, and gtklock import `shell.css`,
 which imports `colors.css`. Desktop GTK styling imports the palette directly so
 ordinary apps do not inherit the shell's 22px bold text. The GTK 4 entry point
 adds focus handling and libadwaita color variables.
 
-Application stylesheets retain layouts and exceptions: smaller lockscreen and
-cheatsheet text, compact Eww typography and its rounded disk widget, and thinner
-borders inside SwayNC. Check these overrides when changing global fonts or
-borders. Eww deliberately uses `@import url("../colors/shell.css")` so GTK loads
-the shared CSS instead of Sass parsing it.
+Application stylesheets retain layouts and exceptions: smaller lockscreen status
+and cheatsheet text, Eww's own widget frames, and thinner borders inside SwayNC.
+Check these overrides when changing global fonts or
+borders. Eww has its own typography and imports the shared palette directly.
 
 These are [GTK stylesheets](https://docs.gtk.org/gtk3/css-overview.html), using
 `@define-color`; shared font and border values use grouped selectors for GTK 3
 compatibility. No CSS generation step is required.
 
-Mango, Kitty, Fuzzel, and tofi retain colors in their own config formats.
+Mango, Kitty, Fuzzel, tofi, and Starship retain colors in their own config formats.
 `colors.conf` and the Geany/KDE/Kate schemes are also separate files; changing
 `colors.css` does not regenerate them. The lock status script has explicit
 Pango foreground colors of its own.
@@ -437,7 +413,9 @@ Pango foreground colors of its own.
 
 The desktop theme uses pale sand body text, amber active controls, square frames,
 and visible keyboard focus. GTK settings select Adwaita with a dark preference,
-Terminus, and Muthur icons. These are **user stylesheet overrides**, not an
+Noto Sans, and Breeze icons/cursors; the shared CSS supplies Terminus typography.
+Both GTK entry stylesheets also import local Breeze `colors.css` files.
+These are **user stylesheet overrides**, not an
 installed widget theme named Muthur. The GTK 4 adapter needs GTK 4.16 or newer for
 [CSS variables](https://docs.gtk.org/gtk4/css-properties.html), including
 [libadwaita's color roles](https://gnome.pages.gitlab.gnome.org/libadwaita/doc/main/css-variables.html).
@@ -469,7 +447,7 @@ swaync-client --reload-css
 ```
 
 Restart GTK applications after styling changes. Thunar may retain a background
-process; run `thunar --quit`, then reopen it. Gtklock and wlogout load styles on
+process; run `thunar --quit`, then reopen it. Gtklock loads styles on
 the next launch. Reload or restart Eww after editing its styles. An application
 may not notice changes to an imported stylesheet automatically.
 
@@ -497,15 +475,16 @@ python3 scripts/preview-gtk-theme.py 4 --installed
 
 Installed mode does not inject CSS or change settings; it prints the config path,
 base theme, dark preference, and any `GTK_THEME` override. Previews need a graphical
-session. The parser and contrast check runs headlessly:
+session. The parser and contrast checker runs headlessly:
 
 ```sh
 python3 scripts/check-gtk-theme.py
 ```
 
-It checks both GTK parsers, shared stylesheet imports, and desktop text contrast.
-The supplied palette has 29 checked foreground/background pairs at or above
-4.5:1. This is a palette check, not a guarantee about every app's rendered UI.
+The checker validates the GTK 3/4 stylesheets and shared imports, including
+Eww's `eww.css`. All 29 desktop foreground/background pairs pass its 4.5:1
+contrast threshold. This is a palette check, not a guarantee about every app's
+rendered UI.
 
 ## Troubleshooting
 
@@ -514,10 +493,11 @@ The supplied palette has 29 checked foreground/background pairs at or above
 | Stow reports a conflict | Move the conflicting file to your backup, then repeat the simulation. Do not force adoption. |
 | Shell CSS fails to load | Stow `colors` and confirm `~/.config/colors` is alongside the app's config directory. |
 | Bar workspace module is missing | Use a Waybar build supporting `mango/workspaces`; inspect `/tmp/waybar.log`. |
-| Bluetooth or SYS menu reports a shell error | Remove the trailing Markdown fence from the script and run `bash -n`. |
-| Tofi cannot load its font | Correct the system font path as described before first login; run `fc-match 'Terminus (TTF)'`. |
+| Bluetooth manager does not open | Install `blueman`; the bar launches `blueman-manager`, not `bluetoothmenu.sh`. |
+| Notification status is missing or shows errors | Install `jq` and confirm SwayNC is running. |
+| Tofi cannot load its font | Check the `font` path in `tofi/.config/tofi/config`, or use `font = Terminus (TTF)`; run `fc-match 'Terminus (TTF)'`. |
 | Lock status module fails to load | Check its path and compatibility with your gtklock version. |
-| Wlogout's lock button does nothing | Use the explicit themed lock script, or configure a swayidle `lock` event handler. |
+| Eww does not appear | Install Eww, stow `eww` and `colors`, and inspect `eww logs` for errors. |
 | Screenshot is not saved | Check `grim`, `slurp`, and `~/Pictures/Screenshots`; run the command in a terminal for errors. The full-screen binding notifies without waiting for capture to finish. |
 | Authorization prompts never appear | Start a polkit authentication agent in the graphical session. |
 | GTK icons or colors look unchanged | Restart the app, check GTK settings and `GTK_THEME`, and use installed preview mode. |
@@ -537,9 +517,9 @@ make the entire interface follow GTK CSS. See
 [Firefox's GTK color handling](https://searchfox.org/firefox-main/source/widget/gtk/nsLookAndFeel.cpp).
 
 Some files are retained experiments rather than active parts of the desktop:
-`fuzzel-power.sh`, `newmenu.sh`, `fuzzel-powermenu.ini` (which contains a shell
-script), `*-bak`, `*-not`, and editor swap files. The `bin/nostrolock.sh` file is
-empty; the real status collector is inside `gtklock`. The `logseq` helper embeds
+`fuzzel-powermenu.ini` (which contains a shell script), `*-bak`, `*-not`, and
+editor swap files. The standalone `bluetoothmenu.sh` helper is not called by the
+bar. The lock status collector is inside `gtklock`. The `logseq` helper embeds
 a local AppImage path and temporary mount path and needs replacing for another
 machine. Do not treat every helper as a portable application launcher.
 
@@ -558,7 +538,7 @@ packages you use so new files are linked, then reload the affected apps:
 cd ~/dotfiles
 git diff
 stow --restow --target="$HOME" \
-  colors fonts gtk mango kitty waybar swaync gtklock fuzzel tofi wlogout bin
+  colors fonts gtk mango kitty waybar swaync gtklock fuzzel tofi bin
 ```
 
 Stow can link entire directories. Files created by apps inside them can appear
