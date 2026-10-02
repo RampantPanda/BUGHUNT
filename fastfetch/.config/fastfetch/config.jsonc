@@ -4,6 +4,7 @@
 	  "type": "file",
 	  "source": "~/.config/fastfetch/w.ansi",
 	},
+
     "display": {
         "separator": " > ",
         "color": {
@@ -17,8 +18,24 @@
         },
         "key": {
             "type": "string"
+        },
+        "percent": {
+        "type": 2
+        },
+         "bar": {
+        "width": 12,
+        "char": {
+            "elapsed": "X",
+            "total": "o"
+            },
+         "color": {
+            "elapsed": "#756000",
+            "total": "#3b3000"
+        }
         }
     },
+
+
     "modules": [
 		"break",
         {
@@ -29,36 +46,52 @@
                 "host": "yellow"
             }
         },
+        {"type": "separator"
+            },
         {
         	"type": "WM",
+        	"key": "WM      ",
         	"format": "{pretty-name}"
         },
         {
         	"type": "os",
+        	"key": "OS      ",
         	"format": "{pretty-name}"
         },
-
-        "break",
+        {   "type":"shell",
+            "key": "SHELL   ",
+            "format": "{exe-path}"
+        },
                 {
         	"type": "Chassis",
+        	"key": "CHASSIS ",
         	"format": "{vendor}"
         },
-
-        "break",
-        "uptime",
+        {"type": "separator"
+            },
+        {"type": "uptime",
+        "key": "ONLINE  "
+        },
         {
         "type" : "disk",
-        "format" : "{size-available} free"
+        "key": "DISK    ",
+        "format" : "{size-percentage-bar}"
         },
-        "break",
-		"break",
-		"break",
+        {"type" : "battery",
+        "key": "BATTERY ",
+        "format" : "{capacity-bar}"
+        },
+        {"type": "separator"
+            },
+
         {
         "type":"Wifi",
-        "format":"{ssid}-{security}"
+        "key": "WIFI     ",
+        "format":"{ssid} \n {security>56}"
         },
         {"type":"PublicIp",
-        "format":"{ip}|{location}"
+        "key": "PUBLIC IP",
+        "format":"{ip}\n{location>65}"
         }
         ]
 }
