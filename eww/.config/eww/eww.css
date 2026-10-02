@@ -1,5 +1,5 @@
-/* Keep this as a CSS import: shell.css imports GTK's @define-color palette. */
-@import url("../../../colors/.config/colors/colors.css");
+/* Load the shared GTK palette relative to the installed config directory. */
+@import url("../colors/colors.css");
 
 * {
 	all: unset;
