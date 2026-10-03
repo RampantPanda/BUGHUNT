@@ -188,35 +188,29 @@ color: @surface;
     background-color: @surface;
 }
 
-#custom-traytoggle, #custom-systoggle {
+#sysdrawer,
+#nfodrawer {
+    color: @primary;
+    background-color: @surface;
+    border: 3px solid @superior;
+}
+
+/* normal toggle */
+#custom-nfotoggle,
+#custom-systoggle {
     padding: 0 4px;
     color: @primary;
-    border: 3px solid @superior;
     background-color: @surface;
+    border: none;
 }
 
-#tray {
-    background-color: @primary;
-    padding: 0 6px;
-}
-
-#traydrawer.expanded #custom-traytoggle {
+/* expanded toggle */
+#nfodrawer.expanded #custom-nfotoggle,
+#sysdrawer.expanded #custom-systoggle {
     color: @surface;
     background-color: @primary;
+    border: none;
 }
-
-#systemdrawer{
-	color: @primary;
-	background-color: @surface;
-	border: 3px solid @superior;
-	padding: 3px;
-}
-
-#systemdrawer.expanded #custom-systemtoggle {
-    color: @surface;
-    background-color: @primary;
-}
-
 #power-profiles-daemon {
     padding-right: 15px;
 }
@@ -240,7 +234,7 @@ label:focus {
     background-color: @black;
 }
 
-#cpu,#memory,#temperature {
+#cpu, #memory, #temperature {
     background-color: @surface;
     color: @primary;
     border: 0px;

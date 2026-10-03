@@ -203,17 +203,7 @@ lock_screen() {
 
 logout_session() {
 
-    if [[ -n "${XDG_SESSION_ID:-}" ]]; then
-
-        loginctl terminate-session "$XDG_SESSION_ID"
-
-    else
-
-        # loginctl accepts an empty session argument to mean the calling
-        # session. This fallback is useful if XDG_SESSION_ID is unavailable.
-        loginctl terminate-session ""
-
-    fi
+mmsg dispatch quit
 }
 
 
