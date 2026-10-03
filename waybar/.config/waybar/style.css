@@ -305,9 +305,8 @@ color: @surface;
 
 #custom-muthur {
     background-color: @surface;
-    color: @green;
-
-    margin-right: 64px;
+    padding: 4px;
+    color: @primary;
 }
 
 #temperature.critical {
