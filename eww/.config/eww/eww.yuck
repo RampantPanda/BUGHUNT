@@ -54,7 +54,6 @@
   (box
     :class "proton-widget"
     :orientation "horizontal"
-    :visible {proton_status != ""}
     (label :text proton_status)))
 
 (defwidget ram-widget []
