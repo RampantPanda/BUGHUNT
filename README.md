@@ -74,7 +74,7 @@ sudo pacman -Syu --needed \
   thunar firefox geany yad \
   capitaine-cursors adwaita-icon-theme gsettings-desktop-schemas \
   xdg-desktop-portal xdg-desktop-portal-gtk xdg-desktop-portal-wlr \
-  xorg-xwayland polkit-gnome
+  xorg-xwayland polkit-gnome plasma-integration
 ```
 
 `wireplumber` supplies `wpctl`; `libnotify` supplies `notify-send`;

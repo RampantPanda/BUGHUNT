@@ -61,6 +61,7 @@ packages=(
 	waybar-git
 	ark
 	thunar-archive-plugin
+	plasma-integration
 )
 
 # Add/sign Chaotic-AUR key if necessary
