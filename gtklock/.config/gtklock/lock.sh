@@ -4,5 +4,5 @@ CFG="${XDG_CONFIG_HOME:-$HOME/.config}/gtklock"
 
 exec gtklock -d \
   --config "$CFG/config.ini" \
-  --style "$CFG/nostrolock.css" \
+  --style "$CFG/buglock.css" \
   --layout "$CFG/layout.xml"

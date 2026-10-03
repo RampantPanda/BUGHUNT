@@ -1,4 +1,4 @@
-# MUTHUR KDE color scheme
+# BUGHUNT KDE color scheme
 # See comment about contrast near contrast=0
 # Do not go insane like i did
 # save yourself
@@ -136,8 +136,8 @@ ForegroundPositive=157,187,114
 ForegroundVisited=184,139,160
 
 [General]
-ColorScheme=Muthur
-Name=MUTHUR
+ColorScheme=Bughunt
+Name=BUGHUNT
 shadeSortColumn=true
 
 # Keep Qt derived shade roles dark with contrast=0.

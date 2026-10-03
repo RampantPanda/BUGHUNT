@@ -4,7 +4,7 @@ Rampant-Mango: suggested usability improvements
 Purpose
 
 Make this desktop straightforward to install, understand, customize, and update
-from a basic Arch installation. Keep the MUTHUR appearance, keyboard-driven
+from a basic Arch installation. Keep the BUGHUNT appearance, keyboard-driven
 workflow, readable config files, and ability to install individual Stow packages.
 
 These are proposals based on the repository and its README, not changes already

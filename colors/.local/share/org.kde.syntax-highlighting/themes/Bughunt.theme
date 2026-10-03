@@ -1,10 +1,10 @@
 {
     "_comments": [
-        "MUTHUR color theme generated from the user's MUTHUR master palette.",
+        "BUGHUNT color theme generated from the user's BUGHUNT master palette.",
         "Low-saturation amber/brown UI with restrained syntax colors."
     ],
     "metadata": {
-        "name": "MUTHUR",
+        "name": "BUGHUNT",
         "revision": 1,
         "license": "SPDX-License-Identifier: MIT"
     },

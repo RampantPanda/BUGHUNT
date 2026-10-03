@@ -46,7 +46,7 @@ window#waybar,
 #idle_inhibitor,
 #custom-notifications,
 #custom-power,
-#custom-muthur,
+#custom-bughunt,
 .notification-background,
 .control-center,
 .system-widget,
@@ -74,7 +74,7 @@ window#waybar,
 #clock,
 #idle_inhibitor,
 #custom-power,
-#custom-muthur {
+#custom-bughunt {
     padding: 3px;
     color: @primary;
     background-color: @surface;

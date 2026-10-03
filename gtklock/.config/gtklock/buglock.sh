@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # ------------------------------------------------------------
-# Nostromo gtklock status collector
+# Bughunt gtklock status collector
 # ------------------------------------------------------------
 
 escape_markup() {

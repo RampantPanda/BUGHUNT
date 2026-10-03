@@ -1,0 +1,3 @@
+/.stow-backups/
+/geany/.config/geany/geany_socket_*
+/geany/.config/geany/session.conf

@@ -45,7 +45,7 @@
 @define-color cheatsheet_accent #f2ae00;
 @define-color eww_surface #1c170b;
 
-/* MUTHUR desktop roles. Existing colors lead; Kitty supplies readable accents.
+/* BUGHUNT desktop roles. Existing colors lead; Kitty supplies readable accents.
  * The muted primary/green/alert colors are surfaces, not body-text colors.
  */
 @define-color gtk_bg @surface;

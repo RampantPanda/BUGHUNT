@@ -303,10 +303,11 @@ color: @surface;
     background-color: @vlc;
 }
 
-#custom-muthur {
-    background-color: @surface;
+#custom-hostname {
+    background-color: @primary;
     padding: 4px;
-    color: @primary;
+    color: @surface;
+    border: 3px solid @superior;
 }
 
 #temperature.critical {

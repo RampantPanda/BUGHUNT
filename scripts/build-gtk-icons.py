@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Generate the small Muthur icon overlay from colors.css. No third-party assets."""
+"""Generate the small Bughunt icon overlay from colors.css. No third-party assets."""
 from pathlib import Path
 import re
 
 ROOT = Path(__file__).resolve().parents[1]
-THEME = ROOT / 'gtk/.local/share/icons/Muthur'
+THEME = ROOT / 'gtk/.local/share/icons/Bughunt'
 palette = dict(re.findall(r'@define-color\s+(\w+)\s+([^;]+);',
                           (ROOT / 'colors/.config/colors/colors.css').read_text()))
 
@@ -92,7 +92,7 @@ for name, target in aliases.items():
     path.symlink_to(f'{target}.svg')
 
 contexts = {'places': 'Places', 'devices': 'Devices', 'mimetypes': 'MimeTypes'}
-index = ('[Icon Theme]\nName=Muthur\nComment=Angular amber navigation icons\n'
+index = ('[Icon Theme]\nName=Bughunt\nComment=Angular amber navigation icons\n'
          'Inherits=Adwaita,hicolor\nExample=folder\n'
          'Directories=' + ','.join('scalable/' + c for c in contexts) + '\n')
 for directory, context in contexts.items():

@@ -12,9 +12,9 @@ $time\
 [](fg:color_secondary bg:color_surface)\
 $line_break$character"""
 
-palette = 'muthur_dark'
+palette = 'bughunt_dark'
 
-[palettes.muthur_dark]
+[palettes.bughunt_dark]
 color_primary = '#756000'
 color_surface = '#1d170b'
 color_secondary = '#3b3000'

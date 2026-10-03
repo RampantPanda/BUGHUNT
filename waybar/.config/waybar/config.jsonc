@@ -10,7 +10,7 @@
         "mango/workspaces"
     ],
     "modules-center": [
-        "custom/muthur",
+        "custom/hostname",
     ],
     "modules-right": [
         "group/nfodrawer",
@@ -221,11 +221,13 @@
 		"on-click": "$HOME/.config/waybar/powermenu.sh",
 		"on-click-right": "$HOME/.config/gtklock/lock.sh"
     },
-    "custom/muthur": {
-        "format": "MUTHUR",
+    "custom/hostname": {
+        "format": "{text}",
         "on-click": "/usr/bin/fuzzel --anchor=top",
         "on-click-right": "~/.config/waybar/cheatsheet.sh --title=MANGOKEYBINDREFERENCE",
-        "tooltip-format": "LEFT click for 'menu' \nRIGHT click for 'command reference'"
+        "tooltip-format": "LEFT click for 'menu' \nRIGHT click for 'command reference'",
+        "exec": "hostname",
+        "interval": "once"
 },
 "group/sysdrawer": {
     "orientation": "horizontal",

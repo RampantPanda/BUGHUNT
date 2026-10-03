@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Open a MUTHUR widget gallery without installing or changing GTK settings."""
+"""Open a BUGHUNT widget gallery without installing or changing GTK settings."""
 import argparse
 import os
 from pathlib import Path
@@ -60,13 +60,13 @@ def activate(app, stylesheet):
         print(f'GTK_THEME: {os.environ.get("GTK_THEME", "(unset)")}', flush=True)
 
     source = 'INSTALLED' if stylesheet is None else 'REPOSITORY'
-    window = Gtk.ApplicationWindow(application=app, title=f'MUTHUR / GTK {args.version} / {source}')
+    window = Gtk.ApplicationWindow(application=app, title=f'BUGHUNT / GTK {args.version} / {source}')
     window.set_default_size(760, 640)
     header = Gtk.HeaderBar()
     if GTK4:
-        header.set_title_widget(label(f'MUTHUR / {source}', 'heading'))
+        header.set_title_widget(label(f'BUGHUNT / {source}', 'heading'))
     else:
-        header.set_title(f'MUTHUR / {source}')
+        header.set_title(f'BUGHUNT / {source}')
         header.set_show_close_button(True)
     window.set_titlebar(header)
     body = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=14)
@@ -126,7 +126,7 @@ def activate(app, stylesheet):
 
 
 def run(stylesheet):
-    app = Gtk.Application(application_id='local.muthur.ThemePreview', flags=Gio.ApplicationFlags.NON_UNIQUE)
+    app = Gtk.Application(application_id='local.bughunt.ThemePreview', flags=Gio.ApplicationFlags.NON_UNIQUE)
     app.connect('activate', activate, stylesheet)
     return app.run([sys.argv[0]])
 
@@ -134,7 +134,7 @@ def run(stylesheet):
 if args.installed:
     sys.exit(run(None))
 else:
-    with tempfile.TemporaryDirectory(prefix='muthur-preview-') as directory:
+    with tempfile.TemporaryDirectory(prefix='bughunt-preview-') as directory:
         config = Path(directory)
         shutil.copytree(ROOT / 'colors/.config/colors', config / 'colors')
         shutil.copytree(ROOT / 'gtk/.config', config, dirs_exist_ok=True)

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Nostrolock layout
+  Buglock layout
 
   Main tuning knobs:
     - Move auth block vertically: body-revealer -> margin-top

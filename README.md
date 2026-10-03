@@ -40,16 +40,17 @@ Keep the checkout wherever you install it; the examples use `~/dotfiles`.
 | `swaync` | Notification daemon and control center |
 | `gtklock` | Themed lockscreen with a live system-status readout |
 | `bin` | Helpers installed under `~/.local/share/bin` |
-| `colors` | Shared CSS, plus Geany, Kate syntax, and KDE color schemes |
-| `gtk` | GTK 3/4 user styles and settings, and the Muthur icon theme |
+| `colors` | Shared CSS, Kate syntax, and KDE color schemes |
+| `geany` | Editor settings and the Bughunt color scheme |
+| `cursors` | Capitaine Gruvbox cursor theme |
+| `gtk` | GTK 3/4 user styles and settings, and the Bughunt icon theme |
 | `fonts` | Bundled Terminus TTF fonts |
 | `fastfetch` | Optional system summary with custom ANSI artwork |
 | `eww` | Host, disk, RAM, and Proton connection widget; enabled in Mango startup |
-| `starship` | Optional Muthur-colored shell prompt; shell initialization is not included |
+| `starship` | Optional Bughunt-colored shell prompt; shell initialization is not included |
 
-`geany/geany` also contains editor settings, but its current directory layout
-does not target `~/.config/geany` when stowed normally. The Geany color scheme
-and some support files are included in `colors`.
+`geany` targets `~/.config/geany`. Its session state and runtime socket are
+ignored by Git. `mango-vm` is an alternative to `mango`; do not stow both.
 
 `scripts` contains maintenance tools and the old installer; it is not a Stow
 package. There is no shell startup configuration, display manager setup, wallpaper
@@ -134,7 +135,7 @@ cd ~/dotfiles
 mkdir -p ~/.config ~/.local/share ~/Pictures/Screenshots
 
 stow --simulate --verbose --target="$HOME" \
-  colors fonts gtk mango kitty waybar swaync gtklock fuzzel tofi bin
+  colors fonts cursors geany gtk mango kitty waybar swaync gtklock fuzzel tofi bin
 ```
 
 The simulation reports proposed links and conflicts. Move existing conflicting
@@ -156,9 +157,9 @@ When the simulation is clean:
 
 ```sh
 stow --verbose --target="$HOME" \
-  colors fonts gtk mango kitty waybar swaync gtklock fuzzel tofi bin
+  colors fonts cursors geany gtk mango kitty waybar swaync gtklock fuzzel tofi bin
 fc-cache -f
-gsettings set org.gnome.desktop.interface icon-theme 'Muthur'
+gsettings set org.gnome.desktop.interface icon-theme 'Bughunt'
 ```
 
 Choose packages explicitly; do not use `stow *`. Always install `colors` alongside
@@ -235,7 +236,7 @@ Review these local settings in your checkout before the first login:
 
 3. **GTK preferences.** Both GTK settings files currently select `breeze-dark`
    icons, `breeze_cursors`, and Noto Sans. If you want the bundled icons, set
-   `gtk-icon-theme-name=Muthur` in both files as well as the GSettings command
+   `gtk-icon-theme-name=Bughunt` in both files as well as the GSettings command
    above. Choose installed fonts and cursors to match your system; Mango's
    cursor setting separately uses `capitaine-cursors`.
 
@@ -305,7 +306,7 @@ application-to-workspace assignments.
 
 | Bar control | Action |
 | --- | --- |
-| `MUTHUR` | Left-click for Fuzzel; right-click for the keyboard reference |
+| `BUGHUNT` | Left-click for Fuzzel; right-click for the keyboard reference |
 | Workspace label | Activate that workspace |
 | Clock | Hover for the calendar |
 | `NFO` | Expand/collapse CPU, RAM, and temperature readings |
@@ -366,7 +367,7 @@ configuration.
 ## Customize the desktop
 
 Edit the files in this checkout. Mango's top-level config sources the `cfg`
-files first and `themes/muthur.conf` last.
+files first and `themes/bughunt.conf` last.
 
 | Change | File |
 | --- | --- |
@@ -377,11 +378,11 @@ files first and `themes/muthur.conf` last.
 | Layouts and master proportions | [`layout.conf`](mango/.config/mango/cfg/layout.conf) |
 | Floating windows and placement | [`rules.conf`](mango/.config/mango/cfg/rules.conf) |
 | Gaps, borders, cursor, blur, animations | [`appearance.conf`](mango/.config/mango/cfg/appearance.conf) |
-| Compositor colors | [`muthur.conf`](mango/.config/mango/themes/muthur.conf) |
+| Compositor colors | [`bughunt.conf`](mango/.config/mango/themes/bughunt.conf) |
 | Bar modules, click actions, timezone | [`config.jsonc`](waybar/.config/waybar/config.jsonc) |
 | Terminal font, padding, colors | [`kitty.conf`](kitty/.config/kitty/kitty.conf) |
 | Shell prompt colors and segments | [`starship.toml`](starship/.config/starship.toml) |
-| Lock status text and positioning | [`nostrolock.sh`](gtklock/.config/gtklock/nostrolock.sh), [`config.ini`](gtklock/.config/gtklock/config.ini), [`layout.xml`](gtklock/.config/gtklock/layout.xml) |
+| Lock status text and positioning | [`buglock.sh`](gtklock/.config/gtklock/buglock.sh), [`config.ini`](gtklock/.config/gtklock/config.ini), [`layout.xml`](gtklock/.config/gtklock/layout.xml) |
 
 ### Shared styling
 
@@ -417,12 +418,12 @@ and visible keyboard focus. GTK settings select Adwaita with a dark preference,
 Noto Sans, and Breeze icons/cursors; the shared CSS supplies Terminus typography.
 Both GTK entry stylesheets also import local Breeze `colors.css` files.
 These are **user stylesheet overrides**, not an
-installed widget theme named Muthur. The GTK 4 adapter needs GTK 4.16 or newer for
+installed widget theme named Bughunt. The GTK 4 adapter needs GTK 4.16 or newer for
 [CSS variables](https://docs.gtk.org/gtk4/css-properties.html), including
 [libadwaita's color roles](https://gnome.pages.gitlab.gnome.org/libadwaita/doc/main/css-variables.html).
 Application-specific styles and sandboxing can affect the result.
 
-The small Muthur icon theme supplies amber folders, navigation, drives, and generic
+The small Bughunt icon theme supplies amber folders, navigation, drives, and generic
 documents. Other icons inherit from Adwaita/hicolor. Generated SVGs are checked
 in, so installation needs no build. After changing the shared palette:
 
@@ -430,9 +431,9 @@ in, so installation needs no build. After changing the shared palette:
 python3 scripts/build-gtk-icons.py
 ```
 
-Select `MUTHUR` in Geany's color-scheme chooser and Kate's editor color-theme
+Select `BUGHUNT` in Geany's color-scheme chooser and Kate's editor color-theme
 settings. The KDE application color scheme is installed under
-`~/.local/share/color-schemes/Muthur.colors`; select it with the KDE/Qt settings
+`~/.local/share/color-schemes/Bughunt.colors`; select it with the KDE/Qt settings
 tool you use. Installing it does not configure every Qt application automatically.
 
 ### Reload changes
@@ -539,8 +540,17 @@ packages you use so new files are linked, then reload the affected apps:
 cd ~/dotfiles
 git diff
 stow --restow --target="$HOME" \
-  colors fonts gtk mango kitty waybar swaync gtklock fuzzel tofi bin
+  colors fonts cursors geany gtk mango kitty waybar swaync gtklock fuzzel tofi bin
 ```
+
+To restow all packages used on this machine (including the optional configs):
+
+```sh
+bash scripts/stow.sh --simulate --verbose
+bash scripts/stow.sh --verbose
+```
+
+Local repair backups live in `.stow-backups/`, which Git ignores.
 
 Stow can link entire directories. Files created by apps inside them can appear
 in the checkout; inspect untracked files before committing, especially GTK

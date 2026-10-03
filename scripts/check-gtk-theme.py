@@ -93,14 +93,14 @@ def main():
     if len(sys.argv) > 1:
         parse_styles(sys.argv[1], [Path(p) for p in sys.argv[2:]])
         return
-    with tempfile.TemporaryDirectory(prefix='muthur-theme-check-') as directory:
+    with tempfile.TemporaryDirectory(prefix='bughunt-theme-check-') as directory:
         config = Path(directory)
         for app in ('colors', 'waybar', 'swaync', 'gtklock', 'eww'):
             shutil.copytree(ROOT / app / '.config' / app, config / app)
         shutil.copytree(ROOT / 'gtk/.config', config, dirs_exist_ok=True)
         groups = {
             '3.0': ('gtk-3.0/gtk.css', 'waybar/style.css', 'waybar/cheatsheet.css',
-                    'gtklock/nostrolock.css', 'eww/eww.css'),
+                    'gtklock/buglock.css', 'eww/eww.css'),
             '4.0': ('gtk-4.0/gtk.css', 'swaync/style.css'),
         }
         for version, paths in groups.items():
