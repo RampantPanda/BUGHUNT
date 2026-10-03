@@ -298,6 +298,10 @@
   letter-spacing: 1px;
 }
 
+.widget-dnd > label {
+  color: @primary;
+}
+
 /* switch background */
 
 .widget-dnd > switch {
