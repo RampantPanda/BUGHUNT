@@ -13,8 +13,8 @@
         "custom/muthur",
     ],
     "modules-right": [
-        "group/systemdrawer",
-        "group/traydrawer",
+        "group/nfodrawer",
+        "group/sysdrawer",
         "pulseaudio",
         "network",
         "custom/nextcloud",
@@ -226,49 +226,48 @@
         "on-click": "/usr/bin/fuzzel --anchor=top",
         "on-click-right": "~/.config/waybar/cheatsheet.sh --title=MANGOKEYBINDREFERENCE"
 },
-"group/traydrawer": {
+"group/sysdrawer": {
     "orientation": "horizontal",
     "drawer": {
-        "transition-duration": 200,
+        "transition-duration": 100,
         "click-to-reveal": true,
         "start-expanded": false,
         "transition-left-to-right": false
     },
     "modules": [
-        "custom/traytoggle",
+        "custom/systoggle",
         "bluetooth",
         "tray",
-
     ]
 },
 
-"group/systemdrawer": {
+"group/nfodrawer": {
     "orientation": "horizontal",
     "drawer": {
-        "transition-duration": 200,
+        "transition-duration": 100,
         "click-to-reveal": true,
         "start-expanded": false,
         "transition-left-to-right": false,
     },
     "modules": [
-        "custom/systemtoggle",
+        "custom/nfotoggle",
         "cpu",
         "memory",
         "temperature"
     ]
 },
-"custom/systemtoggle": {
+"custom/nfotoggle": {
 	"format": "NFO",
 	"tooltip-format": "SYSTEM INFO"
 },
 
-"custom/traytoggle": {
+"custom/systoggle": {
     "format": "SYS",
     "tooltip-format": "ACTIVE SUBSYSTEMS"
 },
 
 "tray": {
-    "icon-size": 16,
+    "icon-size": 24,
     "spacing": 6
 }
 }
