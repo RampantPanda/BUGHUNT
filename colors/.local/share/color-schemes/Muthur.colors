@@ -1,5 +1,7 @@
 # MUTHUR KDE color scheme
-# Generated from the MUTHUR master palette.
+# See comment about contrast near contrast=0
+# Do not go insane like i did
+# save yourself
 
 [ColorEffects:Disabled]
 Color=102,93,69
@@ -22,11 +24,11 @@ IntensityAmount=0
 IntensityEffect=0
 
 [Colors:Button]
-BackgroundAlternate=59,48,0
-BackgroundNormal=37,31,13
+BackgroundAlternate=47,40,24
+BackgroundNormal=37,31,20
 DecorationFocus=156,128,0
-DecorationHover=117,96,0
-ForegroundActive=156,128,0
+DecorationHover=130,106,0
+ForegroundActive=180,148,25
 ForegroundInactive=102,93,69
 ForegroundLink=120,169,183
 ForegroundNegative=208,90,67
@@ -39,8 +41,8 @@ ForegroundVisited=184,139,160
 BackgroundAlternate=37,31,13
 BackgroundNormal=29,23,11
 DecorationFocus=156,128,0
-DecorationHover=117,96,0
-ForegroundActive=156,128,0
+DecorationHover=130,106,0
+ForegroundActive=180,148,25
 ForegroundInactive=102,93,69
 ForegroundLink=120,169,183
 ForegroundNegative=208,90,67
@@ -53,8 +55,8 @@ ForegroundVisited=184,139,160
 BackgroundAlternate=37,31,13
 BackgroundNormal=29,23,11
 DecorationFocus=156,128,0
-DecorationHover=117,96,0
-ForegroundActive=156,128,0
+DecorationHover=130,106,0
+ForegroundActive=180,148,25
 ForegroundInactive=102,93,69
 ForegroundLink=120,169,183
 ForegroundNegative=208,90,67
@@ -67,8 +69,8 @@ ForegroundVisited=184,139,160
 BackgroundAlternate=29,23,11
 BackgroundNormal=37,31,13
 DecorationFocus=156,128,0
-DecorationHover=117,96,0
-ForegroundActive=156,128,0
+DecorationHover=130,106,0
+ForegroundActive=180,148,25
 ForegroundInactive=102,93,69
 ForegroundLink=120,169,183
 ForegroundNegative=208,90,67
@@ -78,25 +80,25 @@ ForegroundPositive=157,187,114
 ForegroundVisited=184,139,160
 
 [Colors:Selection]
-BackgroundAlternate=117,96,0
-BackgroundNormal=156,128,0
+BackgroundAlternate=82,68,18
+BackgroundNormal=103,85,20
 DecorationFocus=197,166,41
 DecorationHover=197,166,41
-ForegroundActive=29,23,11
-ForegroundInactive=29,23,11
-ForegroundLink=29,23,11
-ForegroundNegative=29,23,11
-ForegroundNeutral=29,23,11
-ForegroundNormal=29,23,11
-ForegroundPositive=29,23,11
-ForegroundVisited=29,23,11
+ForegroundActive=225,216,180
+ForegroundInactive=199,189,148
+ForegroundLink=225,216,180
+ForegroundNegative=225,216,180
+ForegroundNeutral=225,216,180
+ForegroundNormal=225,216,180
+ForegroundPositive=225,216,180
+ForegroundVisited=225,216,180
 
 [Colors:Tooltip]
-BackgroundAlternate=59,48,0
-BackgroundNormal=37,31,13
+BackgroundAlternate=47,40,24
+BackgroundNormal=37,31,20
 DecorationFocus=156,128,0
-DecorationHover=117,96,0
-ForegroundActive=156,128,0
+DecorationHover=130,106,0
+ForegroundActive=180,148,25
 ForegroundInactive=102,93,69
 ForegroundLink=120,169,183
 ForegroundNegative=208,90,67
@@ -109,8 +111,8 @@ ForegroundVisited=184,139,160
 BackgroundAlternate=37,31,13
 BackgroundNormal=29,23,11
 DecorationFocus=156,128,0
-DecorationHover=117,96,0
-ForegroundActive=156,128,0
+DecorationHover=130,106,0
+ForegroundActive=180,148,25
 ForegroundInactive=102,93,69
 ForegroundLink=120,169,183
 ForegroundNegative=208,90,67
@@ -123,8 +125,8 @@ ForegroundVisited=184,139,160
 BackgroundAlternate=37,31,13
 BackgroundNormal=29,23,11
 DecorationFocus=156,128,0
-DecorationHover=117,96,0
-ForegroundActive=156,128,0
+DecorationHover=130,106,0
+ForegroundActive=180,148,25
 ForegroundInactive=102,93,69
 ForegroundLink=120,169,183
 ForegroundNegative=208,90,67
@@ -138,8 +140,11 @@ ColorScheme=Muthur
 Name=MUTHUR
 shadeSortColumn=true
 
+# Keep Qt derived shade roles dark with contrast=0.
+# Higher values make QPalette::Light/Midlight absurdly bright on this dark palette.
+# Nextcloud uses QPalette::Light for large settings-panel backgrounds.
 [KDE]
-contrast=4
+contrast=0
 
 [WM]
 activeBackground=29,23,11
