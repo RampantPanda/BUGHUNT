@@ -75,6 +75,8 @@ packages=(
     ttf-iosevkatermslab-nerd
     ttf-iosevkaterm-nerd
     ttf-iosevka-nerd
+    ttf-terminus-nerd
+    ttf-space-mono-nerd
 
     # Build dependencies
     meson
@@ -88,6 +90,9 @@ packages=(
     libxkbcommon
     wayland-protocols
     scdoc
+
+    # fonts
+
 )
 
 # ------------------------------------------------------------
