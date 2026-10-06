@@ -234,10 +234,9 @@ Review these local settings in your checkout before the first login:
    Install Eww and stow both `eww` and `colors`, or comment out both startup
    entries if you do not use the widget.
 
-3. **GTK preferences.** Both GTK settings files currently select `breeze-dark`
-   icons, `breeze_cursors`, and Noto Sans. If you want the bundled icons, set
-   `gtk-icon-theme-name=Bughunt` in both files as well as the GSettings command
-   above. Choose installed fonts and cursors to match your system; Mango's
+3. **GTK preferences.** Both GTK settings files select the bundled `Bughunt`
+   icons, `breeze_cursors`, and Noto Sans. The installer and GSettings command
+   above also select `Bughunt`. Choose installed fonts and cursors to match your system; Mango's
    cursor setting separately uses `capitaine-cursors`.
 
 Create `~/Pictures/Screenshots` even if your normal Pictures directory has a
@@ -388,14 +387,30 @@ files first and `themes/bughunt.conf` last.
 
 | File | Edit here for |
 | --- | --- |
-| [`colors.css`](colors/.config/colors/colors.css) | Shared palette, including desktop, lockscreen, and cheatsheet roles |
+| [`colors.css`](colors/.config/colors/colors.css) | Master BUGHUNT palette, including desktop, lockscreen, cheatsheet roles, and shared GTK semantic aliases |
 | [`shell.css`](colors/.config/colors/shell.css) | Shell fonts, square corners, borders, panel backgrounds, and Waybar spacing |
 | [`gtk.css`](colors/.config/colors/gtk.css) | GTK 3/4 desktop widget styling |
+| [`gtk-3.0/compat.css`](gtk/.config/gtk-3.0/compat.css) | GTK 3 Breeze compatibility definitions |
+| [`gtk-4.0/compat.css`](gtk/.config/gtk-4.0/compat.css) | GTK 4 focus handling, libadwaita custom properties, and Breeze compatibility definitions |
 
 Waybar and its cheatsheet, SwayNC, and gtklock import `shell.css`,
 which imports `colors.css`. Desktop GTK styling imports the palette directly so
-ordinary apps do not inherit the shell's 22px bold text. The GTK 4 entry point
-adds focus handling and libadwaita color variables.
+ordinary apps do not inherit the shell's 22px bold text. The thin
+[`GTK 3 entrypoint`](gtk/.config/gtk-3.0/gtk.css) imports its adapter first,
+then the shared widget stylesheet (which imports the master palette once).
+The thin [`GTK 4 entrypoint`](gtk/.config/gtk-4.0/gtk.css) imports the shared
+widget stylesheet first, then its adapter so GTK 4 focus rules follow shared rules.
+GTK 4 custom properties reference the master palette's roles.
+
+The two adapters retain all original `*_breeze` definitions and values for base
+themes or applications that may consume them. They are compatibility data;
+edit the master palette for BUGHUNT colors. Shared GTK semantic aliases stay in
+the master palette because GTK 3, GTK 4, and shell consumers already receive them.
+Eww's local `colors.css` is a symlink to that same master, not another palette.
+
+When updating an existing installation with individual Stow file links, restow
+the `gtk` package (`stow -R -t "$HOME" gtk`) to pick up the renamed adapters.
+Installations with whole-directory links pick up the new paths automatically.
 
 Application stylesheets retain layouts and exceptions: smaller lockscreen status
 and cheatsheet text, Eww's own widget frames, and thinner borders inside SwayNC.
@@ -414,9 +429,11 @@ Pango foreground colors of its own.
 ### GTK apps, icons, and editors
 
 The desktop theme uses pale sand body text, amber active controls, square frames,
-and visible keyboard focus. GTK settings select Adwaita with a dark preference,
-Noto Sans, and Breeze icons/cursors; the shared CSS supplies Terminus typography.
-Both GTK entry stylesheets also import local Breeze `colors.css` files.
+and visible keyboard focus. GTK settings select adw-gtk3-dark for GTK 3 and
+Adwaita for GTK 4, with a dark preference,
+Noto Sans, Bughunt icons, and Breeze cursors; the shared CSS supplies Terminus typography.
+Both GTK entry stylesheets also load the retained Breeze definitions through
+their version-specific `compat.css` adapters.
 These are **user stylesheet overrides**, not an
 installed widget theme named Bughunt. The GTK 4 adapter needs GTK 4.16 or newer for
 [CSS variables](https://docs.gtk.org/gtk4/css-properties.html), including

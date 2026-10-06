@@ -1,3 +1,6 @@
+/* Breeze compatibility names retained for base themes and applications.
+ * These are legacy values, not the BUGHUNT master palette.
+ */
 @define-color borders_breeze #4c4e51;
 @define-color content_view_bg_breeze #141618;
 @define-color error_color_backdrop_breeze #da4453;

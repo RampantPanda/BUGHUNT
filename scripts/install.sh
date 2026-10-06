@@ -163,24 +163,24 @@ set_gtk_icon_theme() {
     if [[ ! -f "$file" ]]; then
         cat > "$file" <<'EOF'
 [Settings]
-gtk-icon-theme-name=breeze-dark
+gtk-icon-theme-name=Bughunt
 EOF
         return
     fi
 
     if grep -q '^gtk-icon-theme-name=' "$file"; then
         sed -i \
-            's/^gtk-icon-theme-name=.*/gtk-icon-theme-name=breeze-dark/' \
+            's/^gtk-icon-theme-name=.*/gtk-icon-theme-name=Bughunt/' \
             "$file"
     elif grep -q '^\[Settings\]' "$file"; then
         sed -i \
-            '/^\[Settings\]/a gtk-icon-theme-name=breeze-dark' \
+            '/^\[Settings\]/a gtk-icon-theme-name=Bughunt' \
             "$file"
     else
         cat >> "$file" <<'EOF'
 
 [Settings]
-gtk-icon-theme-name=breeze-dark
+gtk-icon-theme-name=Bughunt
 EOF
     fi
 }
@@ -194,7 +194,7 @@ if command -v gsettings >/dev/null 2>&1; then
     gsettings set \
         org.gnome.desktop.interface \
         icon-theme \
-        'breeze-dark'
+        'Bughunt'
 fi
 
 # ------------------------------------------------------------
