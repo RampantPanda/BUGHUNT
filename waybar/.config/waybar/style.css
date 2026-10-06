@@ -189,15 +189,18 @@ color: @surface;
 }
 
 #sysdrawer,
-#nfodrawer {
+#nfodrawer,
+#musicdrawer {
     color: @primary;
     background-color: @surface;
     border: 3px solid @superior;
+    padding: 3px;
 }
 
 /* normal toggle */
 #custom-nfotoggle,
-#custom-systoggle {
+#custom-systoggle
+#custom-musictoggle {
     padding: 0 4px;
     color: @primary;
     background-color: @surface;
@@ -206,7 +209,8 @@ color: @surface;
 
 /* expanded toggle */
 #nfodrawer.expanded #custom-nfotoggle,
-#sysdrawer.expanded #custom-systoggle {
+#sysdrawer.expanded #custom-systoggle
+#musicdrawer.expanded #custom-musictoggle {
     color: @surface;
     background-color: @primary;
     border: none;
@@ -332,20 +336,23 @@ color: @surface;
 }
 
 #mpd {
-    background-color: @media;
-    color: @media_text;
+    background-color: @primary;
+    color: @surface;
 }
 
 #mpd.disconnected {
-    background-color: @danger;
+    background-color: @alert;
+    color: @surface;
 }
 
 #mpd.stopped {
-    background-color: @inactive;
+    background-color: @surface;
+    color: @primary;
 }
 
 #mpd.paused {
-    background-color: @paused;
+    background-color: @secondary;
+    color: @primary;
 }
 
 #language {

@@ -7,12 +7,13 @@
     "spacing": 0, // Gaps between modules (4px)
     // Choose the order of the modules
     "modules-left": [
-        "mango/workspaces"
+        "mango/workspaces",
     ],
     "modules-center": [
         "custom/hostname",
     ],
     "modules-right": [
+		"group/musicdrawer",
         "group/nfodrawer",
         "group/sysdrawer",
         "pulseaudio",
@@ -47,11 +48,12 @@
 	},
 
     "mpd": {
-        "format": "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩ {volume}% ",
-        "format-disconnected": "Disconnected ",
-        "format-stopped": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped ",
-        "unknown-tag": "N/A",
+        "format": "{artist} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S})",
+        "format-disconnected": "DISC",
+        "format-stopped": "STOP",
+        "unknown-tag": "???",
         "interval": 5,
+        "on-click": "~/.config/waybar/find-rmpc.sh",
         "consume-icons": {
             "on": " "
         },
@@ -69,8 +71,8 @@
             "paused": "",
             "playing": ""
         },
-        "tooltip-format": "MPD (connected)",
-        "tooltip-format-disconnected": "MPD (disconnected)"
+        "tooltip-format": "MUSIC SYSTEM ONLINE",
+        "tooltip-format-disconnected": "MUSIC SYSTEM OFFLINE"
     },
     "idle_inhibitor": {
         "format": "{icon}",
@@ -243,6 +245,19 @@
         "tray",
     ]
 },
+"group/musicdrawer": {
+	"orientation": "horizontal",
+	"drawer": {
+		"transition-duration":100,
+		"click-to-reveal": true,
+        "start-expanded": false,
+        "transition-left-to-right": false
+	},
+	"modules": [
+		"custom/musictoggle",
+		"mpd"
+		]
+},
 
 "group/nfodrawer": {
     "orientation": "horizontal",
@@ -267,6 +282,11 @@
 "custom/systoggle": {
     "format": "SYS",
     "tooltip-format": "ACTIVE SUBSYSTEMS"
+},
+
+"custom/musictoggle": {
+	"format": "MUS",
+	"tooltip-format": "MUSIC SYSTEM"
 },
 
 "tray": {

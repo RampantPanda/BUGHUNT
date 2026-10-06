@@ -1,8 +1,6 @@
 sw_volume: 100
 audio_device_state:1:PipeWire
-state: play
-current: 0
-time: 120.56
+state: stop
 random: 0
 repeat: 0
 single: 0
@@ -12,16 +10,5 @@ mixrampdb: 0
 mixrampdelay: -1
 lastloadedplaylist: 
 playlist_begin
-0:The dead south/Illusion and doubt/The Dead South - Illusion and Doubt - 01 Boots.mp3
-1:The dead south/Illusion and doubt/The Dead South - Illusion and Doubt - 02 Every Man Needs A Chew.mp3
-2:The dead south/Illusion and doubt/The Dead South - Illusion and Doubt - 03 Dead Man's Isle.mp3
-3:The dead south/Illusion and doubt/The Dead South - Illusion and Doubt - 04 Smootchin' In The Ditch.mp3
-4:The dead south/Illusion and doubt/The Dead South - Illusion and Doubt - 05 One Armed Man.mp3
-5:The dead south/Illusion and doubt/The Dead South - Illusion and Doubt - 06 The Good Lord.mp3
-6:The dead south/Illusion and doubt/The Dead South - Illusion and Doubt - 07 Delirium.mp3
-7:The dead south/Illusion and doubt/The Dead South - Illusion and Doubt - 08 Miss Mary.mp3
-8:The dead south/Illusion and doubt/The Dead South - Illusion and Doubt - 09 Time For Crawlin'.mp3
-9:The dead south/Illusion and doubt/The Dead South - Illusion and Doubt - 10 Massacre of El Kuroke.mp3
-10:The dead south/Illusion and doubt/The Dead South - Illusion and Doubt - 11 Hard Day.mp3
-11:The dead south/Illusion and doubt/The Dead South - Illusion and Doubt - 12 Gunslinger's Glory.mp3
+0:KatiRan/Kati Rán - SUURIN-mQWmryiIcxY.mp3
 playlist_end
