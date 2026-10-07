@@ -6,7 +6,7 @@ $hostname\
 [](bg:transparent fg:color_primary)\
 $directory\
 [](bg:transparent fg:color_primary)\
-$git_branch\
+$git_status\
 [](bg:transparent fg:color_primary)\
 $line_break$character"""
 
@@ -28,8 +28,8 @@ color_yellow = '#d79921'
 # ~/.config/starship.toml
 
 [hostname]
-ssh_only = false
-format = "[ $hostname ](fg:color_primary bg:transparent)"
+ssh_only = true
+format = "[ $user@$hostname ](fg:color_primary bg:transparent)"
 disabled = false
 
 [username]
@@ -45,10 +45,16 @@ truncation_length = 3
 truncation_symbol = "…/"
 
 [git_branch]
-symbol = "git"
+symbol = "GIT"
 style = "bg:color_primary"
-format = '[[ $symbol ](fg:color_primary bg:transparent)]($style)'
+format = '[[ $symbol $branch $untracked $modified ](fg:color_primary bg:transparent)]($style)'
 
+[git_status]
+style = "bg:color_primary"
+format = '[[ GIT $untracked $modified ](fg:color_primary bg:transparent)]($style)'
+untracked ="<UNTR>"
+modified = "<MDFD>"
+up_to_date = "<UPTD>"
 
 [time]
 disabled = false
