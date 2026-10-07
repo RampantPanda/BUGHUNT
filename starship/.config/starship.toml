@@ -1,7 +1,7 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
 format = """
-[](bg:color_primary fg:color_surface)\
+[X](bg:color_primary fg:color_surface)\
 $hostname\
 [](bg:color_secondary fg:color_primary)\
 $directory\
