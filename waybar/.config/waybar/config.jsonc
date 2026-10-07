@@ -275,17 +275,17 @@
     ]
 },
 "custom/nfotoggle": {
-	"format": "NFO",
+	"format": "󰄽NFO",
 	"tooltip-format": "SYSTEM INFO"
 },
 
 "custom/systoggle": {
-    "format": "SYS",
+    "format": "󰄽SYS",
     "tooltip-format": "ACTIVE SUBSYSTEMS"
 },
 
 "custom/musictoggle": {
-	"format": "MUS",
+	"format": "󰄽MUS",
 	"tooltip-format": "MUSIC SYSTEM"
 },
 
