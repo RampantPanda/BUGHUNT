@@ -1,15 +1,13 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
 format = """
-[X](bg:color_primary fg:color_surface)\
+[](bg:transparent fg:color_primary)\
 $hostname\
-[](bg:color_secondary fg:color_primary)\
+[](bg:transparent fg:color_primary)\
 $directory\
-[](fg:color_secondary bg:color_primary)\
+[](bg:transparent fg:color_primary)\
 $git_branch\
-[](fg:color_primary bg:color_secondary)\
-$time\
-[](fg:color_secondary bg:color_surface)\
+[](bg:transparent fg:color_primary)\
 $line_break$character"""
 
 palette = 'bughunt_dark'
@@ -31,17 +29,17 @@ color_yellow = '#d79921'
 
 [hostname]
 ssh_only = false
-format = "[$hostname](fg:color_surface bg:color_primary)"
+format = "[ $hostname ](fg:color_primary bg:transparent)"
 disabled = false
 
 [username]
 show_always = false
-style_user = "bg:color_primary fg:color_surface"
-style_root = "bg:color_alert fg:color_surface"
+style_user = "fg:color_primary bg:transparent"
+style_root = "fg:color_primary bg:transparent"
 format = '[ $user ]($style)'
 
 [directory]
-style = "bg:color_secondary fg:color_superior"
+style = "fg:color_primary bg:transparent"
 format = "[ $path ]($style)"
 truncation_length = 3
 truncation_symbol = "…/"
@@ -49,7 +47,7 @@ truncation_symbol = "…/"
 [git_branch]
 symbol = "git"
 style = "bg:color_primary"
-format = '[[ $symbol ](fg:color_surface bg:color_primary)]($style)'
+format = '[[ $symbol ](fg:color_primary bg:transparent)]($style)'
 
 
 [time]
@@ -64,7 +62,7 @@ disabled = false
 [character]
 disabled = false
 success_symbol = '[>>](bold fg:color_primary)'
-error_symbol = '[>>](bold fg:color_alert)'
+error_symbol = '[!!](bold fg:color_alert)'
 vimcmd_symbol = '[](bold fg:color_green)'
 vimcmd_replace_one_symbol = '[](bold fg:color_purple)'
 vimcmd_replace_symbol = '[](bold fg:color_purple)'
