@@ -5,6 +5,6 @@ awk '
 /MemAvailable:/ { avail=$2 }
 END {
     used = total - avail
-    printf "%.0f % \n", (used / total) * 100
+    printf " %.0f % \n", (used / total) * 100
 }
 ' /proc/meminfo

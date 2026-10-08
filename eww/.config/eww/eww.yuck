@@ -21,9 +21,9 @@
     :spacing 6
 
 	(host-widget)
+	(proton-widget)
+    (cpu-widget)	
     (disk-widget)
-    (proton-widget)
-    (cpu-widget)
     (ram-widget)
     ))  
 
@@ -53,12 +53,14 @@
   (box
     :class "disk-widget"
     :orientation "horizontal"
+    :halign "start"
     (label :text disk_usage)))
 
 (defwidget proton-widget []
   (box
     :class "proton-widget"
     :orientation "horizontal"
+    :halign "start"
     (label :text proton_status)))
 
 
@@ -66,19 +68,22 @@
 	(box
 		:class "host-widget"
 		:orientation "horizontal"
+		:halign "start"
 		(label :text hostname)))
 
 (defwidget ram-widget []
 	(box
 		:class "ram-widget"
 		:orientation "horizontal"
-		(label :text "RAM > ${ram_usage}")))
+		:halign "start"
+		(label :text "RAM ${ram_usage}")))
 
 (defwidget cpu-widget []
 	(box
 		:class "cpu-widget"
 		:orientation "horizontal"
-		(label :text "CPU > ${cpu_usage}%")))
+		:halign "start"
+		(label :text "${cpu_usage}%")))
 		
 
 
