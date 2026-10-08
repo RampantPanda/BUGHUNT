@@ -1,4 +1,4 @@
-;; THIS IS THE WINDOW
+;; THIS IS THE SYSMON WINDOW
 (defwindow sysmon
   :monitor 0
   :geometry (geometry
@@ -12,7 +12,7 @@
   :focusable false
   (system-widget))
   
-;; THIS IS THE ONLY WIDGET IN THE WINDOW
+;; THIS IS THE ONLY WIDGET IN THE SYSMON WINDOW
 ;; THERE CAN ONLY BE ONE
 (defwidget system-widget []
   (box
@@ -22,8 +22,9 @@
 
 	(host-widget)
     (disk-widget)
-    (ram-widget)
     (proton-widget)
+    (cpu-widget)
+    (ram-widget)
     ))  
 
 ;; THESE ARE THE POLLS THAT PULL THE DATA
@@ -35,14 +36,18 @@
   :interval "5s"
   "$HOME/.config/eww/scripts/proton-status.sh")
 
-(defpoll ram_usage
-	:interval "5s"
-	"$HOME/.config/eww/scripts/ram-use.sh")
-	
 (defpoll hostname
   :interval "6000s"
   "$HOME/.config/eww/scripts/host-name.sh")
-	
+
+(defpoll cpu_usage
+  :interval "2s"
+  `~/.config/eww/scripts/cpu.sh`)
+  
+  (defpoll ram_usage
+  :interval "2s"
+  `~/.config/eww/scripts/ram.sh`)
+			
 ;; THESE ARE THE WIDGETS INSIDE THE SYSTEM WIDGET
 (defwidget disk-widget []
   (box
@@ -56,17 +61,26 @@
     :orientation "horizontal"
     (label :text proton_status)))
 
-(defwidget ram-widget []
-	(box
-		:class "ram-widget"
-		:orientation "horizontal"
-		(label :text ram_usage)))
 
 (defwidget host-widget []
 	(box
 		:class "host-widget"
 		:orientation "horizontal"
 		(label :text hostname)))
+
+(defwidget ram-widget []
+	(box
+		:class "ram-widget"
+		:orientation "horizontal"
+		(label :text "RAM > ${ram_usage}")))
+
+(defwidget cpu-widget []
+	(box
+		:class "cpu-widget"
+		:orientation "horizontal"
+		(label :text "CPU > ${cpu_usage}%")))
+		
+
 
 
 

@@ -4,39 +4,35 @@
 * {
 	all: unset;
 	border-radius: 0px;
-	font-family: "Terminus (TTF)";
-	font-size: 22px;
+	font-family: "Terminus";
+	font-weight: bold;
+	font-size: 20px;
 }
 
 .host-widget {
-	padding: 4px 2px;
-	border: 4px solid @primary;
+	padding: 1px 1px;
 	background-color: @surface;
 	color: @primary;
 }
 
 .system-widget {
-  padding: 12px 6px;
+  padding: 2px 1px;
   	border: 4px solid @primary;
 	background-color: @surface;
 }
 
 .disk-widget {
-	padding: 4px 2px;
-	border: 4px solid @primary;
+	padding: 2px 1px;
 	background-color: @surface;
 	color: @primary; 
 }
-.proton-widget {
-	padding: 4px 2px;
-	border: 4px solid @primary;
-	background-color: @surface;
-	color: @primary;
-}
 
-.ram-widget {
+
+.ram-widget, 
+.cpu-widget, 
+.proton-widget, 
+.disk-widget {
 	padding: 4px 2px;
-	border: 4px solid @primary;
 	background-color: @surface;
 	color: @primary;
 }
