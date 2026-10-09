@@ -21,10 +21,16 @@
     :spacing 6
 
 	(host-widget)
+	(uptime-widget)
+	(battery-widget)
 	(proton-widget)
     (cpu-widget)	
     (disk-widget)
     (ram-widget)
+    (pacnew-widget)
+    (swap-widget)
+    (failed-units-title)
+    (failed-units-widget)
     ))  
 
 ;; THESE ARE THE POLLS THAT PULL THE DATA
@@ -47,6 +53,46 @@
   (defpoll ram_usage
   :interval "2s"
   `~/.config/eww/scripts/ram.sh`)
+  
+(defpoll failed_system_units
+  :interval "10s"
+  `systemctl --failed --no-legend --plain --no-pager | awk 'NF {n++} END {print n+0}'`)
+
+(defpoll failed_user_units
+  :interval "10s"
+  `systemctl --user --failed --no-legend --plain --no-pager | awk 'NF {n++} END {print n+0}'`)
+  
+  (defpoll root_disk
+  :interval "30s"
+  `~/.config/eww/scripts/disk.sh / ROOT`)
+
+(defpoll home_disk
+  :interval "30s"
+  `~/.config/eww/scripts/disk.sh /home HOME`)
+  
+  (defpoll network
+  :interval "10s"
+  `~/.config/eww/scripts/network.sh`)
+  
+  (defpoll uptime
+  :interval "15m"
+  `uptime -p | sed 's/^up //'`)
+  
+  (defpoll load_1m
+  :interval "5s"
+  `awk '{print $1}' /proc/loadavg`)
+  
+  (defpoll battery
+  :interval "30s"
+  `~/.config/eww/scripts/battery.sh`)
+  
+  (defpoll updates
+  :interval "60m"
+  `checkupdates 2>/dev/null | wc -l`)
+  
+  (defpoll pacnew
+  :interval "60m"
+  `pacdiff --output 2>/dev/null | wc -l`)
 			
 ;; THESE ARE THE WIDGETS INSIDE THE SYSTEM WIDGET
 (defwidget disk-widget []
@@ -84,9 +130,58 @@
 		:orientation "horizontal"
 		:halign "start"
 		(label :text "${cpu_usage}%")))
+
+(defwidget failed-units-title []
+			(revealer
+			:reveal {failed_system_units > 0}
+			:class "failed-units-title"
+			:orientation "horizontal"
+			:halign "center"
+			(label :text "SYSTEM FAIL COUNT")))
+			
+(defwidget failed-units-widget []
+  (box
+    :orientation "h"
+    :spacing 6
+
+    (revealer
+      :reveal {failed_system_units > 0}
+      :transition "slideleft"
+      :duration "200ms"
+      (label
+        :class "failed-units failed-system"
+        :tooltip "systemctl --failed"
+        :text "SYS ${failed_system_units}"))
+
+    (revealer
+      :reveal {failed_user_units > 0}
+      :transition "slideleft"
+      :duration "200ms"
+      (label
+        :class "failed-units failed-user"
+        :tooltip "systemctl --user --failed"
+        :text "USR ${failed_user_units}"))))
+
+(defwidget uptime-widget []
+	(box
+		:orientation "h"
+		:spacing 2
+		(label :text "TIME SINCE LAUNCH ${uptime}")))
+(defwidget battery-widget []
+	(revealer
+		:reveal {battery != ""}
+		(label :text battery)))
 		
-
-
-
-
-
+(defwidget pacnew-widget []
+	(revealer
+	:reveal {pacnew > 0}
+	  (label
+		:class "warning"
+		:text "PACNEW ${pacnew}")))
+		
+(defwidget swap-widget []		
+	(revealer
+		:reveal {swap != ""}
+		(label
+			:class "warning"
+			:text swap)))
