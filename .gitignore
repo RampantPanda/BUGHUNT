@@ -1,3 +1,4 @@
 /.stow-backups/
 /geany/.config/geany/geany_socket_*
 /geany/.config/geany/session.conf
+/gtk/.config/gtk-3.0/bookmarks
