@@ -41,7 +41,7 @@ format = '[ $user ]($style)'
 [directory]
 style = "fg:color_primary bg:transparent"
 format = "[ $path ]($style)"
-truncation_length = 3
+truncation_length = 6
 truncation_symbol = "…/"
 
 [git_branch]
@@ -50,8 +50,8 @@ style = "bg:color_primary"
 format = '[[ $symbol $branch $untracked $modified ](fg:color_primary bg:transparent)]($style)'
 
 [git_status]
-style = "bg:color_primary"
-format = '[[ GIT $untracked $modified ](fg:color_primary bg:transparent)]($style)'
+style = "fg:color_green"
+format = '[ --GIT-- $untracked $modified ]($style)'
 untracked ="<UNTR>"
 modified = "<MDFD>"
 up_to_date = "<UPTD>"
