@@ -356,6 +356,31 @@ color: @surface;
     color: @primary;
 }
 
+#custom-nextcloud {
+    padding: 0 8px;
+    border: 3px solid @superior;
+}
+
+#custom-nextcloud.syncing {
+    color: @primary;
+    background: @surface;
+}
+
+#custom-nextcloud.synced {
+    color: @surface;
+    background: @primary;
+}
+
+#custom-nextcloud.error {
+    color: @surface;
+    background: @alert;
+}
+
+#custom-nextcloud.paused {
+    color: @superior;
+    background: @secondary;
+}
+
 #language {
     background: @language;
     color: @language_text;

@@ -16,9 +16,9 @@
 		"group/musicdrawer",
         "group/nfodrawer",
         "group/sysdrawer",
+        "custom/nextcloud",
         "pulseaudio",
         "network",
-        "custom/nextcloud",
         "battery",
         "idle_inhibitor",
         "custom/notifications",
@@ -287,6 +287,14 @@
 "custom/musictoggle": {
 	"format": "󰄽MUS",
 	"tooltip-format": "MUSIC SYSTEM"
+},
+
+"custom/nextcloud": {
+    "exec": "~/.config/waybar/nextcloud-script.sh",
+    "return-type": "json",
+    "interval": 3,
+    "tooltip": true,
+    "on-click": "nextcloud"
 },
 
 "tray": {
