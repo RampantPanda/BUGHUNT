@@ -22,17 +22,17 @@
 
 	(host-widget)
 	(uptime-widget)
-	(battery-widget)
 	(proton-widget)
     (cpu-widget)	
     (ram-widget)
     (pacnew-widget)
     (swap-widget)
-    (failed-units-title)
-    (failed-units-widget)
     (disk-widget)
     (network-widget)
     (last-update-widget)
+    (failed-units-title)
+    (failed-units-widget)
+    (battery-widget)
     ))  
 
 ;; THESE ARE THE POLLS THAT PULL THE DATA
@@ -166,25 +166,27 @@
 (defwidget uptime-widget []
 	(box
 		:orientation "h"
+		:class "uptime-widget"
 		:spacing 2
 		(label :text "TIME SINCE LAUNCH ${uptime}")))
 (defwidget battery-widget []
 	(revealer
 		:reveal {battery != ""}
+		:class "battery-widget"
 		(label :text battery)))
 		
 (defwidget pacnew-widget []
 	(revealer
 	:reveal {pacnew > 0}
 	  (label
-		:class "warning"
+		 :class "warning"
 		:text "PACNEW ${pacnew}")))
 		
 (defwidget swap-widget []		
 	(revealer
 		:reveal {swap != ""}
 		(label
-			:class "warning"
+			:class "swap-widget"
 			:text swap)))
 			
 (defwidget disk-widget []
@@ -198,6 +200,7 @@
 	(box
 		:orientation "h"
 		:spacing 2
+		:class "network-widget"
 		(label 
 			:text network)))
 
