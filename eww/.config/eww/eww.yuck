@@ -25,19 +25,17 @@
 	(battery-widget)
 	(proton-widget)
     (cpu-widget)	
-    (disk-widget)
     (ram-widget)
     (pacnew-widget)
     (swap-widget)
     (failed-units-title)
     (failed-units-widget)
+    (disk-widget)
+    (network-widget)
+    (last-update-widget)
     ))  
 
 ;; THESE ARE THE POLLS THAT PULL THE DATA
-(defpoll disk_usage
-  :interval "60s"
-  "$HOME/.config/eww/scripts/du.sh")
-
 (defpoll proton_status
   :interval "5s"
   "$HOME/.config/eww/scripts/proton-status.sh")
@@ -90,17 +88,20 @@
   :interval "60m"
   `checkupdates 2>/dev/null | wc -l`)
   
+  (defpoll swap
+  :interval "30s"
+  `~/.config/eww/scripts/swap.sh`)
+  
   (defpoll pacnew
   :interval "60m"
   `pacdiff --output 2>/dev/null | wc -l`)
+  
+  (defpoll last-update
+  :interval "60m"
+  `~/.config/eww/scripts/last-update.sh`)
 			
 ;; THESE ARE THE WIDGETS INSIDE THE SYSTEM WIDGET
-(defwidget disk-widget []
-  (box
-    :class "disk-widget"
-    :orientation "horizontal"
-    :halign "start"
-    (label :text disk_usage)))
+
 
 (defwidget proton-widget []
   (box
@@ -185,3 +186,26 @@
 		(label
 			:class "warning"
 			:text swap)))
+			
+(defwidget disk-widget []
+	(box
+		:orientation "h"
+		:spacing 2
+		(label 
+			:text root_disk)))
+
+(defwidget network-widget []
+	(box
+		:orientation "h"
+		:spacing 2
+		(label 
+			:text network)))
+
+(defwidget last-update-widget []
+	(box
+		:orientation "h"
+		:spacing 2
+		(label 
+			:text last-update)))			
+			
+			

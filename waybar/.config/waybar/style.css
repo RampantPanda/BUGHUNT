@@ -189,7 +189,6 @@ color: @surface;
 }
 
 #sysdrawer,
-#nfodrawer,
 #musicdrawer {
     color: @primary;
     background-color: @surface;
@@ -200,7 +199,6 @@ color: @surface;
 }
 
 /* normal toggle */
-#custom-nfotoggle,
 #custom-systoggle,
 #custom-musictoggle {
     padding: 0 4px;
@@ -210,7 +208,6 @@ color: @surface;
 }
 
 /* expanded toggle */
-#nfodrawer.expanded #custom-nfotoggle,
 #sysdrawer.expanded #custom-systoggle,
 #musicdrawer.expanded #custom-musictoggle {
     color: @surface;

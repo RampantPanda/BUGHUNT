@@ -14,7 +14,6 @@
     ],
     "modules-right": [
 		"group/musicdrawer",
-        "group/nfodrawer",
         "group/sysdrawer",
         "custom/nextcloud",
         "pulseaudio",
@@ -257,26 +256,6 @@
 		"custom/musictoggle",
 		"mpd"
 		]
-},
-
-"group/nfodrawer": {
-    "orientation": "horizontal",
-    "drawer": {
-        "transition-duration": 100,
-        "click-to-reveal": true,
-        "start-expanded": false,
-        "transition-left-to-right": false,
-    },
-    "modules": [
-        "custom/nfotoggle",
-        "cpu",
-        "memory",
-        "temperature"
-    ]
-},
-"custom/nfotoggle": {
-	"format": "󰄽NFO",
-	"tooltip-format": "SYSTEM INFO"
 },
 
 "custom/systoggle": {
