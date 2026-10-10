@@ -6,13 +6,13 @@
 	border-radius: 0px;
 	font-family: "Terminess Nerd Font Mono";
 	font-weight: bold;
-	font-size: 20px;
+	font-size: 16px;
 }
 
 .host-widget,
 .uptime-widget,
 .network-widget,
-.last-uptime-widget,
+.last-update-widget,
 .pacnew-widget,
 .system-widget,
 .disk-widget,
@@ -24,6 +24,7 @@
 	padding: 1px 1px;
 	background-color: @surface;
 	color: @primary;
+	
 }
 .warning {
 	color: @primary;

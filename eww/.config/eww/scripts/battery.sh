@@ -9,7 +9,7 @@ status=$(cat "$bat/status")
 
 case "$status" in
     Charging)     state="CHRG" ;;
-    Discharging)  state="BATT" ;;
+    Discharging)  state="DSGH" ;;
     Full)         state="FULL" ;;
     *)            state="$status" ;;
 esac

@@ -21,18 +21,19 @@
     :spacing 6
 
 	(host-widget)
+	(network-widget)
 	(uptime-widget)
 	(proton-widget)
     (cpu-widget)	
     (ram-widget)
-    (pacnew-widget)
-    (swap-widget)
     (disk-widget)
-    (network-widget)
+    (swap-widget)
+    (battery-widget)
+    (pacnew-widget)  
     (last-update-widget)
     (failed-units-title)
     (failed-units-widget)
-    (battery-widget)
+
     ))  
 
 ;; THESE ARE THE POLLS THAT PULL THE DATA
@@ -74,7 +75,7 @@
   
   (defpoll uptime
   :interval "15m"
-  `uptime -p | sed 's/^up //'`)
+  `~/.config/eww/scripts/uptime.sh`)
   
   (defpoll load_1m
   :interval "5s"
@@ -96,7 +97,7 @@
   :interval "60m"
   `pacdiff --output 2>/dev/null | wc -l`)
   
-  (defpoll last-update
+  (defpoll last_update
   :interval "60m"
   `~/.config/eww/scripts/last-update.sh`)
 			
@@ -108,7 +109,7 @@
     :class "proton-widget"
     :orientation "horizontal"
     :halign "start"
-    (label :text proton_status)))
+    (label :text "> WRGD ${proton_status}")))
 
 
 (defwidget host-widget []
@@ -116,29 +117,28 @@
 		:class "host-widget"
 		:orientation "horizontal"
 		:halign "start"
-		(label :text hostname)))
+		(label :text "> HOSTNAME ${hostname}")))
 
 (defwidget ram-widget []
 	(box
 		:class "ram-widget"
 		:orientation "horizontal"
 		:halign "start"
-		(label :text "RAM ${ram_usage}")))
+		(label :text "> MEM ${ram_usage}")))
 
 (defwidget cpu-widget []
 	(box
 		:class "cpu-widget"
 		:orientation "horizontal"
 		:halign "start"
-		(label :text "${cpu_usage}%")))
+		(label :text "> CPU ${cpu_usage}%")))
 
 (defwidget failed-units-title []
 			(revealer
-			:reveal {failed_system_units > 0}
+			:reveal {failed_system_units > 0 || failed_user_units > 0}
 			:class "failed-units-title"
-			:orientation "horizontal"
 			:halign "center"
-			(label :text "SYSTEM FAIL COUNT")))
+			(label :text "SYSFAIL #")))
 			
 (defwidget failed-units-widget []
   (box
@@ -168,47 +168,52 @@
 		:orientation "h"
 		:class "uptime-widget"
 		:spacing 2
-		(label :text "TIME SINCE LAUNCH ${uptime}")))
+		:halign "start"
+		(label :text "> UPTIME ${uptime} D")))
+		
 (defwidget battery-widget []
 	(revealer
 		:reveal {battery != ""}
 		:class "battery-widget"
-		(label :text battery)))
+		(label :text "> BATT ${battery}"
+		:halign "start")))
 		
 (defwidget pacnew-widget []
-	(revealer
-	:reveal {pacnew > 0}
 	  (label
-		 :class "warning"
-		:text "PACNEW ${pacnew}")))
+		 :class "pacnew-widget"
+		 :halign "start"
+		:text "> PACNEW # ${pacnew}"))
 		
 (defwidget swap-widget []		
 	(revealer
 		:reveal {swap != ""}
+		:halign "start"
 		(label
 			:class "swap-widget"
-			:text swap)))
-			
+			:text "> SWAP ${swap}")))	
+					
 (defwidget disk-widget []
 	(box
 		:orientation "h"
-		:spacing 2
+		:halign "start"
 		(label 
-			:text root_disk)))
+			:text "> DISK ${root_disk}")))
 
 (defwidget network-widget []
 	(box
 		:orientation "h"
-		:spacing 2
 		:class "network-widget"
 		(label 
-			:text network)))
+			:halign "start"
+			:text "> ${network}")))
 
 (defwidget last-update-widget []
 	(box
 		:orientation "h"
+		:class "last-update-widget"
 		:spacing 2
+		:halign "start"
 		(label 
-			:text last-update)))			
+			:text "> SYSTEM UPDATE AGE ${last_update} D")))	
 			
 			

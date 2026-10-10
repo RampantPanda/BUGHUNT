@@ -1,1 +1,1 @@
-printf "HOST > $(hostname)\n"
+printf "$(hostname)\n"

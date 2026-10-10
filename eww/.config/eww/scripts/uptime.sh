@@ -1,1 +1,5 @@
-uptime | awk 'NR==1 {printf "UPTIME %s %s\n",$3,$4}'|sed "s/[,]//g"
+#!/usr/bin/env bash
+
+awk '{
+    printf "%.2f\n", $1 / 86400
+}' /proc/uptime
