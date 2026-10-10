@@ -70,7 +70,8 @@
         {"type": "separator"
             },
         {"type": "uptime",
-        "key": "ONLINE  "
+        "key": "ONLINE  ",
+        "format": "{days} D"
         },
         {
         "type" : "disk",
@@ -89,9 +90,5 @@
         "key": "WIFI     ",
         "format":"{ssid} \n {security>56}"
         },
-        {"type":"PublicIp",
-        "key": "PUBLIC IP",
-        "format":"{ip}\n{location>65}"
-        }
         ]
 }
