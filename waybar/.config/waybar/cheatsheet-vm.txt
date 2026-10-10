@@ -1,0 +1,148 @@
+MANGO VM — OPERATOR COMMAND REFERENCE
+════════════════════════════════════════════════════════
+PRESS ALT + H TO SHOW | ESC TO HIDE
+Source: mango-vm/cfg/keybinds-VM.conf
+SUPER = Windows / logo key
+
+APPLICATIONS
+
+ALT + T                    Kitty terminal
+ALT + E                    Thunar file explorer
+ALT + B                    Firefox browser
+ALT + SPACE                Tofi application launcher
+ALT + F                    Fuzzel application launcher [conflict]
+ALT + X                    Geany
+ALT + W                    Launch Waybar
+ALT + H                    VM keyboard reference
+
+
+WINDOW CONTROL
+
+ALT + Q                    Close window
+ALT + TAB                  Next window
+
+ALT + ←                    Focus left
+ALT + →                    Focus right
+ALT + ↑                    Focus up
+ALT + ↓                    Focus down
+
+ALT + SHIFT + ←            Swap window left
+ALT + SHIFT + →            Swap window right
+ALT + SHIFT + ↑            Swap window up
+ALT + SHIFT + ↓            Swap window down
+
+
+WINDOW STATE
+
+ALT + G                    Toggle global
+ALT + SHIFT + TAB          Overview
+ALT + F                    Toggle floating [conflict]
+ALT + SHIFT + F            Fullscreen
+ALT + O                    Toggle overlay [conflict]
+ALT + Z                    Scratchpad
+
+
+LAYOUT
+
+SUPER + X                  Cycle scroller proportion
+SUPER + SHIFT + X          Scroller width 100% [conflict]
+ALT + SHIFT + T            Set tiling layout
+ALT + SHIFT + S            Set scrolling layout
+ALT + SHIFT + C            Set center tile layout
+ALT + SHIFT + N            Switch layout
+
+
+WORKSPACES
+
+ALT + 1..9                 Switch to workspace
+ALT + SHIFT + 1..9         Move window to workspace and follow
+
+GAPS
+
+SUPER + SHIFT + X          Increase gaps by 1 [conflict]
+SUPER + SHIFT + Z          Decrease gaps by 1
+SUPER + SHIFT + R          Toggle gaps
+
+
+FLOATING WINDOW POSITION
+
+CTRL + SHIFT + ↑           Move up 50 px
+CTRL + SHIFT + ↓           Move down 50 px
+CTRL + SHIFT + ←           Move left 50 px
+CTRL + SHIFT + →           Move right 50 px
+
+
+FLOATING WINDOW SIZE
+
+CTRL + ALT + ↑             Shrink vertically 50 px
+CTRL + ALT + ↓             Grow vertically 50 px
+CTRL + ALT + ←             Shrink horizontally 50 px
+CTRL + ALT + →             Grow horizontally 50 px
+
+
+SCREEN CAPTURE
+
+PRINT                      Capture full screen
+CTRL + PRINT               Capture selected region
+
+Saved to ~/Pictures/Screenshots
+
+
+AUDIO
+
+VOLUME UP                  Volume +5%
+VOLUME DOWN                Volume -5%
+MUTE                       Toggle output mute
+SHIFT + MUTE               Toggle microphone mute
+
+
+DISPLAY
+
+BRIGHTNESS UP              Brightness +2%
+BRIGHTNESS DOWN            Brightness -2%
+SHIFT + BRIGHTNESS UP      Brightness 100%
+SHIFT + BRIGHTNESS DOWN    Brightness 1%
+
+
+NOTIFICATIONS
+
+SUPER + N                  Toggle notification center
+
+
+SYSTEM
+
+ALT + L                    Lock screen
+ALT + O                    Wlogout power menu [conflict]
+ALT + R                    Reload Mango configuration
+
+
+MOUSE
+
+SUPER + LEFT BUTTON        Move window
+SUPER + RIGHT BUTTON       Resize window
+MIDDLE BUTTON              Toggle maximize
+
+
+TOUCHPAD
+
+3-FINGER LEFT              Workspace right
+3-FINGER RIGHT             Workspace left
+4-FINGER UP                Overview
+
+
+CONFIGURATION NOTES
+
+ALT + F is assigned to both Fuzzel and toggle floating.
+ALT + O is assigned to both overlay and Wlogout.
+SUPER + SHIFT + X is assigned to both scroller width
+and increasing gaps. These are conflicting assignments.
+
+SUPER + L has a malformed spawn command.
+The emergency Ghostty binding has malformed modifiers
+(CTRL,ALT instead of CTRL+ALT). Neither is listed above
+as a working shortcut.
+
+
+════════════════════════════════════════════════════════
+
+ESC                        CLOSE REFERENCE

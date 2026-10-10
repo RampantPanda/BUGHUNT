@@ -1,13 +1,15 @@
-OPERATOR COMMAND REFERENCE 
+MANGO — OPERATOR COMMAND REFERENCE
 ════════════════════════════════════════════════════════
 PRESS ALT + H TO SHOW | ESC TO HIDE
+Source: mango/cfg/keybinds.conf
+SUPER = Windows / logo key
 
 APPLICATIONS
 
-SUPER + T                  Terminal
-SUPER + E                  File explorer
-SUPER + B                  Browser
-SUPER + SPACE              Application launcher
+SUPER + T                  Kitty terminal
+SUPER + E                  Thunar file explorer
+SUPER + B                  Firefox browser
+SUPER + SPACE              Tofi application launcher
 ALT + T                    Tofi application launcher
 ALT + F                    Fuzzel application launcher
 SUPER + X                  Geany
@@ -58,8 +60,8 @@ SUPER + SHIFT + 1..9       Move window to workspace and follow
 
 GAPS
 
-SUPER + ALT + X            Increase gaps
-SUPER + ALT + Z            Decrease gaps
+SUPER + ALT + X            Increase gaps by 1
+SUPER + ALT + Z            Decrease gaps by 1
 SUPER + ALT + R            Toggle gaps
 
 

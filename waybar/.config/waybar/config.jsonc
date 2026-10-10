@@ -225,7 +225,7 @@
     "custom/hostname": {
         "format": "{text}",
         "on-click": "/usr/bin/fuzzel --anchor=top",
-        "on-click-right": "~/.config/waybar/cheatsheet.sh --title=MANGOKEYBINDREFERENCE",
+        "on-click-right": "~/.config/waybar/cheatsheet.sh",
         "tooltip-format": "LEFT click for 'menu' \nRIGHT click for 'command reference'",
         "exec": "hostname",
         "interval": "once"
