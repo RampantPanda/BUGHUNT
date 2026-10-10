@@ -261,6 +261,14 @@ defaults. `Alt+H` opens a reference window; its
 [`cheatsheet.txt`](waybar/.config/waybar/cheatsheet.txt) is maintained manually.
 The older `keybinds.txt` is not loaded by the reference window.
 
+With `mango-vm`, `Alt+H` instead opens
+[`cheatsheet-vm.txt`](waybar/.config/waybar/cheatsheet-vm.txt), based on the active
+[`cfg/keybinds-VM.conf`](mango-vm/.config/mango/cfg/keybinds-VM.conf).
+It includes the remaining Super shortcuts and notes conflicting or malformed
+bindings. Both references are maintained manually; run
+`~/.config/waybar/cheatsheet.sh desktop` or `~/.config/waybar/cheatsheet.sh vm`
+to open either explicitly.
+
 | Keys | Action |
 | --- | --- |
 | `Super+T` | Kitty |
