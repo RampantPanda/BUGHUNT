@@ -1,11 +1,12 @@
 ;; THIS IS THE SYSMON WINDOW
+;; the logo is defined near the end of file
 (defwindow sysmon
   :monitor 0
   :geometry (geometry
     :anchor "top right"
     :x "30px"
-    :y "30px"
-    :width "300px"
+    :y "45px"
+    :width "290px"
     :height "430px")
   :stacking "bg"
   :exclusive false
@@ -18,19 +19,22 @@
   (box
     :class "system-widget"
     :orientation "vertical"
-    :spacing 6
+    :spacing 1
 
 	(host-widget)
 	(network-widget)
 	(uptime-widget)
+	  (box :height 6)
 	(proton-widget)
     (cpu-widget)	
     (ram-widget)
     (disk-widget)
     (swap-widget)
     (battery-widget)
+      (box :height 6)
     (pacnew-widget)  
     (last-update-widget)
+      (box :height 6)
     (failed-units-title)
     (failed-units-widget)
 
@@ -117,7 +121,7 @@
 		:class "host-widget"
 		:orientation "horizontal"
 		:halign "start"
-		(label :text "> HOSTNAME ${hostname}")))
+		(label :text "> HOST ${hostname}")))
 
 (defwidget ram-widget []
 	(box
@@ -137,13 +141,13 @@
 			(revealer
 			:reveal {failed_system_units > 0 || failed_user_units > 0}
 			:class "failed-units-title"
-			:halign "center"
-			(label :text "SYSFAIL #")))
+			(label :text "> SYSFAIL #"
+			:halign "start")))
 			
 (defwidget failed-units-widget []
   (box
     :orientation "h"
-    :spacing 6
+    :spacing 3
 
     (revealer
       :reveal {failed_system_units > 0}
@@ -153,7 +157,6 @@
         :class "failed-units failed-system"
         :tooltip "systemctl --failed"
         :text "SYS ${failed_system_units}"))
-
     (revealer
       :reveal {failed_user_units > 0}
       :transition "slideleft"
@@ -214,6 +217,25 @@
 		:spacing 2
 		:halign "start"
 		(label 
-			:text "> SYSTEM UPDATE AGE ${last_update} D")))	
+			:text "> SYSUPD ${last_update} D")))	
 			
 			
+(defwindow logowindow
+	:monitor 0
+	:geometry (geometry
+		:anchor "bottom left"
+		:x "30px"
+		:y "55px"
+		:width "200px"
+		:height "220px"
+		)
+	:stacking "bg"
+	:exclusive false
+	:focusable false
+  (logo-widget))
+	
+(defwidget logo-widget []
+	(image
+	:path "${EWW_CONFIG_DIR}/assets/wy-med.jpg"
+	))
+	
