@@ -223,9 +223,9 @@
 (defwindow logowindow
 	:monitor 0
 	:geometry (geometry
-		:anchor "bottom left"
-		:x "30px"
-		:y "55px"
+		:anchor "center"
+;;		:x "30px"
+;;		:y "55px"
 		:width "200px"
 		:height "220px"
 		)
@@ -236,6 +236,6 @@
 	
 (defwidget logo-widget []
 	(image
-	:path "${EWW_CONFIG_DIR}/assets/wy-med.jpg"
+	:path "${EWW_CONFIG_DIR}/assets/wy.png"
 	))
 	
