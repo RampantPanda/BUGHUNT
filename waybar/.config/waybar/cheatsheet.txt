@@ -6,57 +6,53 @@ SUPER = Windows / logo key
 
 APPLICATIONS
 
-SUPER + T                  Kitty terminal
-SUPER + E                  Thunar file explorer
-SUPER + B                  Firefox browser
-SUPER + SPACE              Tofi application launcher
-ALT + T                    Tofi application launcher
-ALT + F                    Fuzzel application launcher
-SUPER + X                  Geany
-ALT + H                    Keyboard reference
+ALT + T                  Kitty terminal
+ALT + E                  Thunar file explorer
+ALT + B                  Firefox browser
+ALT + SPACE              Tofi application launcher
+ALT + F                  Fuzzel application launcher
+ALT + X                  Geany
+ALT + H                  Keyboard reference
 
 
 WINDOW CONTROL
 
-SUPER + Q                  Close window
-ALT + Q                    Close window
-ALT + TAB                  Next window
+ALT + Q                  Close window
+ALT + TAB                Next window
 
-SUPER + ←                  Focus left
-SUPER + →                  Focus right
-SUPER + ↑                  Focus up
-SUPER + ↓                  Focus down
+ALT + ←                  Focus left
+ALT + →                  Focus right
+ALT + ↑                  Focus up
+ALT + ↓                  Focus down
 
-SUPER + SHIFT + ←          Swap window left
-SUPER + SHIFT + →          Swap window right
-SUPER + SHIFT + ↑          Swap window up
-SUPER + SHIFT + ↓          Swap window down
+ALT + SHIFT + ←          Swap window left
+ALT + SHIFT + →          Swap window right
+ALT + SHIFT + ↑          Swap window up
+ALT + SHIFT + ↓          Swap window down
 
 
 WINDOW STATE
 
-SUPER + G                  Toggle global
-SUPER + TAB                Overview
-SUPER + F                  Toggle floating
-SUPER + SHIFT + F          Fullscreen
-SUPER + ALT + F            Fake fullscreen
-SUPER + Z                  Scratchpad
+ALT + G                  Toggle global
+ALT + TAB                Overview
+ALT + F                  Toggle floating
+ALT + SHIFT + F          Fullscreen
+ALT + Z                  Scratchpad
 
 
 LAYOUT
 
-SUPER + SHIFT + Z          Cycle scroller proportion
 SUPER + SHIFT + X          Scroller width 100%
-SUPER + SHIFT + T          Set tiling layout
-SUPER + SHIFT + S          Set scrolling layout
-SUPER + SHIFT + C          Set center tile layout
-SUPER + SHIFT + N          Switch layout
+ALT + SHIFT + T          Set tiling layout
+ALT + SHIFT + S          Set scrolling layout
+ALT + SHIFT + C          Set center tile layout
+ALT + SHIFT + N          Switch layout
 
 
 WORKSPACES
 
-SUPER + 1..9               Switch to workspace
-SUPER + SHIFT + 1..9       Move window to workspace and follow
+ALT + 1..9               Switch to workspace
+ALT + SHIFT + 1..9       Move window to workspace and follow
 
 GAPS
 
