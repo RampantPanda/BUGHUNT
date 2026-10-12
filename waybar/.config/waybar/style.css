@@ -1,6 +1,56 @@
 @import url("../colors/shell.css");
 
+/* Waybar frames and module defaults; individual overrides follow. */
+window#waybar,
+#workspaces button,
+#battery,
+#cpu,
+#memory,
+#disk,
+#temperature,
+#backlight,
+#network,
+#pulseaudio,
+#wireplumber,
+#custom-media,
+#mode,
+#scratchpad,
+#power-profiles-daemon,
+#mpd,
+#clock,
+#idle_inhibitor,
+#custom-notifications,
+#custom-power,
+#custom-bughunt {
+    border: 3px solid @superior;
+}
+
+/* Standard Waybar module padding and inactive appearance. */
+#battery,
+#cpu,
+#memory,
+#disk,
+#temperature,
+#backlight,
+#network,
+#pulseaudio,
+#wireplumber,
+#custom-media,
+#mode,
+#scratchpad,
+#power-profiles-daemon,
+#mpd,
+#clock,
+#idle_inhibitor,
+#custom-power,
+#custom-bughunt {
+    padding: 3px;
+    color: @primary;
+    background-color: @surface;
+}
+
 window#waybar {
+    background-color: @surface;
     color: @white;
     transition-property: background-color;
     transition-duration: .5s;
@@ -108,11 +158,6 @@ button {
 	background-color: @primary;
 }
 
-#idle_inhibitor.deactivated {
-	color: @primary;
-	background-color: @surface;
-}
-
 #workspaces {
     margin: 0 0px;
 }
@@ -125,11 +170,6 @@ button {
 /* If workspaces is the rightmost module, omit right margin */
 .modules-right > widget:last-child > #workspaces {
     margin-right: 0;
-}
-
-#battery {
-    background-color: @surface;
-    color: @primary;
 }
 
 #battery.charging, #battery.plugged {
@@ -173,16 +213,7 @@ color: @surface;
     background-color: @superior;
 }
 
-#custom-notifications.none {
-    color: @surface;
-    background-color: @primary;
-}
-
-#custom-notifications.dnd-notification {
-    color: @primary;
-    background-color: @surface;
-}
-
+#custom-notifications.dnd-notification,
 #custom-notifications.dnd-none {
     color: @primary;
     background-color: @surface;
@@ -238,8 +269,6 @@ label:focus {
 }
 
 #cpu, #memory, #temperature {
-    background-color: @surface;
-    color: @primary;
     border: 0px;
 }
 
@@ -254,11 +283,6 @@ label:focus {
 #network.disconnected {
     background-color: @alert;
     color: @surface;
-}
-
-#network.disabled {
-	color: @primary;
-	background-color: @surface;
 }
 
 #network.ethernet,

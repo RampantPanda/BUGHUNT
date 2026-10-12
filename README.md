@@ -396,7 +396,8 @@ files first and `themes/bughunt.conf` last.
 | File | Edit here for |
 | --- | --- |
 | [`colors.css`](colors/.config/colors/colors.css) | Master BUGHUNT palette, including desktop, lockscreen, cheatsheet roles, and shared GTK semantic aliases |
-| [`shell.css`](colors/.config/colors/shell.css) | Shell fonts, square corners, borders, panel backgrounds, and Waybar spacing |
+| [`shell.css`](colors/.config/colors/shell.css) | Shared shell fonts, square corners, control borders, and panel styling |
+| [`waybar/style.css`](waybar/.config/waybar/style.css) | Waybar frames, module spacing, colors, and state overrides |
 | [`gtk.css`](colors/.config/colors/gtk.css) | GTK 3/4 desktop widget styling |
 | [`gtk-3.0/compat.css`](gtk/.config/gtk-3.0/compat.css) | GTK 3 Breeze compatibility definitions |
 | [`gtk-4.0/compat.css`](gtk/.config/gtk-4.0/compat.css) | GTK 4 focus handling, libadwaita custom properties, and Breeze compatibility definitions |

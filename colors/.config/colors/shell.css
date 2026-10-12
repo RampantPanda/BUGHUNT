@@ -23,30 +23,7 @@ tooltip,
     border: 1px solid @primary;
 }
 
-/* Main frames: one border width/style for panels and Waybar modules.
- * Keep selector specificity equal to the local rules so overrides work.
- */
-window#waybar,
-#workspaces button,
-#battery,
-#cpu,
-#memory,
-#disk,
-#temperature,
-#backlight,
-#network,
-#pulseaudio,
-#wireplumber,
-#custom-media,
-#mode,
-#scratchpad,
-#power-profiles-daemon,
-#mpd,
-#clock,
-#idle_inhibitor,
-#custom-notifications,
-#custom-power,
-#custom-bughunt,
+/* Shared panel frames. */
 .notification-background,
 .control-center,
 .system-widget,
@@ -56,32 +33,7 @@ window#waybar,
     border: 3px solid @superior;
 }
 
-/* Standard Waybar module padding and inactive appearance. */
-#battery,
-#cpu,
-#memory,
-#disk,
-#temperature,
-#backlight,
-#network,
-#pulseaudio,
-#wireplumber,
-#custom-media,
-#mode,
-#scratchpad,
-#power-profiles-daemon,
-#mpd,
-#clock,
-#idle_inhibitor,
-#custom-power,
-#custom-bughunt {
-    padding: 3px;
-    color: @primary;
-    background-color: @surface;
-}
-
 /* Shared panel surfaces; individual tools keep their text/border accents. */
-window#waybar,
 .notification-background,
 .control-center,
 .notification-background .notification {

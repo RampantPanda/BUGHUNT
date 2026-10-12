@@ -51,7 +51,7 @@ format = '[[ $symbol $branch $untracked $modified ](fg:color_primary bg:transpar
 
 [git_status]
 style = "fg:color_green"
-format = '[ --GIT-- $untracked $modified ]($style)'
+format = '[ GIT $untracked $modified ]($style)'
 untracked ="<UNTR>"
 modified = "<MDFD>"
 up_to_date = "<UPTD>"
