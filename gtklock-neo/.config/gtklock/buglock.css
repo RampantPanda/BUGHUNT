@@ -41,7 +41,7 @@ window {
 
     border-left: 2px solid @primary;
     border-right: 2px solid @primary;
-    border-radius: 24;
+    border-radius: 24px;
 
     padding: 7px 10px;
 

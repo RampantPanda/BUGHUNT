@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Check GTK imports/syntax and the desktop palette's text contrast headlessly."""
 from pathlib import Path
+import argparse
 import re
 import shutil
 import subprocess
@@ -26,7 +27,7 @@ def parse_styles(version, paths):
         print(f'GTK {version}: {path.parent.name}/{path.name}: OK')
 
 
-def check_contrast():
+def check_contrast(palette_path):
     import gi
     gi.require_version('Gtk', '3.0')
     gi.require_version('Gdk', '3.0')
@@ -61,7 +62,7 @@ def check_contrast():
             return Gtk.SymbolicColor.new_mix(symbolic(args[0]), symbolic(args[1]), float(args[2]))
         return Gtk.SymbolicColor.new_shade(symbolic(args[0]), float(args[1]))
 
-    palette = (ROOT / 'colors/.config/colors/colors.css').read_text()
+    palette = palette_path.read_text()
     for name, expression in re.findall(r'@define-color\s+(\w+)\s+([^;]+);', palette):
         colors.map_color(name, symbolic(expression))
 
@@ -90,22 +91,44 @@ def check_contrast():
 
 
 def main():
-    if len(sys.argv) > 1:
+    if len(sys.argv) > 1 and sys.argv[1] in ('3.0', '4.0'):
         parse_styles(sys.argv[1], [Path(p) for p in sys.argv[2:]])
         return
-    with tempfile.TemporaryDirectory(prefix='bughunt-theme-check-') as directory:
-        config = Path(directory)
-        for app in ('colors', 'waybar', 'swaync', 'gtklock', 'eww'):
-            shutil.copytree(ROOT / app / '.config' / app, config / app)
-        shutil.copytree(ROOT / 'gtk/.config', config, dirs_exist_ok=True)
-        groups = {
-            '3.0': ('gtk-3.0/gtk.css', 'waybar/style.css', 'waybar/cheatsheet.css',
-                    'gtklock/buglock.css', 'eww/eww.css'),
-            '4.0': ('gtk-4.0/gtk.css', 'swaync/style.css'),
-        }
-        for version, paths in groups.items():
-            subprocess.run([sys.executable, __file__, version, *(str(config / p) for p in paths)], check=True)
-    check_contrast()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--variant', choices=('original', 'neo', 'all'), default='all')
+    parser.add_argument('--syntax-only', action='store_true', help='Skip palette contrast checks')
+    args = parser.parse_args()
+    variants = ('original', 'neo') if args.variant == 'all' else (args.variant,)
+    failures = []
+    for variant in variants:
+        print(f'Checking {variant}', flush=True)
+        suffix = '-neo' if variant == 'neo' else ''
+        with tempfile.TemporaryDirectory(prefix='bughunt-theme-check-') as directory:
+            config = Path(directory)
+            for app in ('colors', 'waybar', 'swaync', 'gtklock', 'eww'):
+                package = app if app == 'swaync' else app + suffix
+                shutil.copytree(ROOT / package / '.config' / app, config / app)
+            # Neo supplies settings; it uses the original GTK CSS entrypoints.
+            shutil.copytree(ROOT / 'gtk/.config', config, dirs_exist_ok=True)
+            if variant == 'neo':
+                shutil.copytree(ROOT / 'gtk-neo/.config', config, dirs_exist_ok=True)
+            groups = {
+                '3.0': ('gtk-3.0/gtk.css', 'waybar/style.css', 'waybar/cheatsheet.css',
+                        'gtklock/buglock.css', 'eww/eww.css'),
+                '4.0': ('gtk-4.0/gtk.css', 'swaync/style.css'),
+            }
+            for version, paths in groups.items():
+                for path in paths:
+                    result = subprocess.run([sys.executable, __file__, version, str(config / path)])
+                    if result.returncode:
+                        failures.append(f'{variant}: GTK {version}: {path}')
+        if not args.syntax_only:
+            try:
+                check_contrast(ROOT / ('colors' + suffix) / '.config/colors/colors.css')
+            except (AssertionError, ValueError) as error:
+                failures.append(f'{variant}: {error}')
+    if failures:
+        raise SystemExit('\n'.join(failures))
 
 
 if __name__ == '__main__':

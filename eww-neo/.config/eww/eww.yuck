@@ -197,6 +197,7 @@
 					
 (defwidget disk-widget []
 	(box
+		:class "disk-widget"
 		:orientation "h"
 		:halign "start"
 		(label 

@@ -4,7 +4,7 @@
 /* Widget frames; local overrides follow. */
 .system-widget,
 .disk-widget,
-.proton-status,
+.proton-widget,
 .ram-widget {
     border: 2px solid @secondary;
     padding: 1px;
@@ -15,14 +15,14 @@
 /* Widget surface and border accents. */
 .system-widget,
 .disk-widget,
-.proton-status,
+.proton-widget,
 .ram-widget {
     background-color: @eww_surface;
     border-color: @primary;
 }
 
 .disk-widget,
-.proton-status,
+.proton-widget,
 .ram-widget {
     color: @primary;
 }
@@ -31,7 +31,7 @@
 * {
 	all: unset;
 	border-radius: 0px;
-	font-family: "SpaceMono Nerd Font Mon";
+	font-family: "SpaceMono Nerd Font Mono";
 	font-weight: normal;
 	font-size: 22px;
 }

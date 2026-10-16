@@ -273,8 +273,7 @@ switch_user() {
             awk '
                 $3 == "sddm"   ||
                 $3 == "gdm"    ||
-                $3 == "lightdm"
-                {
+                $3 == "lightdm" {
                     print $1
                     exit
                 }

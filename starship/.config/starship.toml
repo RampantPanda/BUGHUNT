@@ -2,6 +2,7 @@
 
 format = """
 [](bg:transparent fg:color_primary)\
+$username\
 $hostname\
 [](bg:transparent fg:color_primary)\
 $directory\
@@ -29,14 +30,14 @@ color_yellow = '#d79921'
 
 [hostname]
 ssh_only = true
-format = "[ $user@$hostname ](fg:color_primary bg:transparent)"
+format = "[@$hostname ](fg:color_primary bg:transparent)"
 disabled = false
 
 [username]
 show_always = false
 style_user = "fg:color_primary bg:transparent"
 style_root = "fg:color_primary bg:transparent"
-format = '[ $user ]($style)'
+format = '[ $user]($style)'
 
 [directory]
 style = "fg:color_primary bg:transparent"

@@ -52,14 +52,46 @@ Keep the checkout wherever you install it; the examples use `~/dotfiles`.
 `geany` targets `~/.config/geany`. Its session state and runtime socket are
 ignored by Git. `mango-vm` is an alternative to `mango`; do not stow both.
 
-`scripts` contains maintenance tools and the old installer; it is not a Stow
-package. There is no shell startup configuration, display manager setup, wallpaper
-service, or application account configuration here. **The large application list
-in the old installer is personal software preference, not a dependency list.**
+`scripts` contains maintenance tools and the dependency installer; it is not a
+Stow package. Fish startup configuration is included, but display manager setup,
+wallpaper services, and application accounts require separate configuration.
 
 ## Install on Arch
 
 Run the shell examples in Bash, as your regular user. Use `sudo` only where shown.
+
+The installer covers dependencies for the checked-in desktop, including Eww,
+Fish/Starship, MPD/rmpc, Neo's Python launcher, and the network connection editor:
+
+```sh
+bash scripts/install.sh --dry-run --theme neo
+bash scripts/install.sh --theme neo
+```
+
+Use `--theme original` (the default) for the original theme's Stow instructions.
+`--with-apps` adds the personal office, photography, Proton, and other application
+collection. An existing `yay` or `paru` is required for packages absent from your
+configured repositories; select one with `--aur-helper yay` or `--aur-helper paru`.
+The preflight uses local pacman sync databases, then installation performs a full
+`pacman -Syu` before installing AUR packages. Package availability can change.
+
+The installer builds runshell release 4.0.0 for gtklock 4, installs the font used
+by tofi, and creates the screenshots directory. It stops on incompatible gtklock
+versions. Temporary module sources are cleaned up on failure or interruption.
+It does not add repositories, overwrite GTK settings, or enable services. Stow
+commands are printed as simulations for you to review and apply separately.
+For Neo, the first command installs the original GTK CSS while excluding its
+settings; the second installs Neo settings and the remaining packages. Remove
+the opposite variant's Stow links before switching themes.
+
+The manual installation steps below remain available as an alternative.
+
+Run the script regression checks without installing packages or changing desktop
+settings:
+
+```sh
+python3 scripts/tests/test_desktop_scripts.py
+```
 
 ### 1. Install supporting applications
 
@@ -70,7 +102,7 @@ sudo pacman -Syu --needed \
   base-devel git stow fontconfig \
   kitty fuzzel swaync gtklock swayidle wlopm \
   wl-clip-persist wl-clipboard grim slurp libnotify brightnessctl \
-  networkmanager bluez bluez-utils blueman jq \
+  networkmanager nm-connection-editor bluez bluez-utils blueman jq \
   pipewire pipewire-pulse wireplumber pavucontrol \
   thunar firefox geany yad \
   capitaine-cursors adwaita-icon-theme gsettings-desktop-schemas \
@@ -96,7 +128,7 @@ The compositor package is `mangowm-git`, but its executable is `mango`.
 See [Mango's installation guide](https://mangowm.github.io/docs/installation/).
 This repo uses the [Mango Waybar modules](https://github.com/mangowm/mango/wiki/status-bar);
 a build that reports `Unknown module: mango/workspaces` will not provide the
-workspace buttons. The old installer also selects `waybar-git`.
+workspace buttons. The installer also selects `waybar-git`.
 [Tofi's upstream instructions](https://github.com/philj56/tofi#arch) cover its AUR
 package and source build.
 
@@ -509,10 +541,12 @@ session. The parser and contrast checker runs headlessly:
 python3 scripts/check-gtk-theme.py
 ```
 
-The checker validates the GTK 3/4 stylesheets and shared imports, including
-Eww's `eww.css`. All 29 desktop foreground/background pairs pass its 4.5:1
-contrast threshold. This is a palette check, not a guarantee about every app's
-rendered UI.
+The checker validates both the original and Neo GTK 3/4 stylesheets and shared
+imports, including Eww's `eww.css`. Use `--variant original` or `--variant neo`
+to check one theme, or `--syntax-only` to skip contrast checks. Neo uses the
+original GTK CSS entrypoints with its own palette and settings. All 29 desktop
+foreground/background pairs in each theme pass the 4.5:1 contrast threshold.
+This is a palette check, not a guarantee about every app's rendered UI.
 
 ## Troubleshooting
 
@@ -526,7 +560,7 @@ rendered UI.
 | Tofi cannot load its font | Check the `font` path in `tofi/.config/tofi/config`, or use `font = Terminus (TTF)`; run `fc-match 'Terminus (TTF)'`. |
 | Lock status module fails to load | Check its path and compatibility with your gtklock version. |
 | Eww does not appear | Install Eww, stow `eww` and `colors`, and inspect `eww logs` for errors. |
-| Screenshot is not saved | Check `grim`, `slurp`, and `~/Pictures/Screenshots`; run the command in a terminal for errors. The full-screen binding notifies without waiting for capture to finish. |
+| Screenshot is not saved | Check `grim`, `slurp`, and the stowed `bin` package. Run `~/.local/share/bin/snip.sh full` in a terminal for errors. The helper creates `~/Pictures/Screenshots` and reports success only after capture succeeds. |
 | Authorization prompts never appear | Start a polkit authentication agent in the graphical session. |
 | GTK icons or colors look unchanged | Restart the app, check GTK settings and `GTK_THEME`, and use installed preview mode. |
 

@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Report subscription failures; Waybar retries via restart-interval.
+set -o pipefail
+
 swaync-client -swb | while IFS= read -r line; do
     # Ignore empty lines
     [[ -z "$line" ]] && continue

@@ -113,7 +113,15 @@ ssid=$(
 )
 
 if [[ -z "$ssid" ]]; then
-    network="DISCONNECTED"
+    # A missing Wi-Fi SSID does not mean a wired/VPN connection is offline.
+    connection=$(
+        LC_ALL=C nmcli -t --escape no -f DEVICE,TYPE,STATE device status 2>/dev/null |
+            awk -F: '$3 == "connected" && $2 != "loopback" {
+                printf "%s (%s)", toupper($2), $1
+                exit
+            }'
+    )
+    network=$(printf '%s' "${connection:-DISCONNECTED}" | escape_markup)
 else
     network=$(
         printf '%s' "$ssid" |

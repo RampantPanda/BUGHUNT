@@ -1,4 +1,4 @@
-/* Master BUGHUNT palette for the desktop theme and shell widgets.
+/* Master BUGHUNT Neo palette for the desktop theme and shell widgets.
  * Keep widget rules in gtk.css / shell.css so palette imports have no side effects.
  */
 @define-color primary #75e3ee;

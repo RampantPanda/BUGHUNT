@@ -83,14 +83,6 @@
        	"tooltip-format-deactivated": "IDLE \nINHIBITOR \nDEACTIVATED",
        	"tooltip-format-activated": "IDLE \nINHIBITOR \nACTIVATED"
     },
-    "tray": {
-        // "icon-size": 21,
-        "spacing": 10,
-        // "icons": {
-        //   "blueman": "bluetooth",
-        //   "TelegramDesktop": "$HOME/.local/share/icons/hicolor/16x16/apps/telegram.png"
-        // }
-    },
     "clock": {
         "timezone": "Europe/Helsinki",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
@@ -152,7 +144,7 @@
         "format-disabled": "󰖪",
         "tooltip-format": "ID:{essid}\nIP:{ipaddr}\nGW:{gwaddr}\nSIG:{signalStrengthApp}",
         "format-linked": "󰌷",
-        "on-click": "network-manager-applet"
+        "on-click": "nm-connection-editor"
        // "format-alt": "NO CLICK"
     },
     "pulseaudio": {
@@ -200,6 +192,8 @@
     },
     "return-type": "json",
     "exec": "~/.config/waybar/noti-waybar.sh",
+    "restart-interval": 5,
+    "exec-on-event": false,
     "on-click": "swaync-client -t -sw",
     "on-click-right": "swaync-client -d -sw",
 	},
