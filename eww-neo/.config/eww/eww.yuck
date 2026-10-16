@@ -1,0 +1,241 @@
+;; THIS IS THE SYSMON WINDOW
+;; the logo is defined near the end of file
+(defwindow sysmon
+  :monitor 0
+  :geometry (geometry
+    :anchor "top right"
+    :x "30px"
+    :y "45px"
+    :width "290px"
+    :height "430px")
+  :stacking "bg"
+  :exclusive false
+  :focusable false
+  (system-widget))
+  
+;; THIS IS THE ONLY WIDGET IN THE SYSMON WINDOW
+;; THERE CAN ONLY BE ONE
+(defwidget system-widget []
+  (box
+    :class "system-widget"
+    :orientation "vertical"
+    :spacing 1
+
+	(host-widget)
+	(network-widget)
+	(uptime-widget)
+	  (box :height 6)
+	(proton-widget)
+    (cpu-widget)	
+    (ram-widget)
+    (disk-widget)
+    (swap-widget)
+    (battery-widget)
+      (box :height 6)
+    (pacnew-widget)  
+    (last-update-widget)
+      (box :height 6)
+    (failed-units-title)
+    (failed-units-widget)
+
+    ))  
+
+;; THESE ARE THE POLLS THAT PULL THE DATA
+(defpoll proton_status
+  :interval "5s"
+  "$HOME/.config/eww/scripts/proton-status.sh")
+
+(defpoll hostname
+  :interval "6000s"
+  "$HOME/.config/eww/scripts/host-name.sh")
+
+(defpoll cpu_usage
+  :interval "2s"
+  `~/.config/eww/scripts/cpu.sh`)
+  
+  (defpoll ram_usage
+  :interval "2s"
+  `~/.config/eww/scripts/ram.sh`)
+  
+(defpoll failed_system_units
+  :interval "10s"
+  `systemctl --failed --no-legend --plain --no-pager | awk 'NF {n++} END {print n+0}'`)
+
+(defpoll failed_user_units
+  :interval "10s"
+  `systemctl --user --failed --no-legend --plain --no-pager | awk 'NF {n++} END {print n+0}'`)
+  
+  (defpoll root_disk
+  :interval "30s"
+  `~/.config/eww/scripts/disk.sh / ROOT`)
+
+(defpoll home_disk
+  :interval "30s"
+  `~/.config/eww/scripts/disk.sh /home HOME`)
+  
+  (defpoll network
+  :interval "10s"
+  `~/.config/eww/scripts/network.sh`)
+  
+  (defpoll uptime
+  :interval "15m"
+  `~/.config/eww/scripts/uptime.sh`)
+  
+  (defpoll load_1m
+  :interval "5s"
+  `awk '{print $1}' /proc/loadavg`)
+  
+  (defpoll battery
+  :interval "30s"
+  `~/.config/eww/scripts/battery.sh`)
+  
+  (defpoll updates
+  :interval "60m"
+  `checkupdates 2>/dev/null | wc -l`)
+  
+  (defpoll swap
+  :interval "30s"
+  `~/.config/eww/scripts/swap.sh`)
+  
+  (defpoll pacnew
+  :interval "60m"
+  `pacdiff --output 2>/dev/null | wc -l`)
+  
+  (defpoll last_update
+  :interval "60m"
+  `~/.config/eww/scripts/last-update.sh`)
+			
+;; THESE ARE THE WIDGETS INSIDE THE SYSTEM WIDGET
+
+
+(defwidget proton-widget []
+  (box
+    :class "proton-widget"
+    :orientation "horizontal"
+    :halign "start"
+    (label :text "> WRGD ${proton_status}")))
+
+
+(defwidget host-widget []
+	(box
+		:class "host-widget"
+		:orientation "horizontal"
+		:halign "start"
+		(label :text "> HOST ${hostname}")))
+
+(defwidget ram-widget []
+	(box
+		:class "ram-widget"
+		:orientation "horizontal"
+		:halign "start"
+		(label :text "> MEM ${ram_usage}")))
+
+(defwidget cpu-widget []
+	(box
+		:class "cpu-widget"
+		:orientation "horizontal"
+		:halign "start"
+		(label :text "> CPU ${cpu_usage}%")))
+
+(defwidget failed-units-title []
+			(revealer
+			:reveal {failed_system_units > 0 || failed_user_units > 0}
+			:class "failed-units-title"
+			(label :text "> SYSFAIL #"
+			:halign "start")))
+			
+(defwidget failed-units-widget []
+  (box
+    :orientation "h"
+    :spacing 3
+
+    (revealer
+      :reveal {failed_system_units > 0}
+      :transition "slideleft"
+      :duration "200ms"
+      (label
+        :class "failed-units failed-system"
+        :tooltip "systemctl --failed"
+        :text "SYS ${failed_system_units}"))
+    (revealer
+      :reveal {failed_user_units > 0}
+      :transition "slideleft"
+      :duration "200ms"
+      (label
+        :class "failed-units failed-user"
+        :tooltip "systemctl --user --failed"
+        :text "USR ${failed_user_units}"))))
+
+(defwidget uptime-widget []
+	(box
+		:orientation "h"
+		:class "uptime-widget"
+		:spacing 2
+		:halign "start"
+		(label :text "> UPTIME ${uptime} D")))
+		
+(defwidget battery-widget []
+	(revealer
+		:reveal {battery != ""}
+		:class "battery-widget"
+		(label :text "> BATT ${battery}"
+		:halign "start")))
+		
+(defwidget pacnew-widget []
+	  (label
+		 :class "pacnew-widget"
+		 :halign "start"
+		:text "> PACNEW # ${pacnew}"))
+		
+(defwidget swap-widget []		
+	(revealer
+		:reveal {swap != ""}
+		:halign "start"
+		(label
+			:class "swap-widget"
+			:text "> SWAP ${swap}")))	
+					
+(defwidget disk-widget []
+	(box
+		:orientation "h"
+		:halign "start"
+		(label 
+			:text "> DISK ${root_disk}")))
+
+(defwidget network-widget []
+	(box
+		:orientation "h"
+		:class "network-widget"
+		(label 
+			:halign "start"
+			:text "> ${network}")))
+
+(defwidget last-update-widget []
+	(box
+		:orientation "h"
+		:class "last-update-widget"
+		:spacing 2
+		:halign "start"
+		(label 
+			:text "> SYSUPD ${last_update} D")))	
+			
+			
+(defwindow logowindow
+	:monitor 0
+	:geometry (geometry
+		:anchor "center"
+;;		:x "30px"
+;;		:y "55px"
+		:width "200px"
+		:height "220px"
+		)
+	:stacking "bg"
+	:exclusive false
+	:focusable false
+  (logo-widget))
+	
+(defwidget logo-widget []
+	(image
+	:path "${EWW_CONFIG_DIR}/assets/wy.png"
+	))
+	

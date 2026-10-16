@@ -1,13 +1,13 @@
-/* Master BUGHUNT palette for the desktop theme and shell widgets.
+/* Master K palette for the desktop theme and shell widgets.
  * Keep widget rules in gtk.css / shell.css so palette imports have no side effects.
  */
-@define-color primary #756000;
-@define-color surface #1d170b;
-@define-color secondary #3b3000;
-@define-color alert #752300;
-@define-color superior #9c8000;
-@define-color green #007500;
-@define-color text #d6c98f;
+@define-color primary #75e3ee;
+@define-color surface #0e0402;
+@define-color secondary #2d7b4a;
+@define-color alert #fd9e38;
+@define-color superior #c2d7c7;
+@define-color green #166c47;
+@define-color text #88f0d8;
 
 /* Additional Waybar status colors. */
 @define-color white #ffffff;

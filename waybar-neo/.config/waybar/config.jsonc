@@ -1,0 +1,283 @@
+// -*- mode: jsonc -*-
+{
+    "layer": "top", // Waybar at top layer
+    "position": "top", // Waybar position (top|bottom|left|right)
+    //"height": 0, // Waybar height (to be removed for auto height)
+    // Percentage width is calculated per monitor by launch.py.
+    "spacing": 0, // Gaps between modules (4px)
+    // Choose the order of the modules
+    "modules-left": [
+        "mango/workspaces",
+    ],
+    "modules-center": [
+        "mpd",
+    ],
+    "modules-right": [
+		
+        
+        "pulseaudio",
+        "network",
+        "battery",
+        "idle_inhibitor",
+        "custom/notifications",
+        "bluetooth",
+        "tray",
+        "custom/power",
+        "clock"
+    ],
+
+    ////////////////////////////
+    // Modules configuration  //
+    ////////////////////////////
+
+
+	"mango/workspaces":  {
+		"format": "{icon}",
+		"on-click": "activate",
+		"format-icons": {
+			"1": "",
+			"2": "",
+			"3": "",
+			"4": "󰝚",
+			"5": "",
+			"6": "󰇰",
+			"7": "󰻞",
+			"8": "",
+			"9": "󰩮"
+		},
+	},
+
+    "mpd": {
+        "format": "{artist} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S})",
+        "format-disconnected": "DISC",
+        "format-stopped": "STOP",
+        "unknown-tag": "???",
+        "interval": 5,
+        "on-click": "~/.config/waybar/find-rmpc.sh",
+        "consume-icons": {
+            "on": " "
+        },
+        "random-icons": {
+            "off": "<span color=\"#fd9e38\"></span> ",
+            "on": " "
+        },
+        "repeat-icons": {
+            "on": " "
+        },
+        "single-icons": {
+            "on": "1 "
+        },
+        "state-icons": {
+            "paused": "",
+            "playing": ""
+        },
+        "tooltip-format": "MUSIC SYSTEM ONLINE",
+        "tooltip-format-disconnected": "MUSIC SYSTEM OFFLINE"
+    },
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "",
+            "deactivated": "󰒲"
+        	},
+       	"tooltip-format-deactivated": "IDLE \nINHIBITOR \nDEACTIVATED",
+       	"tooltip-format-activated": "IDLE \nINHIBITOR \nACTIVATED"
+    },
+    "tray": {
+        // "icon-size": 21,
+        "spacing": 10,
+        // "icons": {
+        //   "blueman": "bluetooth",
+        //   "TelegramDesktop": "$HOME/.local/share/icons/hicolor/16x16/apps/telegram.png"
+        // }
+    },
+    "clock": {
+        "timezone": "Europe/Helsinki",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        //"format-alt": "{:%Y-%m-%d}"
+    },
+    "cpu": {
+        "format": "CPU{usage}%",
+        "tooltip": false
+    },
+    "memory": {
+        "format": "RAM{}%" 
+    },
+    "temperature": {
+        // "thermal-zone": 2,
+        // "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+        "critical-threshold": 80,
+        // "format-critical": "{temperatureC}°C {icon}",
+        "format": "TEMP{temperatureC}",
+        "format-icons": ["", "", ""]
+    },
+    "backlight": {
+        // "device": "acpi_video1",
+        "format": "{percent}% {icon}",
+        "format-icons": ["", "", "", "", "", "", "", "", ""]
+    },
+    "battery": {
+        "states": {
+            "full": 90,
+            "3quarter": 75,
+            "half": 50,
+            "quarter": 25,
+            "critical": 10,
+        },
+        "format": "{icon}",
+        "format-charging": "{icon}",
+        "format-icons-": ["","","","",""],
+         //"format-alt": "{time} {icon}",
+        "tooltip-format": "CAPACITY {capacity}%\nTIME TO ZERO {time}",
+    },
+    "battery#bat2": {
+        "bat": "BAT2"
+    },
+    "power-profiles-daemon": {
+      "format": "{icon}",
+      "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+      "tooltip": true,
+      "format-icons": {
+        "default": "",
+        "performance": "",
+        "balanced": "",
+        "power-saver": ""
+      }
+    },
+    "network": {
+        // "interface": "wlp2*", // (Optional) To force the use of this interface
+        "format-wifi": "󰖩",
+        "format-ethernet": "",
+        "format-disconnected": "󱚵",
+        "format-disabled": "󰖪",
+        "tooltip-format": "ID:{essid}\nIP:{ipaddr}\nGW:{gwaddr}\nSIG:{signalStrengthApp}",
+        "format-linked": "󰌷",
+        "on-click": "network-manager-applet"
+       // "format-alt": "NO CLICK"
+    },
+    "pulseaudio": {
+        "scroll-step": 5, // %, can be a float
+        "format": "{icon}",
+        "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+        "on-double-click": "pavucontrol",
+        "tooltip-format": "{volume}%",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
+        },
+    },
+
+"bluetooth": {
+    "format": "",
+    "format-disabled": "󰂲",
+    "format-off": "󰂲",
+    "format-on": "",
+    "format-connected": "󰂱",
+    "format-connected-battery": "󰂱",
+    "tooltip-format": "BLUETOOTH",
+    "tooltip-format-connected": "{device_alias}",
+    "on-click": "blueman-manager"
+},
+
+    "wireplumber": {
+    "format": "VOL  {volume}",
+    "format-muted": "VOL OFF",
+    "on-click": "pavucontrol"
+    },
+   
+   "custom/notifications": {
+    "format": "{icon}",
+    "format-icons": {
+        "notification": "󱅫",
+        "none": "󰂚",
+        "dnd-notification": "󰂛",
+        "dnd-none": "󰂛"
+    },
+    "return-type": "json",
+    "exec": "~/.config/waybar/noti-waybar.sh",
+    "on-click": "swaync-client -t -sw",
+    "on-click-right": "swaync-client -d -sw",
+	},
+	
+    "custom/media": {
+        "format": "{icon} {text}",
+        "return-type": "json",
+        "max-length": 40,
+        "format-icons": {
+            "spotify": "",
+            "default": "🎜"
+        },
+        "escape": true,
+        "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources folder
+        // "exec": "$HOME/.config/waybar/mediaplayer.py --player spotify 2> /dev/null" // Filter player based on name
+    },
+    "custom/power": {
+        "format" : "󰐥",
+		"tooltip-format": "POWER &amp; SESSION CONTROLS",
+		"on-click": "$HOME/.config/waybar/powermenu.sh",
+		"on-click-right": "$HOME/.config/gtklock/lock.sh"
+    },
+    "custom/hostname": {
+        "format": "{text}",
+        "on-click": "/usr/bin/fuzzel --anchor=top",
+        "on-click-right": "~/.config/waybar/cheatsheet.sh",
+        "tooltip-format": "LEFT click for 'menu' \nRIGHT click for 'command reference'",
+        "exec": "hostname",
+        "interval": "once"
+},
+"group/sysdrawer": {
+    "orientation": "horizontal",
+    "drawer": {
+        "transition-duration": 100,
+        "click-to-reveal": true,
+        "start-expanded": false,
+        "transition-left-to-right": false
+    },
+    "modules": [
+        "custom/systoggle",
+        "bluetooth",
+        "tray",
+    ]
+},
+"group/musicdrawer": {
+	"orientation": "horizontal",
+	"drawer": {
+		"transition-duration":100,
+		"click-to-reveal": true,
+        "start-expanded": false,
+        "transition-left-to-right": false
+	},
+	"modules": [
+		"custom/musictoggle",
+		"mpd"
+		]
+},
+
+"custom/systoggle": {
+    "format": "󰄽SYS",
+    "tooltip-format": "ACTIVE SUBSYSTEMS"
+},
+
+"custom/musictoggle": {
+	"format": "󰄽MUS",
+	"tooltip-format": "MUSIC SYSTEM"
+},
+
+"custom/nextcloud": {
+    "exec": "~/.config/waybar/nextcloud-script.sh",
+    "return-type": "json",
+    "interval": 3,
+    "tooltip": true,
+    "on-click": "nextcloud"
+},
+
+"tray": {
+    "icon-size": 24,
+    "spacing": 6
+}
+}

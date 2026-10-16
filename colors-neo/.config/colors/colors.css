@@ -1,0 +1,118 @@
+/* Master BUGHUNT palette for the desktop theme and shell widgets.
+ * Keep widget rules in gtk.css / shell.css so palette imports have no side effects.
+ */
+@define-color primary #75e3ee;
+@define-color surface #0e0402;
+@define-color secondary #2d7b4a;
+@define-color alert #fd9e38;
+@define-color superior #c2d7c7;
+@define-color green #166c47;
+@define-color text #88f0d8;
+
+/* Waybar status colors derived from the master palette. */
+@define-color white @text;
+@define-color black @surface;
+@define-color terminal mix(@surface, @superior, 0.2);
+@define-color danger mix(@surface, @alert, 0.4);
+@define-color balanced mix(@surface, @primary, 0.35);
+@define-color success mix(@green, @text, 0.75);
+@define-color memory mix(@surface, @primary, 0.3);
+@define-color disk mix(@surface, @alert, 0.3);
+@define-color inactive mix(@surface, @superior, 0.3);
+@define-color media mix(@secondary, @text, 0.65);
+@define-color media_text @surface;
+@define-color vlc @alert;
+@define-color temperature @alert;
+@define-color attention @danger;
+@define-color paused mix(@surface, @secondary, 0.65);
+@define-color language mix(@green, @primary, 0.65);
+@define-color language_text @surface;
+@define-color keyboard @superior;
+@define-color screenshare @danger;
+@define-color audio_in @green;
+@define-color audio_out @balanced;
+
+/* Lockscreen, cheatsheet, and widget roles share the master palette. */
+@define-color lock_surface @surface;
+@define-color lock_text @text;
+@define-color lock_input mix(@surface, @secondary, 0.15);
+@define-color lock_border @superior;
+@define-color lock_error @alert;
+@define-color cheatsheet_surface @surface;
+@define-color cheatsheet_text @text;
+@define-color cheatsheet_border @primary;
+@define-color cheatsheet_selection mix(@surface, @secondary, 0.65);
+@define-color cheatsheet_accent @alert;
+@define-color eww_surface @surface;
+
+/* Desktop roles derived from the master palette.
+ * Darkened interaction surfaces keep the light foregrounds readable.
+ */
+@define-color gtk_bg @surface;
+@define-color gtk_fg @text;
+@define-color gtk_panel mix(@surface, @secondary, 0.35);
+@define-color gtk_view shade(@surface, 0.75);
+@define-color gtk_hover mix(@surface, @secondary, 0.6);
+@define-color gtk_border @superior;
+@define-color gtk_accent @primary;
+@define-color gtk_accent_fg @surface;
+@define-color gtk_muted mix(@superior, @surface, 0.1);
+@define-color gtk_disabled mix(@superior, @surface, 0.4);
+@define-color gtk_link @primary;
+@define-color gtk_success @success;
+@define-color gtk_warning @alert;
+@define-color gtk_error @alert;
+@define-color gtk_error_bg @danger;
+@define-color gtk_selection @gtk_hover;
+@define-color gtk_selection_fg @text;
+
+/* GTK 3 / older GTK 4 / adw-gtk3 semantic colors. */
+@define-color theme_bg_color @gtk_bg;
+@define-color theme_fg_color @gtk_fg;
+@define-color theme_base_color @gtk_view;
+@define-color theme_text_color @gtk_fg;
+@define-color theme_selected_bg_color @gtk_accent;
+@define-color theme_selected_fg_color @gtk_accent_fg;
+@define-color theme_unfocused_bg_color @gtk_bg;
+@define-color theme_unfocused_fg_color @gtk_fg;
+@define-color theme_unfocused_base_color @gtk_view;
+@define-color theme_unfocused_text_color @gtk_fg;
+@define-color theme_unfocused_selected_bg_color @gtk_selection;
+@define-color theme_unfocused_selected_fg_color @gtk_selection_fg;
+@define-color insensitive_bg_color @gtk_bg;
+@define-color insensitive_fg_color @gtk_disabled;
+@define-color insensitive_base_color @gtk_view;
+@define-color borders @gtk_border;
+@define-color unfocused_borders @primary;
+@define-color warning_color @gtk_warning;
+@define-color error_color @gtk_error;
+@define-color success_color @gtk_success;
+@define-color accent_bg_color @gtk_accent;
+@define-color accent_fg_color @gtk_accent_fg;
+@define-color accent_color @gtk_accent;
+@define-color window_bg_color @gtk_bg;
+@define-color window_fg_color @gtk_fg;
+@define-color view_bg_color @gtk_view;
+@define-color view_fg_color @gtk_fg;
+@define-color headerbar_bg_color @gtk_panel;
+@define-color headerbar_fg_color @gtk_fg;
+@define-color headerbar_border_color @gtk_border;
+@define-color headerbar_backdrop_color @gtk_panel;
+@define-color sidebar_bg_color @gtk_panel;
+@define-color sidebar_fg_color @gtk_fg;
+@define-color sidebar_backdrop_color @gtk_panel;
+@define-color card_bg_color @gtk_panel;
+@define-color card_fg_color @gtk_fg;
+@define-color dialog_bg_color @gtk_bg;
+@define-color dialog_fg_color @gtk_fg;
+@define-color popover_bg_color @gtk_panel;
+@define-color popover_fg_color @gtk_fg;
+@define-color destructive_bg_color @gtk_error_bg;
+@define-color destructive_fg_color @gtk_fg;
+@define-color destructive_color @gtk_error;
+@define-color success_bg_color @gtk_success;
+@define-color success_fg_color @gtk_bg;
+@define-color warning_bg_color @gtk_warning;
+@define-color warning_fg_color @gtk_bg;
+@define-color error_bg_color @gtk_error_bg;
+@define-color error_fg_color @gtk_fg;

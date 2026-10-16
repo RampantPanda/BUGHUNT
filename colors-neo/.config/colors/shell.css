@@ -1,0 +1,46 @@
+@import url("colors.css");
+
+/* Shared shell styling for Waybar, SwayNC, wlogout, and gtklock. */
+
+/* Default typography and rounded corners; local overrides follow the import. */
+* {
+    font-family: "SpaceMono Nerd Font Mono";
+    letter-spacing: 1px;
+    border-radius: 24px;
+    margin-left: 3px;
+    }
+
+/* Thin borders for controls; application overrides remain local. */
+button,
+entry,
+tooltip,
+.widget-dnd > switch {
+    border: 1px solid @primary;
+}
+
+/* Notification panel frames. */
+.notification-background,
+.control-center {
+    border: 2px solid @secondary;
+    padding: 1px;
+    color: @primary;
+    background-color: @surface;
+}
+
+/* Shared panel surfaces; individual tools keep their text/border accents. */
+.notification-background,
+.control-center,
+.notification-background .notification {
+    background-color: @surface;
+}
+
+.notification-background,
+.control-center {
+    color: @text;
+    box-shadow: none;
+}
+
+/* Shared scrollbar geometry; widths and backgrounds remain local. */
+scrollbar slider {
+    min-height: 30px;
+}

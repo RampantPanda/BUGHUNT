@@ -1,0 +1,450 @@
+@import url("../colors/shell.css");
+
+*{
+    min-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+/* Base frames for the bar and its modules; local overrides follow. */
+
+#disk,
+#temperature,
+#backlight,
+#network,
+#pulseaudio,
+#wireplumber,
+#custom-media,
+#mode,
+#scratchpad,
+#power-profiles-daemon,
+#mpd,
+#clock,
+#tray
+    {
+    font-size: 16px;
+    border-right: 2px solid @secondary;
+    border-left: 2px solid @secondary;
+    border-radius: 16px;
+    padding: 1px;
+    color: @primary;
+    background-color: @surface;
+}
+
+#network,
+#battery,
+#cpu,
+#memory,
+#custom-notifications,
+#temperature, 
+#disk,
+#pulseaudio,
+#custom-power,
+#idle_inhibitor
+    {
+    font-size: 24px;
+    padding-left: 4px;
+    padding-right: 4px;
+    border-right: 2px solid @secondary;
+    border-left: 2px solid @secondary;
+}
+
+
+
+window#waybar {
+    padding: 1px;
+    color: @white;
+    transition-property: background-color;
+    transition-duration: .5s;
+    border: none;
+    background-color: transparent;
+    font-size: 24px;
+}
+
+
+
+
+window#waybar.hidden {
+    opacity: 0.2;
+}
+
+/*
+window#waybar.empty {
+    background-color: transparent;
+}
+window#waybar.solo {
+    background-color: @white;
+}
+*/
+button {
+    /* Use box-shadow instead of border so the text isn't offset */
+    box-shadow: inset 0 -3px transparent;
+    /* Avoid rounded borders under each button name */
+    border: none;
+}
+
+/* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
+/* button:hover {
+    background: inherit;
+    box-shadow: inset 0 -3px @white;
+}*/
+
+/* you can set a style on hover for any module like this
+#pulseaudio:hover {
+    background-color: @surface;
+    color: @primary;
+}*/
+
+#workspaces button {
+    padding-left: 8px;
+    padding-right: 8px;
+    font-size: 22px;
+    background-color: @surface;
+    color: @primary;
+    border-radius: 16px;
+    margin-left: 2px;
+    margin-right: 2px;
+    border: 2px solid @primary;
+}
+
+#workspaces button.empty {
+    background-color: @surface;
+    color: @secondary;
+    border-left: 2px solid @secondary;
+    border-right: 2px solid @secondary;
+    border-top: 0px solid @secondary;
+    border-bottom: 0px solid @secondary;
+}
+
+#workspaces button:hover {
+    background-color: @gtk_hover;
+}
+
+#workspaces button.focused, #workspaces button.active {
+    background-color: @primary;
+    color: @surface;
+
+}
+
+#workspaces button.urgent {
+    background-color: @alert;
+    color: @surface;
+}
+
+#mode {
+    box-shadow: inset 0 -3px @white;
+}
+
+#bluetooth {
+    color: inherit;
+    border-left: 2px solid @secondary;
+    border-right: none;
+    padding-left: 6px;
+    padding-right:3px;
+    font-size: 22px;
+}
+
+#tray{
+	color: @primary;
+	background-color: @surface;
+	border-left: none;
+}
+
+#workspaces {
+    margin-top: 1px;
+    margin-bottom: 0px;
+
+}
+
+/* If workspaces is the leftmost module, omit left margin */
+.modules-left > widget:first-child > #workspaces {
+    margin-left: 1px;
+}
+
+/* If workspaces is the rightmost module, omit right margin */
+.modules-right > widget:last-child > #workspaces {
+    margin-right: 0;
+}
+
+#battery.charging, #battery.plugged {
+    color: @surface;
+    background-color: @primary;
+}
+
+@keyframes blink {
+    to {
+        background-color: @alert;
+        color: @surface;
+    }
+}
+
+/* Using steps() instead of linear as a timing function to limit cpu usage */
+#battery.critical:not(.charging) {
+    background-color: @surface;
+    color: @primary;
+    animation-name: blink;
+    animation-duration: 0.3s;
+    animation-timing-function: steps(2);
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+#battery.warning:not(.charging) {
+background-color: @alert;
+color: @surface;
+}
+
+
+#custom-notifications.notification {
+    color: @surface;
+    background-color: @primary;
+}
+
+#custom-notifications.none {
+    color: @surface;
+    background-color: @primary;
+}
+
+#custom-notifications.dnd-notification {
+    color: @primary;
+    background-color: @surface;
+}
+
+#custom-notifications.dnd-none {
+    color: @primary;
+    background-color: @surface;
+}
+
+#sysdrawer,
+#musicdrawer {
+    color: @primary;
+    background-color: @surface;
+    border-left: 2px solid @secondary;
+    border-right: 2px solid @secondary;
+    border-top: 0px solid @secondary;
+    border-bottom: 0px solid @secondary;
+    padding: 0px;
+}
+
+/* normal toggle */
+#custom-systoggle,
+#custom-musictoggle {
+    padding: 0 4px;
+    color: @primary;
+    background-color: @surface;
+    border: none;
+}
+
+/* expanded toggle */
+#sysdrawer.expanded #custom-systoggle,
+#musicdrawer.expanded #custom-musictoggle {
+    color: @surface;
+    background-color: @primary;
+    border: none;
+}
+#power-profiles-daemon {
+    padding-right: 15px;
+}
+
+#power-profiles-daemon.performance {
+    background-color: @danger;
+    color: @white;
+}
+
+#power-profiles-daemon.balanced {
+    background-color: @balanced;
+    color: @white;
+}
+
+#power-profiles-daemon.power-saver {
+    background-color: @success;
+    color: @black;
+}
+
+label:focus {
+    background-color: @black;
+}
+
+
+#backlight {
+    background-color: @inactive;
+}
+
+#network.disconnected {
+    background-color: @alert;
+    color: @surface;
+}
+
+#network.disabled {
+	color: @primary;
+	background-color: @surface;
+}
+
+#network.ethernet,
+#network.wifi {
+	color: @surface;
+	background-color: @primary;
+}
+
+
+#pulseaudio.muted {
+    background-color: @surface;
+    color: @primary;
+}
+
+
+#wireplumber {
+    background-color: @primary;
+    color: @surface;
+    border-color: @surface;
+}
+#wireplumber.muted {
+    background-color: @surface;
+    color: @primary;
+}
+
+#custom-media {
+    background-color: @media;
+    color: @media_text;
+    min-width: 100px;
+}
+
+#custom-media.custom-spotify {
+    background-color: @media;
+}
+
+#custom-media.custom-vlc {
+    background-color: @vlc;
+}
+
+#custom-hostname {
+    background-color: @primary;
+    padding: 4px;
+    color: @surface;
+
+}
+
+#temperature.critical {
+    background-color: @alert;
+    color: @surface;
+}
+
+
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+    background-color: @attention;
+}
+
+#mpd {
+    background-color: @primary;
+    color: @surface;
+    border: 0px;
+}
+
+#mpd.disconnected {
+    background-color: @alert;
+    color: @surface;
+}
+
+#mpd.stopped {
+    background-color: @surface;
+    color: @primary;
+}
+
+#mpd.paused {
+    background-color: @secondary;
+    color: @primary;
+}
+
+#custom-nextcloud {
+    padding: 0 8px;
+    border-left: 2px solid @secondary;
+    border-right: 2px solid @secondary;
+    border-top: 0px solid @secondary;
+    border-bottom: 0px solid @secondary;
+}
+
+#custom-nextcloud.syncing {
+    color: @primary;
+    background: @surface;
+}
+
+#custom-nextcloud.synced {
+    color: @surface;
+    background: @primary;
+}
+
+#custom-nextcloud.error {
+    color: @surface;
+    background: @alert;
+}
+
+#custom-nextcloud.paused {
+    color: @superior;
+    background: @secondary;
+}
+
+#language {
+    background: @language;
+    color: @language_text;
+    padding: 0 5px;
+    margin: 0 5px;
+    min-width: 16px;
+}
+
+#keyboard-state {
+    background: @keyboard;
+    color: @black;
+    padding: 0 0px;
+    margin: 0 5px;
+    min-width: 16px;
+}
+
+#keyboard-state > label {
+    padding: 0 5px;
+}
+
+#keyboard-state > label.locked {
+    background: alpha(@surface, 0.2);
+}
+
+#scratchpad {
+    background: alpha(@surface, 0.2);
+}
+
+#scratchpad.empty {
+	background-color: transparent;
+}
+
+#privacy {
+    padding: 0;
+}
+
+#privacy-item {
+    padding: 0 5px;
+    color: @text;
+}
+
+#privacy-item.screenshare {
+    background-color: @screenshare;
+}
+
+#privacy-item.audio-in {
+    background-color: @audio_in;
+}
+
+#privacy-item.audio-out {
+    background-color: @audio_out;
+}
+tooltip {
+    background-color: @surface;
+    border-width: 2px;
+}
+tooltip label {
+    color: @primary;
+}
