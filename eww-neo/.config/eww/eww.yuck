@@ -20,7 +20,6 @@
     :class "system-widget"
     :orientation "vertical"
     :spacing 1
-
 	(host-widget)
 	(network-widget)
 	(uptime-widget)
@@ -237,6 +236,6 @@
 	
 (defwidget logo-widget []
 	(image
-	:path "${EWW_CONFIG_DIR}/assets/wy.png"
+	:path "${EWW_CONFIG_DIR}/assets/wy-neo.png"
 	))
 	
