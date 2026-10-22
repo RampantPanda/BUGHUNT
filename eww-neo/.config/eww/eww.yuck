@@ -237,5 +237,6 @@
 (defwidget logo-widget []
 	(image
 	:path "${EWW_CONFIG_DIR}/assets/wy-neo.png"
+	:class "logo-widget"
 	))
 	

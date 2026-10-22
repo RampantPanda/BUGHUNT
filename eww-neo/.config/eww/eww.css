@@ -1,61 +1,48 @@
 /* Use the local palette symlink: Eww canonicalizes the stowed config path. */
-@import url("colors.css");
-
-/* Widget frames; local overrides follow. */
-.system-widget,
-.disk-widget,
-.proton-widget,
-.ram-widget {
-    border: 2px solid @secondary;
-    padding: 1px;
-    color: @primary;
-    background-color: @surface;
-}
-
-/* Widget surface and border accents. */
-.system-widget,
-.disk-widget,
-.proton-widget,
-.ram-widget {
-    background-color: @eww_surface;
-    border-color: @primary;
-}
-
-.disk-widget,
-.proton-widget,
-.ram-widget {
-    color: @primary;
-}
+@define-color primary #75e3ee;
+@define-color surface #0e0402;
+@define-color secondary #2d7b4a;
+@define-color alert #fd9e38;
+@define-color superior #c2d7c7;
+@define-color green #166c47;
+@define-color text #88f0d8;
 
 
 * {
-	all: unset;
-	border-radius: 0px;
 	font-family: "SpaceMono Nerd Font Mono";
 	font-weight: normal;
 	font-size: 22px;
+	    background-color: @surface;
 }
 
+.disk-widget,
+.proton-widget,
+.ram-widget,
 .host-widget,
 .uptime-widget,
 .network-widget,
 .last-update-widget,
 .pacnew-widget,
-.system-widget,
-.disk-widget,
-.ram-widget, 
 .cpu-widget, 
 .swap-widget,
-.proton-widget
- {
-	padding: 1px 1px;
-	background-color: @surface;
-	color: @primary;
-	
+.battery-widget
+{
+    padding: 6px;
+    color: @primary;
+    background-color: @surface;
+    border-right: 2px solid @secondary;
+    border-left: 2px solid @secondary;
+    border-radius: 26px;
 }
+
+
+.system-widget{
+	border: none;
+}
+
 .warning {
 	color: @primary;
-	border: 4px solid @alert
+	border: 4px solid @alert;
 }
 
 .system-control {
@@ -92,4 +79,9 @@
     color: @surface;
     background-color: @alert;
     border: 4px solid @alert;
+}
+
+.logo-widget {
+    opacity: 0.10;
+    background-color: @surface;
 }
