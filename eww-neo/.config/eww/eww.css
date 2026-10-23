@@ -1,58 +1,40 @@
 /* Use the local palette symlink: Eww canonicalizes the stowed config path. */
 @import url("colors.css");
 
-/* Widget frames; local overrides follow. */
-.system-widget,
-.disk-widget,
-.proton-widget,
-.ram-widget {
-    border: 2px solid @secondary;
-    padding: 1px;
-    color: @primary;
-    background-color: @surface;
-}
-
-/* Widget surface and border accents. */
-.system-widget,
-.disk-widget,
-.proton-widget,
-.ram-widget {
-    background-color: @eww_surface;
-    border-color: @primary;
-}
-
-.disk-widget,
-.proton-widget,
-.ram-widget {
-    color: @primary;
-}
-
-
 * {
 	all: unset;
-	border-radius: 0px;
+	border-radius: 16px;
 	font-family: "SpaceMono Nerd Font Mono";
 	font-weight: normal;
 	font-size: 22px;
+	padding: 5px
 }
 
+/* Widget frames; local overrides follow. */
+.system-widget{
+    border: none;
+    color: @primary;
+    background-color: @surface;
+ }
+
+
+.disk-widget,
+.proton-widget,
+.swap-widget,
+.ram-widget,
 .host-widget,
 .uptime-widget,
 .network-widget,
+.cpu-widget,
 .last-update-widget,
-.pacnew-widget,
-.system-widget,
-.disk-widget,
-.ram-widget, 
-.cpu-widget, 
-.swap-widget,
-.proton-widget
- {
-	padding: 1px 1px;
-	background-color: @surface;
-	color: @primary;
-	
-}
+.pacnew-widget {
+    border-left: 2px solid @secondary;
+    border-right: 2px solid @secondary;
+    padding: 1px;
+    color: @primary;
+    background-color: @surface;
+ }
+
 .warning {
 	color: @primary;
 	border: 4px solid @alert
