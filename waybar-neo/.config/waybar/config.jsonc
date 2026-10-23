@@ -13,8 +13,6 @@
         "mpd",
     ],
     "modules-right": [
-		
-        
         "pulseaudio",
         "network",
         "battery",
@@ -118,7 +116,7 @@
         },
         "format": "{icon}",
         "format-charging": "{icon}",
-        "format-icons-": ["","","","",""],
+        "format-icons": ["","","","",""],
          //"format-alt": "{time} {icon}",
         "tooltip-format": "CAPACITY {capacity}%\nTIME TO ZERO {time}",
     },
@@ -156,7 +154,7 @@
         "format-icons": {
             "headphone": "",
             "hands-free": "",
-            "headset": "",
+            "headset": "",
             "phone": "",
             "portable": "",
             "car": "",
