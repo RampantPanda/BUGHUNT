@@ -42,7 +42,7 @@
 #custom-power,
 #idle_inhibitor
     {
-    font-size: 32px;
+    font-size: 26px;
     padding-left: 8px;
     padding-right: 8px;
     border-radius: 24px;
@@ -50,6 +50,16 @@
     border-left: 2px solid @secondary;
 }
 
+#idle_inhibitor.deactivated {
+    color: @secondary;
+    background-color: @surface;
+}
+
+
+#idle_inhibitor.activated {
+    color: @primary;
+    background-color: @surface;
+}
 
 
 
@@ -101,7 +111,7 @@ button {
 #workspaces button {
     padding-left: 8px;
     padding-right: 8px;
-    font-size: 32px;
+    font-size: 24px;
     background-color: @surface;
     color: @primary;
     border-radius: 24px;
@@ -144,7 +154,7 @@ button {
     border-right: none;
     padding-left: 6px;
     padding-right:3px;
-    font-size: 32px;
+    font-size: 28px;
     border-radius: 24;
 }
 
@@ -210,12 +220,12 @@ color: @surface;
 }
 
 #custom-notifications.dnd-notification {
-    color: @primary;
+    color: @secondary;
     background-color: @surface;
 }
 
 #custom-notifications.dnd-none {
-    color: @primary;
+    color: @secondary;
     background-color: @surface;
 }
 
