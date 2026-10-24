@@ -1,0 +1,93 @@
+{
+    "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+    "logo": {
+	  "type": "kitty",
+	  "source": "~/.config/fastfetch/wyyh.jpg",
+	},
+
+    "display": {
+        "separator": "  ",
+        "color": {
+            "keys": "green",
+            "separator": "blue",
+            "output" : "yellow"
+        },
+        "size": {
+            "ndigits": 0,
+            "maxPrefix": "MB"
+        },
+        "key": {
+            "type": "string"
+        },
+        "percent": {
+        "type": 2
+        },
+         "bar": {
+        "width": 12,
+        "char": {
+            "elapsed": "󰽢",
+            "total": ""
+            },
+         "color": {
+            "elapsed": "#75e3ee",
+            "total": "#2d7b4a"
+        }
+        }
+    },
+
+
+    "modules": [
+		        {
+            "type": "title",
+            "color": {
+                "user": "green",
+                "at": "blue",
+                "host": "yellow"
+            }
+        },
+        {"type": "separator"
+            },
+        {
+        	"type": "WM",
+        	"key": "WM      ",
+        	"format": "{pretty-name}"
+        },
+        {
+        	"type": "os",
+        	"key": "OS      ",
+        	"format": "{pretty-name}"
+        },
+        {   "type":"shell",
+            "key": "SHELL   ",
+            "format": "{exe-path}"
+        },
+                {
+        	"type": "Chassis",
+        	"key": "CHASSIS ",
+        	"format": "{vendor}"
+        },
+        {"type": "separator"
+            },
+        {"type": "uptime",
+        "key": "ONLINE  ",
+        "format": "{days} D"
+        },
+        {
+        "type" : "disk",
+        "key": "DISK    ",
+        "format" : "{size-percentage-bar}"
+        },
+        {"type" : "battery",
+        "key": "BATTERY ",
+        "format" : "{capacity-bar}"
+        },
+        {"type": "separator"
+            },
+
+        {
+        "type":"Wifi",
+        "key": "WIFI     ",
+        "format":"{ssid} \n {security>56}"
+        },
+        ]
+}

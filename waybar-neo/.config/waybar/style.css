@@ -153,8 +153,8 @@ button {
     border-right: none;
     padding-left: 6px;
     padding-right:3px;
-    font-size: 28px;
-    border-radius: 24;
+    font-size: 24px;
+    border-radius: 24px;
 }
 
 #tray{
@@ -180,7 +180,7 @@ button {
 }
 
 #battery {
-	font-size: 32px;
+	font-size: 18px;
     border-right: 2px solid @secondary;
     border-left: 2px solid @secondary;
     border-radius: 24px;
