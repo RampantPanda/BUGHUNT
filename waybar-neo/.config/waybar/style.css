@@ -37,7 +37,6 @@
 #custom-notifications,
 #temperature, 
 #disk,
-#battery,
 #pulseaudio,
 #custom-power,
 #idle_inhibitor
@@ -180,9 +179,20 @@ button {
     margin-right: 0;
 }
 
+#battery {
+	font-size: 32px;
+    border-right: 2px solid @secondary;
+    border-left: 2px solid @secondary;
+    border-radius: 24px;
+    padding-left: 6px;
+    padding-right: 6px;
+	color: @secondary;
+	background-color: @surface;
+}
+
 #battery.charging, #battery.plugged {
-    color: @surface;
-    background-color: @primary;
+    color: @primary;
+    background-color: @surface;
 }
 
 @keyframes blink {
@@ -207,7 +217,14 @@ button {
 background-color: @alert;
 color: @surface;
 }
-
+#battery.half:not(.charging) {
+background-color: @surface;
+color: @alert;
+}
+#battery.quarter:not(.charging) {
+background-color: @alert;
+color: @surface;
+}
 
 #custom-notifications.notification {
     color: @surface;
@@ -285,19 +302,19 @@ label:focus {
 }
 
 #network.disconnected {
-    background-color: @alert;
-    color: @surface;
+    background-color: @surface;
+    color: @secondary;
 }
 
 #network.disabled {
-	color: @primary;
+	color: @secondary;
 	background-color: @surface;
 }
 
 #network.ethernet,
 #network.wifi {
-	color: @surface;
-	background-color: @primary;
+	color: @primary;
+	background-color: @surface;
 }
 
 
