@@ -174,11 +174,11 @@
 		(label :text "> UPTIME ${uptime} D")))
 		
 (defwidget battery-widget []
-	(revealer
+  (revealer
 		:reveal {battery != ""}
-		:class "battery-widget"
 		(label :text "> BATT ${battery}"
-		:halign "start")))
+		:class "battery-widget"
+    :halign "start")))
 		
 (defwidget pacnew-widget []
 	  (label
