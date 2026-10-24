@@ -3,7 +3,7 @@ Name=Neo Wire
 Comment=Minimal cyan wireframe icon theme
 Inherits=Adwaita,hicolor
 
-Directories=scalable/actions,scalable/devices,scalable/mimetypes,scalable/places,scalable/status
+Directories=scalable/actions,scalable/devices,scalable/mimetypes,scalable/places,scalable/status,scalable/apps
 
 [scalable/actions]
 Size=16
@@ -39,3 +39,10 @@ MinSize=8
 MaxSize=512
 Type=Scalable
 Context=Status
+
+[scalable/apps]
+Size=48
+MinSize=16
+MaxSize=512
+Type=Scalable
+Context=Applications
