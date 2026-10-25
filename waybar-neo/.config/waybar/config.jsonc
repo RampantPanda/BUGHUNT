@@ -115,7 +115,7 @@
             "critical": 10,
         },
         "format": "{icon}",
-        "format-charging": "{icon}",
+        "format-charging": "󰛕{icon}󰛕",
 //        "format-icons": ["","","","",""],
 //		"format-icons": ["","󰝥","󰝥󰝥","󰝥󰝥󰝥","󰝥󰝥󰝥󰝥","󰝥󰝥󰝥󰝥󰝥"],
 		"format-icons": ["","","","","",""],
