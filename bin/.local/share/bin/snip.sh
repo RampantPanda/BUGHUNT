@@ -14,7 +14,7 @@ case "$mode" in
     *) printf 'Usage: %s [region|full]\n' "$0" >&2; exit 2 ;;
 esac
 
-directory="$HOME/Pictures/Screenshots"
+directory="$HOME/Screenshots"
 mkdir -p "$directory"
 file="$directory/$(date +%Y-%m-%d_%H-%M-%S-%N).png"
 if grim "${args[@]}" "$file"; then
