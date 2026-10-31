@@ -49,7 +49,7 @@
     "mpd": {
         "format": "{artist} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S})",
         "format-disconnected": "DISC",
-        "format-stopped": "STOP",
+        "format-stopped": "STOPPED",
         "unknown-tag": "???",
         "interval": 5,
         "on-click": "~/.config/waybar/find-rmpc.sh",

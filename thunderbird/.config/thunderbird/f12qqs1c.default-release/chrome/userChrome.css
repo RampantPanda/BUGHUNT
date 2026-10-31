@@ -1,0 +1,131 @@
+
+/*
+ * BUG HUNT // THUNDERBIRD
+ * Neo-Wire / Cyan Terminal
+ */
+
+:root {
+    --bh-bg:       #080d10;
+    --bh-panel:    #10171b;
+    --bh-raised:   #192328;
+    --bh-cyan:     #69e7f3;
+    --bh-dim:      #38545b;
+    --bh-green:    #65bd82;
+    --bh-text:     #c9dce0;
+    --bh-muted:    #80979e;
+
+    --toolbar-bgcolor: var(--bh-bg) !important;
+    --toolbar-color: var(--bh-text) !important;
+    --lwt-accent-color: var(--bh-bg) !important;
+    --lwt-text-color: var(--bh-text) !important;
+    --lwt-selected-tab-background-color:
+        var(--bh-panel) !important;
+
+    --foldertree-background: var(--bh-panel) !important;
+    --tree-view-bg: var(--bh-bg) !important;
+    --tree-view-color: var(--bh-text) !important;
+
+    accent-color: var(--bh-cyan) !important;
+}
+
+/* Typography: application UI only */
+#mail-toolbox,
+#tabs-toolbar,
+#unifiedToolbar,
+#folderPane,
+#threadPane {
+    font-family: "SpaceMono Nerd Font Mono", monospace !important;
+    font-size: 22px !important;
+}
+
+/* Unified toolbar */
+#unifiedToolbar {
+    background: var(--bh-bg) !important;
+    border-bottom: 1px solid var(--bh-cyan) !important;
+}
+
+/* Tabs */
+#tabs-toolbar {
+    background: var(--bh-bg) !important;
+}
+
+#tabs-toolbar .tab-background {
+    border-radius: 3px 3px 0 0 !important;
+}
+
+#tabs-toolbar .tabmail-tab[selected] {
+    color: var(--bh-cyan) !important;
+    border-bottom: 2px solid var(--bh-cyan) !important;
+}
+
+/* Folder sidebar */
+#folderPane {
+    background: var(--bh-panel) !important;
+    color: var(--bh-text) !important;
+    border-right: 1px solid var(--bh-dim) !important;
+}
+
+#folderTree {
+    --list-item-min-height: 27px !important;
+}
+
+#folderTree li.selected > .container,
+#folderTree li[aria-selected="true"] > .container {
+    background: var(--bh-raised) !important;
+    color: var(--bh-cyan) !important;
+    outline: 1px solid var(--bh-cyan) !important;
+    outline-offset: -1px;
+    border-radius: 3px !important;
+}
+
+/* Message pane */
+#threadPane {
+    background: var(--bh-bg) !important;
+    color: var(--bh-text) !important;
+}
+
+#threadTree {
+    background: var(--bh-bg) !important;
+    color: var(--bh-text) !important;
+}
+
+/* Message cards */
+#threadTree tr[is="thread-card"] {
+    background: var(--bh-panel) !important;
+    border-bottom: 1px solid var(--bh-dim) !important;
+}
+
+#threadTree tr[is="thread-card"]:hover {
+    background: var(--bh-raised) !important;
+}
+
+#threadTree tr[is="thread-card"].selected {
+    background: var(--bh-raised) !important;
+    outline: 1px solid var(--bh-cyan) !important;
+    outline-offset: -1px;
+}
+
+/* Unread messages */
+#threadTree tr[data-properties~="unread"] {
+    color: var(--bh-cyan) !important;
+    font-weight: bold !important;
+}
+
+/* Quick filter area */
+#quickFilterBarContainer {
+    background: var(--bh-panel) !important;
+    border-bottom: 1px solid var(--bh-dim) !important;
+}
+
+/* Splitters */
+#folderpane_splitter,
+#threadpane-splitter {
+    border-color: var(--bh-dim) !important;
+}
+
+/* Buttons */
+#unifiedToolbar button:hover,
+#folderPane button:hover {
+    color: var(--bh-cyan) !important;
+}
+
