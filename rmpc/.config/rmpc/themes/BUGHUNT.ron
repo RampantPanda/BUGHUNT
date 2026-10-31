@@ -3,19 +3,19 @@
 #![enable(unwrap_variant_newtypes)]
 (
     default_album_art_path: None,
-    format_tag_separator: " > ",
+    format_tag_separator: " | ",
     browser_column_widths: [20, 38, 42],
-    background_color: "#1d170b",
-    text_color: "#756000",
-    header_background_color: "#1d170b",
-    modal_background_color: "#1d170b",
+    background_color: None,
+    text_color: None,
+    header_background_color: None,
+    modal_background_color: None,
     modal_backdrop: false,
-    preview_label_style: (fg: "#756000", bg: "#1d170b"),
-    preview_metadata_group_style: (fg: "#756000", bg: "#1d170b", modifiers: "Bold"),
-    highlighted_item_style: (fg: "#1d170b", bg: "#756000", modifiers: "Bold"),
-    current_item_style: (fg: "#1d170b", bg: "#756000", modifiers: "Bold"),
-    borders_style: (fg: "#756000"),
-    highlight_border_style: (fg: "#756000"),
+    preview_label_style: (fg: "yellow"),
+    preview_metadata_group_style: (fg: "yellow", modifiers: "Bold"),
+    highlighted_item_style: (fg: "blue", modifiers: "Bold"),
+    current_item_style: (fg: "black", bg: "blue", modifiers: "Bold"),
+    borders_style: (fg: "blue"),
+    highlight_border_style: (fg: "blue"),
     symbols: (
         song: "S",
         dir: "D",
@@ -27,29 +27,28 @@
         playlist_style: None,
     ),
     level_styles: (
-        info: (fg: "#756000", bg: "#1d170b"),
-        // Warning and danger accents from colors/.config/colors/colors.css.
-        warn: (fg: "#c5a629", bg: "#1d170b"),
-        error: (fg: "#f53c3c", bg: "#1d170b"),
-        debug: (fg: "#756000", bg: "#1d170b"),
-        trace: (fg: "#756000", bg: "#1d170b"),
+        info: (fg: "blue", bg: "black"),
+        warn: (fg: "yellow", bg: "black"),
+        error: (fg: "red", bg: "black"),
+        debug: (fg: "light_green", bg: "black"),
+        trace: (fg: "magenta", bg: "black"),
     ),
     progress_bar: (
         symbols: ["█", "█", "█", " ", "█"],
-        track_style: (fg: "#756000", bg: "#1d170b"),
-        elapsed_style: (fg: "#756000", bg: "#1d170b"),
-        thumb_style: (fg: "#756000", bg: "#1d170b"),
+        track_style: None,
+        elapsed_style: (fg: "blue"),
+        thumb_style: (fg: "blue"),
         use_track_when_empty: true,
     ),
     scrollbar: (
         symbols: ["│", "█", "▲", "▼"],
-        track_style: (fg: "#756000", bg: "#1d170b"),
-        ends_style: (fg: "#756000", bg: "#1d170b"),
-        thumb_style: (fg: "#756000", bg: "#1d170b"),
+        track_style: (),
+        ends_style: (),
+        thumb_style: (fg: "blue"),
     ),
     tab_bar: (
-        active_style: (fg: "#1d170b", bg: "#756000", modifiers: "Bold"),
-        inactive_style: (fg: "#756000", bg: "#1d170b"),
+        active_style: (fg: "black", bg: "blue", modifiers: "Bold"),
+        inactive_style: (),
     ),
     lyrics: (
         timestamp: false
@@ -75,28 +74,28 @@
             prop: (kind: Property(Artist),
                 default: (kind: Text("Unknown"))
             ),
-            label_prop: (kind: Text("Artist"), style: (fg: "#756000", bg: "#1d170b")),
+            label_prop: (kind: Text("Artist")),
             width: "20%",
         ),
         (
             prop: (kind: Property(Title),
                 default: (kind: Text("Unknown"))
             ),
-            label_prop: (kind: Text("Title"), style: (fg: "#756000", bg: "#1d170b")),
+            label_prop: (kind: Text("Title")),
             width: "35%",
         ),
         (
-            prop: (kind: Property(Album),
-                default: (kind: Text("Unknown Album"))
+            prop: (kind: Property(Album), style: (fg: "white"),
+                default: (kind: Text("Unknown Album"), style: (fg: "white"))
             ),
-            label_prop: (kind: Text("Album"), style: (fg: "#756000", bg: "#1d170b")),
+            label_prop: (kind: Text("Album")),
             width: "30%",
         ),
         (
             prop: (kind: Property(Duration),
                 default: (kind: Text("-"))
             ),
-            label_prop: (kind: Text("Duration"), style: (fg: "#756000", bg: "#1d170b")),
+            label_prop: (kind: Text("Duration")),
             width: "15%",
             alignment: Right,
         ),
@@ -167,55 +166,45 @@
     components: {
         "state": Pane(Property(
             content: [
-                (kind: Text("["), style: (fg: "#756000", modifiers: "Bold")),
-                (kind: Property(Status(StateV2(
-                    playing_style: (fg: "#1d170b", bg: "#756000", modifiers: "Bold"),
-                    paused_style: (fg: "#756000", bg: "#1d170b", modifiers: "Bold"),
-                    stopped_style: (fg: "#756000", bg: "#1d170b", modifiers: "Bold"),
-                )))),
-                (kind: Text("]"), style: (fg: "#756000", modifiers: "Bold")),
+                (kind: Text("["), style: (fg: "yellow", modifiers: "Bold")),
+                (kind: Property(Status(StateV2( ))), style: (fg: "yellow", modifiers: "Bold")),
+                (kind: Text("]"), style: (fg: "yellow", modifiers: "Bold")),
             ], align: Left,
         )),
         "title": Pane(Property(
             content: [
-                (kind: Property(Song(Title)), style: (fg: "#756000", bg: "#1d170b", modifiers: "Bold"),
-                    default: (kind: Text("No Song"), style: (fg: "#756000", bg: "#1d170b", modifiers: "Bold"))),
+                (kind: Property(Song(Title)), style: (modifiers: "Bold"),
+                    default: (kind: Text("No Song"), style: (modifiers: "Bold"))),
             ], align: Center, scroll_speed: 1
         )),
         "volume": Split(
             direction: Horizontal,
             panes: [
                 (size: "1", pane: Pane(Property(content: [(kind: Text(""))]))),
-                (size: "100%", pane: Pane(Volume(kind: Slider(
-                    symbols: (filled: "─", thumb: "●", track: "─"),
-                    track_style: (fg: "#756000", bg: "#1d170b"),
-                    filled_style: (fg: "#756000", bg: "#1d170b"),
-                    thumb_style: (fg: "#1d170b", bg: "#756000"),
-                )))),
-                (size: "3", pane: Pane(Property(content: [(kind: Property(Status(Volume)), style: (fg: "#756000"))], align: Right))),
-                (size: "2", pane: Pane(Property(content: [(kind: Text("%"), style: (fg:"#756000"))]))),
+                (size: "100%", pane: Pane(Volume(kind: Slider(symbols: (filled: "─", thumb: "●", track: "─"))))),
+                (size: "3", pane: Pane(Property(content: [(kind: Property(Status(Volume)), style: (fg: "blue"))], align: Right))),
+                (size: "2", pane: Pane(Property(content: [(kind: Text("%"), style: (fg: "blue"))]))),
             ]
         ),
         "elapsed_and_bitrate": Pane(Property(
             content: [
-                (kind: Property(Status(Elapsed)), style: (fg: "#756000", bg: "#1d170b")),
-                (kind: Text(" / "), style: (fg: "#756000", bg: "#1d170b")),
-                (kind: Property(Status(Duration)), style: (fg: "#756000", bg: "#1d170b")),
+                (kind: Property(Status(Elapsed))), 
+                (kind: Text(" / ")), 
+                (kind: Property(Status(Duration))), 
                 (kind: Group([
-                    (kind: Text(" ("), style: (fg: "#756000", bg: "#1d170b")),
-                    (kind: Property(Status(Bitrate)), style: (fg: "#756000", bg: "#1d170b")),
-                    (kind: Text(" kbps)"), style: (fg: "#756000", bg: "#1d170b")),
+                    (kind: Text(" (")), 
+                    (kind: Property(Status(Bitrate))), 
+                    (kind: Text(" kbps)")),
                 ])),
             ],
             align: Left,
         )),
         "artist_and_album": Pane(Property(
             content: [
-                (kind: Property(Song(Artist)), style: (fg: "#756000", modifiers: "Bold"),
-                    default: (kind: Text("Unknown"), style: (fg: "#756000", modifiers: "Bold"))),
-                (kind: Text(" - "), style: (fg: "#756000", bg: "#1d170b")),
-                (kind: Property(Song(Album)), style: (fg: "#756000", bg: "#1d170b"),
-                    default: (kind: Text("Unknown Album"), style: (fg: "#756000", bg: "#1d170b"))),
+                (kind: Property(Song(Artist)), style: (fg: "yellow", modifiers: "Bold"),
+                    default: (kind: Text("Unknown"), style: (fg: "yellow", modifiers: "Bold"))),
+                (kind: Text(" - ")),
+                (kind: Property(Song(Album)), default: (kind: Text("Unknown Album"))),
             ], align: Center, scroll_speed: 1
         )),
         "states": Split(
@@ -227,41 +216,41 @@
                 ),
                 (
                     size: "100%",
-                    pane: Pane(Property(content: [(kind: Property(Status(InputBuffer())), style: (fg: "#756000"), align: Left)]))
+                    pane: Pane(Property(content: [(kind: Property(Status(InputBuffer())), style: (fg: "blue"), align: Left)]))
                 ),
                 (
                     size: "6",
                     pane: Pane(Property(content: [
-                        (kind: Text("["), style: (fg: "#756000", modifiers: "Bold")),
+                        (kind: Text("["), style: (fg: "blue", modifiers: "Bold")),
                         (kind: Property(Status(RepeatV2(
                             on_label: "z",
                             off_label: "z",
-                            on_style: (fg: "#1d170b", bg:"#756000",modifiers: "Bold"),
-                            off_style: (fg: "#756000", bg:"#1d170b"),
+                            on_style: (fg: "yellow", modifiers: "Bold"),
+                            off_style: (fg: "blue", modifiers: "Dim"),
                         )))),
                         (kind: Property(Status(RandomV2(
                             on_label: "x",
                             off_label: "x",
-                            on_style: (fg: "#1d170b", bg:"#756000", modifiers: "Bold"),
-                            off_style: (fg: "#756000", bg:"#1d170b"),
+                            on_style: (fg: "yellow", modifiers: "Bold"),
+                            off_style: (fg: "blue", modifiers: "Dim"),
                         )))),
                         (kind: Property(Status(ConsumeV2(
                             on_label: "c",
                             off_label: "c",
                             oneshot_label: "c",
-                            on_style: (fg: "#1d170b", bg:"#756000",modifiers: "Bold"),
-                            off_style: (fg: "#756000", bg:"#1d170b"),
-                            oneshot_style: (fg: "#1d170b", bg: "#756000", modifiers: "Bold | Underlined"),
+                            on_style: (fg: "yellow", modifiers: "Bold"),
+                            off_style: (fg: "blue", modifiers: "Dim"),
+                            oneshot_style: (fg: "red", modifiers: "Dim"),
                         )))),
                         (kind: Property(Status(SingleV2(
                             on_label: "v",
                             off_label: "v",
                             oneshot_label: "v",
-                            on_style: (fg: "#1d170b", bg:"#756000",modifiers: "Bold"),
-                            off_style: (fg: "#756000", bg:"#1d170b"),
-                            oneshot_style: (fg: "#1d170b", bg: "#756000", modifiers: "Bold | Underlined"),
+                            on_style: (fg: "yellow", modifiers: "Bold"),
+                            off_style: (fg: "blue", modifiers: "Dim"),
+                            oneshot_style: (fg: "red", modifiers: "Bold"),
                         )))),
-                        (kind: Text("]"), style: (fg: "#756000", modifiers: "Bold")),
+                        (kind: Text("]"), style: (fg: "blue", modifiers: "Bold")),
                         ],
                         align: Right
                     ))
@@ -271,8 +260,8 @@
         "input_mode": Pane(Property(
             content: [
                 (kind: Transform(Replace(content: (kind: Property(Status(InputMode()))), replacements: [
-                    (match: "Normal", replace: (kind: Text(" NORMAL "), style: (fg: "#1d170b", bg: "#756000"))),
-                    (match: "Insert", replace: (kind: Text(" INSERT "), style: (fg: "#1d170b", bg: "#756000", modifiers: "Bold"))),
+                    (match: "Normal", replace: (kind: Text(" NORMAL "), style: (fg: "black", bg: "blue"))),
+                    (match: "Insert", replace: (kind: Text(" INSERT "), style: (fg: "black", bg: "green"))),
                 ])))
             ], align: Center
         )),
