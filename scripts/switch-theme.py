@@ -24,6 +24,7 @@ ROOT = Path(__file__).resolve().parents[1]
 STATE = Path('.local/state/bughunt-switch')
 MODES = ('BUGHUNT', 'BUGHUNT-NEO')
 PAIRED = ('colors', 'kitty', 'waybar', 'fuzzel', 'eww', 'fastfetch', 'gtklock', 'starship')
+THUNDERBIRD_STYLE = Path('thunderbird/.config/thunderbird/f12qqs1c.default-release/chrome/userChrome.css')
 
 
 def lexists(path):
@@ -80,6 +81,53 @@ def recolor(text):
                     '#2a230f': '#243322', '#d6c98f': new['text'], '#f53c3c': new['alert']})
     return re.sub(r'#[\da-fA-F]{6}(?:[\da-fA-F]{2})?\b',
                   lambda m: mapping.get(m[0][:7].lower(), m[0][:7]) + m[0][7:], text)
+
+
+def thunderbird_profiles(target):
+    """Find existing profiles, including Stow installs without profiles.ini."""
+    profiles = set()
+    for relative in ('.config/thunderbird', '.thunderbird'):
+        directory = target / relative
+        candidates = {css.parent.parent for css in directory.glob('*/chrome/userChrome.css')
+                      if css.is_file()}
+        config = ini(read(directory / 'profiles.ini'))
+        for section in config.sections():
+            if not section.startswith('Profile') or not config[section].get('Path'):
+                continue
+            profile = Path(config[section]['Path'])
+            if config[section].getboolean('IsRelative', fallback=True):
+                profile = directory / profile
+            elif not profile.is_absolute():
+                continue
+            candidates.add(profile)
+        for profile in sorted(candidates):
+            # Normalize '..' without resolving Stow links: Transaction unfolds
+            # those before writing, keeping the source checkout untouched.
+            profile = Path(os.path.abspath(profile))
+            if profile == target or not profile.is_relative_to(target) or profile.is_relative_to(ROOT):
+                print(f'Warning: Skipping Thunderbird profile outside the managed home: {profile}',
+                      file=sys.stderr)
+                continue
+            if profile.is_dir():
+                profiles.add(profile.relative_to(target))
+    return sorted(profiles)
+
+
+def thunderbird_style(neo):
+    """Keep the checked-in Neo CSS; derive BUGHUNT's eight palette variables."""
+    content = (ROOT / THUNDERBIRD_STYLE).read_text()
+    if neo:
+        return content
+    colors = palette('colors')
+    roles = {'bg': 'surface', 'panel': 'eww_surface', 'raised': 'secondary',
+             'cyan': 'gtk_accent', 'dim': 'primary', 'green': 'gtk_success',
+             'text': 'text', 'muted': 'gtk_muted'}
+    for name, role in roles.items():
+        content, count = re.subn(r'(--bh-' + name + r'\s*:\s*)[^;]+;',
+                                 lambda m: m[1] + colors[role] + ';', content)
+        if count != 1:
+            raise ValueError(f'Cannot identify one --bh-{name} variable in Thunderbird CSS')
+    return content.replace('Neo-Wire / Cyan Terminal', 'BUGHUNT / Amber Terminal', 1)
 
 
 def qt_palette(scheme):
@@ -151,6 +199,18 @@ def build_plan(target, mode, mango_profile='appearance', neo_icons='Neo-Wire'):
         plan.package(package)
         if neo:
             plan.package(package + suffix)
+
+    # Modules depend on the installed gtklock ABI, not the color scheme. Keep
+    # the host's selection (including disabled modules) instead of re-enabling
+    # BUGHUNT's legacy runshell module when switching back from Neo on gtklock 5.
+    # A fresh target leaves optional modules disabled until explicitly configured.
+    relative = '.config/gtklock/config.ini'
+    installed = ini(read(target / relative))
+    plan.text(relative, set_ini(plan.current(relative), 'main', {
+        'modules': installed.get('main', 'modules', fallback=None),
+        'layout': str(target / '.config/gtklock/layout.xml'),
+    }))
+
     # Neo doesn't supply GTK CSS. Both variants need the shared import wrappers.
     for version in ('3.0', '4.0'):
         for name in ('gtk.css', 'compat.css'):
@@ -191,6 +251,12 @@ def build_plan(target, mode, mango_profile='appearance', neo_icons='Neo-Wire'):
     if count != 1:
         raise ValueError('Cannot identify one theme setting in rmpc/config.ron')
     plan.text(relative, content)
+
+    profiles = thunderbird_profiles(target)
+    if profiles:
+        content = thunderbird_style(neo)
+        for profile in profiles:
+            plan.text(profile / 'chrome/userChrome.css', content)
 
     # KDE applications read kdeglobals, not just the installed .colors file.
     scheme_text = (ROOT / ('colors' + suffix) / '.local/share/color-schemes/Bughunt.colors').read_text()
@@ -425,7 +491,8 @@ def reload_desktop(target, state_dir):
                     spawn(args, state_dir / 'desktop.log')
                 except ProcessLookupError:
                     pass
-    print('Reload requested. Reopen GTK/Qt apps and Geany/Kate if they retain old colors; '
+    print('Reload requested. Restart Thunderbird to load its UI theme. '
+          'Reopen GTK/Qt apps and Geany/Kate if they retain old colors; '
           'the lockscreen changes on its next launch. Starship updates on the next prompt.')
 
 

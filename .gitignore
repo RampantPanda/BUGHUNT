@@ -2,3 +2,7 @@
 /geany/.config/geany/geany_socket_*
 /geany/.config/geany/session.conf
 /gtk/.config/gtk-3.0/bookmarks
+
+# Keep MPD configuration; runtime data and playlists stay local.
+/mpd/.config/mpd/*
+!/mpd/.config/mpd/*.conf

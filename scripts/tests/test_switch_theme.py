@@ -5,6 +5,7 @@ import importlib.util
 import json
 import os
 from pathlib import Path
+import re
 import subprocess
 import sys
 import tempfile
@@ -72,6 +73,7 @@ class ThemeSwitch(unittest.TestCase):
 
     def test_full_round_trip_with_folded_stow_links_and_local_files(self):
         for package, relative in [('waybar-neo', '.config/waybar'),
+                                  ('gtklock-neo', '.config/gtklock'),
                                   ('gtk-neo', '.config/gtk-3.0'),
                                   ('geany', '.config/geany'),
                                   ('colors-neo', '.local/share/color-schemes')]:
@@ -85,6 +87,9 @@ class ThemeSwitch(unittest.TestCase):
         self.write('.config/katerc', '[KTextEditor Renderer]\nColor Theme=Old\nText Font=Keep Me\n')
         before = fingerprint(self.target)
         source_before = fingerprint(ROOT / 'geany')
+        lock_before = fingerprint(ROOT / 'gtklock-neo')
+        modules = theme.ini((self.target / '.config/gtklock/config.ini').read_text()).get(
+            'main', 'modules', fallback=None)
         self.invoke('BUGHUNT-NEO')
         self.assertFalse((self.target / '.config/waybar').is_symlink())
         self.assertFalse((self.target / '.config/geany/geany.conf').is_symlink())
@@ -113,14 +118,150 @@ class ThemeSwitch(unittest.TestCase):
         self.assertEqual((self.target / '.config/waybar/config.jsonc').read_bytes(),
                          (ROOT / 'waybar/.config/waybar/config.jsonc').read_bytes())
         self.assertIn('swaybg -c 1d170b', (self.target / '.config/mango/cfg/autostart.conf').read_text())
-        self.invoke('BUGHUNT')
-        for _ in range(3):
+        lock = theme.ini((self.target / '.config/gtklock/config.ini').read_text())
+        self.assertEqual(lock.get('main', 'modules', fallback=None), modules)
+        self.assertTrue(Path(lock['main']['layout']).is_file())
+        self.invoke('toggle')
+        self.assertIn('BUGHUNT-NEO\n', self.invoke('status').stdout)
+        self.assertIn('swaybg -c 0e0402', (self.target / '.config/mango/cfg/autostart.conf').read_text())
+        self.invoke('BUGHUNT-NEO')
+        for _ in range(4):
             self.invoke('restore')
         after = {key: value for key, value in fingerprint(self.target).items()
                  if not key.startswith('.local/state')}
         # State storage leaves its otherwise empty .local parent in a fresh target.
         self.assertEqual(after, before)
         self.assertEqual(source_before, fingerprint(ROOT / 'geany'))
+        self.assertEqual(lock_before, fingerprint(ROOT / 'gtklock-neo'))
+
+    def test_gtklock_preserves_module_selection_and_uses_bundled_layout(self):
+        relative = Path('.config/gtklock/config.ini')
+        for modules in (None, '', '/usr/lib/gtklock/custom-module.so'):
+            content = '[main]\n#modules=/usr/lib/gtklock/runshell-module.so\n'
+            if modules is not None:
+                content += 'modules=' + modules + '\n'
+            self.write(relative, content)
+            for mode in theme.MODES:
+                with self.subTest(modules=modules, mode=mode):
+                    plan, _ = theme.build_plan(self.target, mode)
+                    config = theme.ini(plan.files[relative][0].decode())
+                    self.assertEqual(config.get('main', 'modules', fallback=None), modules)
+                    layout = Path(config['main']['layout'])
+                    self.assertEqual(layout, self.target / '.config/gtklock/layout.xml')
+                    self.assertIn(layout.relative_to(self.target), plan.files)
+
+    def test_fresh_target_does_not_enable_optional_gtklock_modules(self):
+        for mode in theme.MODES:
+            with self.subTest(mode=mode):
+                plan, _ = theme.build_plan(self.target, mode)
+                config = theme.ini(plan.files[Path('.config/gtklock/config.ini')][0].decode())
+                self.assertFalse(config.get('main', 'modules', fallback=''))
+
+    def test_current_rmpc_ansi_theme_and_working_tree_configs_are_used(self):
+        rmpc = Path('.config/rmpc/themes/BUGHUNT.ron')
+        source = (ROOT / 'rmpc' / rmpc).read_bytes()
+        for mode in theme.MODES:
+            with self.subTest(mode=mode):
+                plan, _ = theme.build_plan(self.target, mode)
+                # The revised theme uses terminal colors; both modes must preserve
+                # its defaults and names so Kitty's selected ANSI palette applies.
+                self.assertEqual(plan.files[rmpc][0], source)
+                self.assertIn(b'background_color: None', source)
+                self.assertIn(b'fg: "blue"', source)
+                suffix = '-neo' if mode == 'BUGHUNT-NEO' else ''
+                for package, relative in [('waybar', '.config/waybar/config.jsonc'),
+                                          ('waybar', '.config/waybar/style.css'),
+                                          ('gtklock', '.config/gtklock/buglock.css'),
+                                          ('kitty', '.config/kitty/kitty.conf')]:
+                    self.assertEqual(plan.files[Path(relative)][0],
+                                     (ROOT / (package + suffix) / relative).read_bytes())
+                self.assertFalse(any(path.is_relative_to('.config/mpd') for path in plan.files))
+
+    def test_thunderbird_palettes_preserve_the_current_layout(self):
+        source = (ROOT / theme.THUNDERBIRD_STYLE).read_text()
+        self.assertEqual(theme.thunderbird_style(True), source)
+        original = theme.thunderbird_style(False)
+        self.assertRegex(original, r'--bh-bg:\s*#1d170b;')
+        self.assertRegex(original, r'--bh-cyan:\s*#c5a629;')
+        self.assertRegex(original, r'--bh-text:\s*#d6c98f;')
+        self.assertNotIn('#69e7f3', original)
+        # Palette declarations and the palette label are the only differences.
+        def layout(css):
+            return re.sub(r'(?m)^.*--bh-\w+\s*:.*\n', '', css).replace(
+                'Neo-Wire / Cyan Terminal', 'BUGHUNT / Amber Terminal')
+        self.assertEqual(layout(original), layout(source))
+        colors = theme.palette('colors')
+        with patch.object(Path, 'read_text', return_value=source.replace('--bh-bg:', '--other-bg:')):
+            with patch.object(theme, 'palette', return_value=colors):
+                with self.assertRaisesRegex(ValueError, '--bh-bg'):
+                    theme.thunderbird_style(False)
+
+    def test_thunderbird_discovers_existing_profiles_without_creating_a_salted_profile(self):
+        plan, _ = theme.build_plan(self.target, 'BUGHUNT')
+        self.assertFalse(any('thunderbird' in str(path) for path in plan.files))
+        relative = Path('.config/thunderbird/custom.default-release')
+        absolute = Path('mail profiles/work')
+        legacy = Path('.thunderbird/old.default')
+        for profile in (relative, absolute, legacy):
+            (self.target / profile).mkdir(parents=True)
+        self.write('.config/thunderbird/profiles.ini',
+                   '[Profile0]\nIsRelative=1\nPath=custom.default-release\n'
+                   f'[Profile1]\nIsRelative=0\nPath={self.target / absolute}\n'
+                   '[Profile2]\nIsRelative=1\nPath=missing.default\n')
+        self.write('.thunderbird/profiles.ini', '[Profile0]\nIsRelative=1\nPath=old.default\n')
+        self.assertEqual(set(theme.thunderbird_profiles(self.target)), {relative, absolute, legacy})
+        plan, _ = theme.build_plan(self.target, 'BUGHUNT-NEO')
+        styles = {path for path in plan.files if path.name == 'userChrome.css'}
+        self.assertEqual(styles, {profile / 'chrome/userChrome.css'
+                                  for profile in (relative, absolute, legacy)})
+
+    def test_thunderbird_skips_profiles_outside_the_target(self):
+        outside = Path(self.tmp.name) / 'external-profile'
+        outside.mkdir()
+        self.write('.config/thunderbird/profiles.ini',
+                   f'[Profile0]\nIsRelative=0\nPath={outside}\n'
+                   '[Profile1]\nIsRelative=1\nPath=../../../external-profile\n')
+        with patch('sys.stderr'):
+            self.assertEqual(theme.thunderbird_profiles(self.target), [])
+        self.assertEqual(fingerprint(outside), {})
+
+    def test_thunderbird_switch_and_restore_preserve_profile_data_and_stow_links(self):
+        profile = Path('.config/thunderbird/custom.default-release')
+        css = profile / 'chrome/userChrome.css'
+        self.write(css, '/* personal stylesheet */\n')
+        self.write(profile / 'chrome/userContent.css', '/* message styling */\n')
+        self.write(profile / 'prefs.js', 'user_pref("mail.accountmanager.accounts", "account1");\n')
+        self.write(profile / 'user.js', '// personal settings\n')
+        self.write(profile / 'Mail/Inbox', 'keep this mail\n')
+        self.write('.config/thunderbird/profiles.ini',
+                   '[Profile0]\nIsRelative=1\nPath=custom.default-release\n')
+        stowed = self.target / '.thunderbird/stowed.default/chrome'
+        stowed.parent.mkdir(parents=True)
+        stowed.symlink_to((ROOT / theme.THUNDERBIRD_STYLE).parent)
+        (self.target / '.local').mkdir()
+        before = fingerprint(self.target)
+        source_before = fingerprint(ROOT / 'thunderbird')
+        result = self.invoke('original', '--dry-run')
+        self.assertIn(str(css), result.stdout)
+        self.assertEqual(fingerprint(self.target), before)
+        self.invoke('original')
+        for path in (self.target / css, stowed / 'userChrome.css'):
+            self.assertRegex(path.read_text(), r'--bh-bg:\s*#1d170b;')
+        self.invoke('toggle')
+        for path in (self.target / css, stowed / 'userChrome.css'):
+            self.assertEqual(path.read_bytes(), (ROOT / theme.THUNDERBIRD_STYLE).read_bytes())
+        # Only UI CSS is managed; mail and application-written prefs remain intact.
+        for relative, value in before.items():
+            if relative.endswith(('prefs.js', 'user.js', 'Mail/Inbox', 'userContent.css', 'profiles.ini')):
+                self.assertEqual(fingerprint(self.target)[relative], value)
+        self.assertEqual(fingerprint(ROOT / 'thunderbird'), source_before)
+        self.invoke('restore')
+        self.invoke('restore')
+        after = {key: value for key, value in fingerprint(self.target).items()
+                 if not key.startswith('.local/state')}
+        self.assertEqual(after, before)
+        self.assertTrue(stowed.is_symlink())
+        self.assertEqual(fingerprint(ROOT / 'thunderbird'), source_before)
 
     def test_failed_install_rolls_back_unfolded_symlinks(self):
         source = Path(self.tmp.name) / 'source'

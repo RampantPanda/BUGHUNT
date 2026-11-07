@@ -44,7 +44,8 @@
 #disk,
 #pulseaudio,
 #custom-power,
-#idle_inhibitor
+#idle_inhibitor,
+#custom-tailscale
     {
     font-size: 26px;
     padding-left: 8px;
@@ -418,6 +419,19 @@ label:focus {
 #custom-nextcloud.paused {
     color: @superior;
     background: @secondary;
+}
+
+
+#custom-tailscale.connected {
+    color: @primary;
+}
+
+#custom-tailscale.disconnected {
+    color: @secondary;
+}
+
+#custom-tailscale:hover {
+    background: rgba(0, 255, 255, 0.08);
 }
 
 #language {

@@ -21,7 +21,8 @@
         "bluetooth",
         "tray",
         "custom/power",
-        "clock"
+        "clock",
+        "custom/tailscale"
     ],
 
     ////////////////////////////
@@ -273,5 +274,14 @@
 "tray": {
     "icon-size": 24,
     "spacing": 6
+},
+"custom/tailscale": {
+    "exec": "~/.config/waybar/tailscale.sh",
+    "return-type": "json",
+    "interval": 5,
+    "format": "{text}",
+    "tooltip": true,
+    "on-click": "~/.config/waybar/tailscale.sh toggle",
+    "exec-on-event": true
 }
 }

@@ -31,15 +31,35 @@ used as the source. No existing repository file needs an edit to use this script
 | Fuzzel and Tofi | Launcher and power-menu appearance; Neo Tofi colors are generated |
 | Eww | Variant layout and styles, scripts, and shared image assets |
 | Fastfetch and Starship | Complete variant config and bundled Fastfetch artwork |
-| gtklock | Variant layout, CSS, scripts, and shared lock colors |
+| gtklock | Variant layout, CSS, scripts, and shared lock colors; installed module selection is preserved |
 | KDE and Qt | Bughunt and legacy `k.colors`, active `kdeglobals` colors, Qt5ct/Qt6ct palettes and icon selection |
-| Geany, Kate/KWrite, rmpc | Editor/music-player schemes and selections; missing Neo Geany/rmpc palettes are generated |
+| Geany, Kate/KWrite, rmpc | Editor/music-player schemes and selections; missing Neo literal colors are generated, while rmpc's ANSI colors follow Kitty |
+| Thunderbird | Existing profiles receive the current Neo UI stylesheet or a BUGHUNT palette derived from the shared desktop colors |
 
 Neo's conflicting GTK icon entries are normalized in the generated settings.
 Select its smaller icon set with `--neo-icons Bughunt-Neo` if preferred.
 Both modes retain their own checked-in palettes; this does not redesign them.
 Applications with independent themes outside this repository, such as browser
 extensions or VS Code themes, are outside the switcher's scope.
+
+Thunderbird profiles are discovered from `profiles.ini` in `~/.config/thunderbird`
+and `~/.thunderbird`, plus existing `*/chrome/userChrome.css` files in those
+directories (including Stow links). Only existing profiles within the target home
+are included; the repository's profile name is never used to create a new profile.
+The switcher manages only `chrome/userChrome.css`, with the usual backup/restore
+behavior. Mail, account preferences, `user.js`, and message-content CSS are left
+alone. Neo uses the checked-in stylesheet as-is; BUGHUNT changes its eight palette
+variables while retaining the layout and typography. Custom CSS must already be
+enabled with `toolkit.legacyUserProfileCustomizations.stylesheets=true` in
+Thunderbird's Config Editor. Restart Thunderbird after switching or restoring to
+load the stylesheet; the switcher does not restart the mail client.
+
+gtklock modules must match the installed gtklock version, so a color switch
+preserves the `modules` setting in the installed `~/.config/gtklock/config.ini`,
+including an absent or empty setting. Fresh targets leave optional modules
+disabled. This keeps switching to BUGHUNT from re-enabling the legacy runshell
+module disabled for gtklock 5. The generated config points `layout` to the bundled
+`layout.xml`, matching `lock.sh`, even if a source config still names `layout.ui`.
 
 Mango's keybindings, monitor/input settings, rules, environment, and personal
 startup applications are preserved by default. A final appearance include

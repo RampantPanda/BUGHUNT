@@ -94,3 +94,10 @@ window {
 
     border: 0;
 }
+
+#runshell {
+    font-family: "SpaceMono Nerd Font Mono";
+    font-size: 18pt;
+    color: #c5faff;
+    text-shadow: none;
+}
