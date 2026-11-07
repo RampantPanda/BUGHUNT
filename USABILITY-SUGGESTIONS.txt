@@ -31,13 +31,13 @@ Priority 1: Make the default setup work
 
 2. Give every lock action the same implementation.
 
-   Use gtklock/.config/gtklock/lock.sh as the single entry point for keyboard
+   Use hyprlock --grace 0 consistently for keyboard
    shortcuts, both power menus, idle locking, and sleep handling. Either connect
    loginctl lock requests to that entry point or stop advertising an unhandled
    loginctl action. Handle repeat requests without launching competing lockers.
 
-   Make the status module optional. If it is unavailable, offer a basic themed
-   lockscreen rather than making installation depend on a custom module build.
+   Keep the status collector optional so authentication still works when a
+   status command is unavailable. Hyprlock needs no custom module build.
    Verify lock readiness before allowing any lock-and-suspend path to proceed;
    the mere existence of a background process is not sufficient evidence.
 
@@ -91,10 +91,9 @@ Priority 2: Make installation predictable
    Distinguish official-repository packages from AUR packages and source builds.
    State which commands each less-obvious package provides.
 
-   Document the Mango, Waybar, gtklock, and status-module versions actually tested
-   together. Record this as compatibility information rather than encouraging
-   partial Arch upgrades. Prefer a package-managed status module when practical;
-   otherwise document how its source installation is updated and removed.
+   Document the Mango, Waybar, and Hyprlock versions actually tested together.
+   Record this as compatibility information rather than encouraging partial
+   Arch upgrades. Use the package-managed screen locker.
 
    Done when: someone can install the desktop without installing the entire
    personal application collection or guessing what provides a missing command.
@@ -103,7 +102,7 @@ Priority 2: Make installation predictable
 
    A scripts/check-setup.sh command could check required executables, executable
    permissions, Stow targets, shared CSS paths, font resolution, screenshot output
-   location, and the optional gtklock module. Distinguish missing requirements
+   location, and the Hyprlock config and status collector. Distinguish missing requirements
    from optional features that have simply not been installed.
 
    Support a repository-only mode that works before a graphical session exists.

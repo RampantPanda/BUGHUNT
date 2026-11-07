@@ -31,7 +31,7 @@ used as the source. No existing repository file needs an edit to use this script
 | Fuzzel and Tofi | Launcher and power-menu appearance; Neo Tofi colors are generated |
 | Eww | Variant layout and styles, scripts, and shared image assets |
 | Fastfetch and Starship | Complete variant config and bundled Fastfetch artwork |
-| gtklock | Variant layout, CSS, scripts, and shared lock colors; installed module selection is preserved |
+| Hyprlock | Variant password panel, background, system-status label, and collector |
 | KDE and Qt | Bughunt and legacy `k.colors`, active `kdeglobals` colors, Qt5ct/Qt6ct palettes and icon selection |
 | Geany, Kate/KWrite, rmpc | Editor/music-player schemes and selections; missing Neo literal colors are generated, while rmpc's ANSI colors follow Kitty |
 | Thunderbird | Existing profiles receive the current Neo UI stylesheet or a BUGHUNT palette derived from the shared desktop colors |
@@ -54,15 +54,16 @@ enabled with `toolkit.legacyUserProfileCustomizations.stylesheets=true` in
 Thunderbird's Config Editor. Restart Thunderbird after switching or restoring to
 load the stylesheet; the switcher does not restart the mail client.
 
-gtklock modules must match the installed gtklock version, so a color switch
-preserves the `modules` setting in the installed `~/.config/gtklock/config.ini`,
-including an absent or empty setting. Fresh targets leave optional modules
-disabled. This keeps switching to BUGHUNT from re-enabling the legacy runshell
-module disabled for gtklock 5. The generated config points `layout` to the bundled
-`layout.xml`, matching `lock.sh`, even if a source config still names `layout.ui`.
+Hyprlock configuration and its status collector are installed under
+`~/.config/hypr/`. Existing files are backed up before replacement. The original
+mode uses the amber lock theme; Neo uses the cyan SpaceMono layout. No external
+lockscreen module is required.
 
 Mango's keybindings, monitor/input settings, rules, environment, and personal
-startup applications are preserved by default. A final appearance include
+startup applications are preserved by default. Old repository lock-wrapper calls
+in Mango's standard config/keybinding files and `swayidle.sh` are migrated to
+`hyprlock --grace 0`, preserving other settings and executable permissions.
+Restart the idle helper after migrating, or start a new session. A final appearance include
 overrides its current theme. The existing Waybar startup command is redirected
 to the selected mode's launcher, and the repo's solid-color `swaybg` command
 receives the selected background color. Image wallpapers are left alone.

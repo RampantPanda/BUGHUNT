@@ -14,8 +14,8 @@ The repository includes the amber **BUGHUNT** theme and cyan **BUGHUNT-NEO**
 variants. Use the manual setup below or review the dependency installer's dry
 run first. [`scripts/install.sh`](scripts/install.sh) uses your configured
 repositories and prints separate Stow instructions; personal applications are
-opt-in. Its runshell-module build still requires **gtklock 4**, so use manual
-setup on gtklock 5. You do not need Chaotic-AUR or CachyOS to use these configs.
+opt-in. Hyprlock is the only screen locker; no custom lockscreen module build is
+needed. You do not need Chaotic-AUR or CachyOS to use these configs.
 
 - [What is included](#what-is-included)
 - [Install on Arch](#install-on-arch)
@@ -41,7 +41,7 @@ Keep the checkout wherever you install it; the examples use `~/dotfiles`.
 | `kitty` | Main terminal and a separate profile for the network menu |
 | `tofi`, `fuzzel` | Application launchers; Fuzzel also displays script menus |
 | `swaync` | Notification daemon and control center |
-| `gtklock` | Themed lockscreen with a live system-status readout |
+| `hyprlock`, `hyprlock-neo` | Hyprlock themes with a live system-status readout |
 | `bin` | Helpers installed under `~/.local/share/bin` |
 | `colors` | Shared CSS, Kate syntax, and KDE color schemes |
 | `geany` | Editor settings and the Bughunt color scheme |
@@ -58,7 +58,7 @@ Keep the checkout wherever you install it; the examples use `~/dotfiles`.
 | `thunderbird` | Thunderbird UI stylesheet for an existing profile |
 
 Neo variants are also supplied for `colors`, `eww`, `fastfetch`, `fuzzel`, `gtk`,
-`gtklock`, `kitty`, `mango`, and `waybar`. Choose one Mango profile from `mango`,
+`hyprlock`, `kitty`, `mango`, and `waybar`. Choose one Mango profile from `mango`,
 `mango-vm`, `mango-neo`, or `mango-vm-neo`; they target the same config directory.
 Other original/Neo pairs also overlap, so do not stow both wholesale. Neo GTK
 uses the original GTK CSS with Neo settings and colors. The
@@ -98,17 +98,15 @@ configured repositories; select one with `--aur-helper yay` or `--aur-helper par
 The preflight uses local pacman sync databases, then installation performs a full
 `pacman -Syu` before installing AUR packages. Package availability can change.
 
-The installer builds runshell release 4.0.0 for gtklock 4, installs the font used
-by tofi, and creates the screenshots directory. It stops on incompatible gtklock
-versions after the package/font steps, so it is not a complete installer for
-gtklock 5. Temporary module sources are cleaned up on failure or interruption.
-It does not add repositories, overwrite GTK settings, or enable services. Stow
-commands are printed as simulations for you to review and apply separately.
+The installer installs Hyprlock, the font used by tofi, and creates the
+screenshots directory. It does not build a lockscreen module, add repositories,
+overwrite GTK settings, or enable services. Stow commands are printed as
+simulations for you to review and apply separately.
 For Neo, the first command installs the original GTK CSS while excluding its
 settings; the second installs Neo settings and the remaining packages. Remove
 the opposite variant's Stow links before switching themes manually. Its Neo
 package list selects `mango-vm-neo` and shares the original Fuzzel and Starship
-configs; use the theme switcher for the full Neo appearance. Hyprlock,
+configs; use the theme switcher for the full Neo appearance.
 Alacritty, swaybg, and Tailscale are not in the installer's dependency list; install
 them separately if using the desktop Neo profile and its Tailscale module.
 
@@ -128,7 +126,7 @@ Update Arch and install the official-repository packages used by this setup:
 ```sh
 sudo pacman -Syu --needed \
   base-devel git stow fontconfig python python-gobject \
-  kitty fuzzel swaync gtklock swayidle wlopm \
+  kitty fuzzel swaync hyprlock swayidle wlopm \
   wl-clip-persist wl-clipboard grim slurp libnotify brightnessctl \
   networkmanager nm-connection-editor bluez bluez-utils blueman jq \
   pipewire pipewire-pulse wireplumber pavucontrol \
@@ -168,38 +166,28 @@ Thunar; `gvfs` and `udisks2` are useful for removable media. Install personal
 applications such as Nextcloud, Proton, photography tools, and office software
 separately.
 
-### 2. Choose the lockscreen and optional status module
+### 2. Choose the Hyprlock theme
 
-The original gtklock config enables `/usr/lib/gtklock/runshell-module.so`;
-the Neo config comments it out for gtklock 5. If using the original config
-without a compatible module, comment out `modules=` before launching gtklock.
-The wrapper [`lock.sh`](gtklock/.config/gtklock/lock.sh) selects the bundled
-`layout.xml`; Neo's raw `config.ini` still names `layout.ui`, so use the wrapper
-or correct that setting. The theme switcher sets the correct layout path and
-preserves the installed module selection.
+All four Mango profiles, both bars, and both power menus use
+`hyprlock --grace 0`, requiring authentication immediately. The `hyprlock`
+package supplies the amber theme and `hyprlock-neo` supplies the cyan theme.
+Both install `~/.config/hypr/hyprlock.conf` and `~/.config/hypr/status.sh`.
+Stow only one variant, or use the theme switcher to manage it.
 
-For **gtklock 4**, the installer pins runshell 4.0.0. To build that version manually:
+The config includes the password field and live system-status label; the
+collector runs directly from Hyprlock without an extra module. The Neo layout
+retains the existing SpaceMono font and cyan password panel. See the
+[Hyprlock configuration reference](https://wiki.hypr.land/hypr-ecosystem/user/hyprlock/)
+for widget and authentication options.
 
-```sh
-sudo pacman -S --needed meson ninja pkgconf gtk3
-mkdir -p ~/src
-git clone --branch 4.0.0 --depth 1 https://gitlab.com/wef/gtklock-runshell-module.git ~/src/gtklock-runshell-module
-cd ~/src/gtklock-runshell-module
-meson setup build --prefix=/usr --libdir=lib
-meson compile -C build
-sudo meson install -C build
-```
-
-The [module's version must match gtklock](https://gitlab.com/wef/gtklock-runshell-module).
-This source installation is outside pacman's package tracking; keep the build
-directory if you need to maintain it. For a lockscreen without the status readout,
-remove the `modules=` line and `[runshell]` section from your gtklock config instead.
-
-`mango-neo` uses **Hyprlock** for its lock shortcuts, idle handling, and lid-close
-command. No Hyprlock configuration is included: install and configure it yourself
-before using that profile. The original and both VM profiles use gtklock.
-Neo's bar and power-menu lock actions still use gtklock, so align those commands
-if you want one locker everywhere.
+If you already have `~/.config/hypr/hyprlock.conf`, back it up before stowing;
+the theme switcher backs it up automatically. On an existing installation, apply
+your chosen theme to install the new files. The switcher also migrates the old
+repository lock-wrapper commands in Mango's standard keybinding and idle files,
+preserving other shortcuts and timeouts. Reload Mango and restart its idle
+helper (or log out and back in) so the running session uses the new commands.
+Old gtklock configs and the gtklock application are no longer used by this repo;
+removing an installed system package is a separate package-manager operation.
 
 ### 3. Link the dotfiles
 
@@ -208,7 +196,7 @@ cd ~/dotfiles
 mkdir -p ~/.config ~/.local/share ~/Pictures/Screenshots
 
 stow --simulate --verbose --target="$HOME" \
-  colors fonts cursors geany gtk mango kitty waybar swaync gtklock fuzzel tofi bin mpd rmpc
+  colors fonts cursors geany gtk mango kitty waybar swaync hyprlock fuzzel tofi bin mpd rmpc
 ```
 
 The simulation reports proposed links and conflicts. Move existing conflicting
@@ -230,7 +218,7 @@ When the simulation is clean:
 
 ```sh
 stow --verbose --target="$HOME" \
-  colors fonts cursors geany gtk mango kitty waybar swaync gtklock fuzzel tofi bin mpd rmpc
+  colors fonts cursors geany gtk mango kitty waybar swaync hyprlock fuzzel tofi bin mpd rmpc
 fc-cache -f
 gsettings set org.gnome.desktop.interface icon-theme 'Bughunt'
 ```
@@ -437,7 +425,7 @@ switching, suspend, reboot, and power off. Hibernate appears when logind reports
 it available. Logout, reboot, and power off have confirmation menus. User
 switching depends on having a compatible display manager.
 
-Logout uses `loginctl terminate-session` for the current session. Hibernation
+Logout uses `mmsg dispatch quit` to exit Mango. Hibernation
 still needs working system configuration; these dotfiles do not configure swap
 or resume. No Wlogout config is included.
 
@@ -450,11 +438,12 @@ your workflow. The input config separately requests suspend on lid close and
 turns displays on when it opens; this can interact with systemd-logind's own lid
 handling.
 
-With the runshell module enabled, gtklock shows the host, time, uptime,
-package-update age, approximate installation date, network, root-disk space,
-and battery. Its collector handles Wi-Fi, wired Ethernet, and offline states.
-The desktop Neo profile uses the same idle timeouts with Hyprlock, and launches
-Hyprlock before a one-second delay and suspend on lid close.
+Hyprlock shows the host, time, uptime, package-update age, approximate
+installation date, network, root-disk space, and battery. Its collector handles
+Wi-Fi, wired Ethernet, and offline states. All profiles use the same idle
+timeouts and run Hyprlock in swayidle's `before-sleep` hook. Lid close requests
+suspend through systemd; keep swayidle running so that hook locks before sleep.
+The former Neo lid-close background launch and fixed delay are no longer needed.
 
 ### Music with MPD and rmpc
 
@@ -528,20 +517,20 @@ files first and `themes/bughunt.conf` last for the original desktop; Neo uses
 | Bar modules, click actions, timezone | [`config.jsonc`](waybar/.config/waybar/config.jsonc) |
 | Terminal font, padding, colors | [`kitty.conf`](kitty/.config/kitty/kitty.conf) |
 | Shell prompt colors and segments | [`starship.toml`](starship/.config/starship.toml) |
-| Lock status text and positioning | [`buglock.sh`](gtklock/.config/gtklock/buglock.sh), [`config.ini`](gtklock/.config/gtklock/config.ini), [`layout.xml`](gtklock/.config/gtklock/layout.xml) |
+| Lock appearance and status | [`hyprlock.conf`](hyprlock/.config/hypr/hyprlock.conf), [`status.sh`](hyprlock/.config/hypr/status.sh); use `hyprlock-neo` for the cyan variant |
 
 ### Shared styling
 
 | File | Edit here for |
 | --- | --- |
-| [`colors.css`](colors/.config/colors/colors.css) | Master BUGHUNT palette, including desktop, lockscreen, cheatsheet roles, and shared GTK semantic aliases |
+| [`colors.css`](colors/.config/colors/colors.css) | Master BUGHUNT GTK palette, including desktop, cheatsheet roles, and shared GTK semantic aliases |
 | [`shell.css`](colors/.config/colors/shell.css) | Shared shell fonts, square corners, control borders, and panel styling |
 | [`waybar/style.css`](waybar/.config/waybar/style.css) | Waybar frames, module spacing, colors, and state overrides |
 | [`gtk.css`](colors/.config/colors/gtk.css) | GTK 3/4 desktop widget styling |
 | [`gtk-3.0/compat.css`](gtk/.config/gtk-3.0/compat.css) | GTK 3 Breeze compatibility definitions |
 | [`gtk-4.0/compat.css`](gtk/.config/gtk-4.0/compat.css) | GTK 4 focus handling, libadwaita custom properties, and Breeze compatibility definitions |
 
-Waybar and its cheatsheet, SwayNC, and gtklock import `shell.css`,
+Waybar, its cheatsheet, and SwayNC import `shell.css`,
 which imports `colors.css`. Desktop GTK styling imports the palette directly so
 ordinary apps do not inherit the shell's 22px bold text. The thin
 [`GTK 3 entrypoint`](gtk/.config/gtk-3.0/gtk.css) imports its adapter first,
@@ -560,8 +549,8 @@ When updating an existing installation with individual Stow file links, restow
 the `gtk` package (`stow -R -t "$HOME" gtk`) to pick up the renamed adapters.
 Installations with whole-directory links pick up the new paths automatically.
 
-Application stylesheets retain layouts and exceptions: smaller lockscreen status
-and cheatsheet text, Eww's own widget frames, and thinner borders inside SwayNC.
+Application stylesheets retain layouts and exceptions: smaller cheatsheet text,
+Eww's own widget frames, and thinner borders inside SwayNC.
 Check these overrides when changing global fonts or
 borders. Eww has its own typography and imports the shared palette directly.
 
@@ -569,7 +558,7 @@ These are [GTK stylesheets](https://docs.gtk.org/gtk3/css-overview.html), using
 `@define-color`; shared font and border values use grouped selectors for GTK 3
 compatibility. No CSS generation step is required.
 
-Mango, Kitty, Fuzzel, tofi, and Starship retain colors in their own config formats.
+Mango, Kitty, Fuzzel, tofi, Starship, and Hyprlock retain colors in their own config formats.
 `colors.conf` and the Geany/KDE/Kate schemes are also separate files; changing
 `colors.css` does not regenerate them. The lock status script has explicit
 Pango foreground colors of its own.
@@ -617,13 +606,14 @@ python3 scripts/switch-theme.py restore
 ```
 
 It covers Mango appearance, Waybar, GTK/SwayNC, Kitty, launchers, Eww, Fastfetch,
-Starship, gtklock, icons, Geany, KDE/Qt/Kate, rmpc, and existing Thunderbird
+Starship, Hyprlock, icons, Geany, KDE/Qt/Kate, rmpc, and existing Thunderbird
 profiles. Neo selects Neo-Wire icons by default; use `--neo-icons Bughunt-Neo`
 for the smaller icon set. MPD configuration and state are outside its scope.
 
 By default, Mango's keybindings, input, monitors, rules, and personal startup
-commands are preserved; the Waybar launch command and the repo's solid-color
-background are adjusted. Use `--mango-profile desktop` or `--mango-profile vm`
+commands are preserved, except for migrating the repo's old lock-wrapper calls
+to Hyprlock; the Waybar launch command and the repo's solid-color background are
+adjusted. Use `--mango-profile desktop` or `--mango-profile vm`
 only when you also want to replace that complete profile.
 
 Each switch backs up displaced files and Stow links under
@@ -663,7 +653,7 @@ widths. After applying the theme switcher, use
 `~/.config/waybar/launch-theme.sh`, which selects the active mode's launcher.
 
 Restart GTK applications after styling changes. Thunar may retain a background
-process; run `thunar --quit`, then reopen it. Gtklock loads styles on
+process; run `thunar --quit`, then reopen it. Hyprlock loads its config on
 the next launch. Reload or restart Eww after editing its styles. An application
 may not notice changes to an imported stylesheet automatically.
 
@@ -715,10 +705,9 @@ This is a palette check, not a guarantee about every app's rendered UI.
 | Notification status is missing or shows errors | Install `jq` and confirm SwayNC is running. |
 | MPD shows `DISC` | Check the user MPD service, music paths, and PipeWire output; rmpc expects `127.0.0.1:6600`. |
 | Clicking MPD does nothing | Start rmpc in a window titled `rmpc`; the helper only focuses existing windows. |
-| Neo lock shortcut fails | `mango-neo` requires a separately configured Hyprlock; its bar still invokes gtklock. |
+| Lock shortcut fails | Install Hyprlock, stow a Hyprlock theme, and confirm `~/.config/hypr/hyprlock.conf` exists. Restart swayidle after migrating an existing installation. |
 | Neo Tailscale toggle fails | Check that Tailscale is installed, its daemon is running, and your user can run `tailscale up`/`down`. |
 | Tofi cannot load its font | Check the `font` path in `tofi/.config/tofi/config`, or use `font = Terminus (TTF)`; run `fc-match 'Terminus (TTF)'`. |
-| Lock status module fails to load | Check its path and compatibility with your gtklock version. |
 | Eww does not appear | Install Eww, stow `eww` and `colors`, and inspect `eww logs` for errors. |
 | Screenshot is not saved | Check `grim`, `slurp`, and the stowed `bin` package. Run `~/.local/share/bin/snip.sh full` in a terminal for errors. The helper creates `~/Pictures/Screenshots` and reports success only after capture succeeds. |
 | Authorization prompts never appear | Start a polkit authentication agent in the graphical session. |
@@ -741,7 +730,7 @@ make the entire interface follow GTK CSS. See
 Some files are retained experiments rather than active parts of the desktop:
 `fuzzel-powermenu.ini` (which contains a shell script), `*-bak`, `*-not`, and
 editor swap files. The standalone `bluetoothmenu.sh` helper is not called by the
-bar. The lock status collector is inside `gtklock`. The `logseq` helper embeds
+bar. The lock status collector is inside each `hyprlock` package. The `logseq` helper embeds
 a local AppImage path and temporary mount path and needs replacing for another
 machine. Do not treat every helper as a portable application launcher.
 
@@ -760,7 +749,7 @@ packages you use so new files are linked, then reload the affected apps:
 cd ~/dotfiles
 git diff
 stow --restow --target="$HOME" \
-  colors fonts cursors geany gtk mango kitty waybar swaync gtklock fuzzel tofi bin mpd rmpc
+  colors fonts cursors geany gtk mango kitty waybar swaync hyprlock fuzzel tofi bin mpd rmpc
 ```
 
 For the original-theme package set hardcoded in `scripts/stow.sh`:
@@ -795,7 +784,7 @@ the apps. Keep `colors` installed while any shell stylesheet still imports it.
 To remove the whole setup, log out of Mango, run the same delete command with all
 package names you installed, restore backups, and select your previous session.
 Unstowing does not uninstall packages, undo enabled services or GSettings
-changes, or remove the manually installed gtklock module and portal config.
+changes, or remove the portal config.
 Unstow before moving or deleting the checkout.
 
 See [LICENSE](LICENSE) for the repository license and the bundled

@@ -19,7 +19,7 @@ Usage: bash scripts/install.sh [options]
                      Choose an already installed AUR helper (otherwise autodetect)
   -h, --help         Show this help
 
-Run as your regular user on Arch. Uses sudo for package/font/module installation.
+Run as your regular user on Arch. Uses sudo for package/font installation.
 Uses your configured repositories; does not add third-party repositories.
 Does not stow files, change GTK settings, enable services, or change your shell.
 HELP
@@ -50,7 +50,7 @@ command -v pacman >/dev/null || fail 'This installer requires Arch Linux and pac
 packages=(
     base-devel git stow fontconfig python python-gobject gtk3 gtk4
     meson ninja pkgconf scdoc wayland-protocols
-    kitty fish fuzzel swaync gtklock swayidle wlopm
+    kitty fish fuzzel swaync hyprlock swayidle wlopm
     wl-clip-persist wl-clipboard cliphist grim slurp libnotify brightnessctl
     networkmanager nm-connection-editor bluez bluez-utils blueman jq
     pipewire pipewire-pulse wireplumber pavucontrol
@@ -134,51 +134,17 @@ run sudo install -m 644 "${fonts[@]}" /usr/share/fonts/TTF/
 run sudo fc-cache -f
 run mkdir -p "$HOME/.config" "$HOME/.local/share" "$HOME/Pictures/Screenshots"
 
-# The runshell module explicitly targets gtklock's major ABI. Build the matching
-# upstream release, not an unversioned checkout. See upstream README and tags.
-module_version=4.0.0
-if ! "$dry_run"; then
-    installed_version=$(pacman -Q gtklock)
-    installed_version=${installed_version#* }
-    installed_version=${installed_version#*:}
-    [[ "${installed_version%%.*}" == 4 ]] || fail "runshell $module_version requires gtklock 4; found $installed_version"
-fi
-build_dir=
-cleanup() {
-    if [[ -n "$build_dir" && -d "$build_dir" ]]; then
-        rm -rf -- "$build_dir"
-    fi
-}
-trap cleanup EXIT
-trap 'exit 130' INT
-trap 'exit 143' TERM
-if "$dry_run"; then
-    module_dir='/tmp/bughunt-module.XXXXXX/gtklock-runshell-module'
-    printf 'Build plan (temporary directory created only during installation):\n'
-else
-    build_dir=$(mktemp -d -t bughunt-module.XXXXXXXX)
-    module_dir="$build_dir/gtklock-runshell-module"
-fi
-run git clone --depth=1 --branch "$module_version" \
-    https://gitlab.com/wef/gtklock-runshell-module.git "$module_dir"
-run meson setup "$module_dir/build" "$module_dir" --prefix=/usr --libdir=lib
-run meson compile -C "$module_dir/build"
-run sudo meson install -C "$module_dir/build"
-if ! "$dry_run"; then
-    [[ -f /usr/lib/gtklock/runshell-module.so ]] || fail 'Expected runshell-module.so was not installed'
-fi
-
 printf '\nNext: review Stow conflicts with these simulations; remove --simulate to apply.\n'
 common=(bin fonts cursors geany fish starship fastfetch fuzzel tofi swaync mpd rmpc)
 if [[ "$theme" == neo ]]; then
     # Neo has GTK settings only; exclude the original settings while retaining CSS.
     show stow --dir="$DOTFILES_DIR" --target="$HOME" --simulate --verbose --no-folding --ignore='settings\.ini$' gtk
     show stow --dir="$DOTFILES_DIR" --target="$HOME" --simulate --verbose \
-        "${common[@]}" colors-neo gtk-neo kitty-neo waybar-neo gtklock-neo eww-neo mango-vm-neo
+        "${common[@]}" colors-neo gtk-neo kitty-neo waybar-neo hyprlock-neo eww-neo mango-vm-neo
     icon_theme=Bughunt-Neo
 else
     show stow --dir="$DOTFILES_DIR" --target="$HOME" --simulate --verbose \
-        "${common[@]}" colors gtk kitty waybar gtklock eww mango
+        "${common[@]}" colors gtk kitty waybar hyprlock eww mango
     icon_theme=Bughunt
 fi
 printf '\nUnstow the opposite theme first if it is already installed. After Stow, in your desktop session:\n'

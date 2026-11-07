@@ -35,8 +35,8 @@ class DesktopScripts(unittest.TestCase):
                     self.assertEqual(data['alt'], state)
 
     def test_lock_network_wifi_wired_offline(self):
-        for package in ('gtklock', 'gtklock-neo'):
-            source = (ROOT / package / '.config/gtklock/buglock.sh').read_text()
+        for package in ('hyprlock', 'hyprlock-neo'):
+            source = (ROOT / package / '.config/hypr/status.sh').read_text()
             # Run the collector's actual network block without its unrelated probes.
             escape = source[source.index('escape_markup()'):source.index('field()')]
             block = source[source.index('ssid=$('):source.index('# Root filesystem free space')]
@@ -56,6 +56,40 @@ class DesktopScripts(unittest.TestCase):
                 result = bash(mock + escape + block + '\nprintf "%s" "$network"', env=env)
                 self.assertEqual(result.returncode, 0, result.stderr)
                 self.assertEqual(result.stdout, expected)
+
+    def test_power_menu_lock_uses_hyprlock_and_reports_failure(self):
+        for package in ('waybar', 'waybar-neo'):
+            source = (ROOT / package / '.config/waybar/powermenu.sh').read_text()
+            functions = source[:source.index('# BUILD THE MAIN MENU')]
+            for status in (0, 17):
+                result = bash(functions + f'''
+                    hyprlock() {{ printf 'LOCK %s\\n' "$*"; return {status}; }}
+                    lock_screen
+                ''')
+                self.assertEqual(result.returncode, status)
+                self.assertEqual(result.stdout, 'LOCK --grace 0\n')
+            result = bash(functions + '''
+                command() { return 1; }
+                message() { printf '%s\\n' "$*"; }
+                loginctl() { printf 'UNEXPECTED FALLBACK\\n'; }
+                lock_screen
+            ''')
+            self.assertEqual(result.returncode, 1)
+            self.assertEqual(result.stdout, 'HYPRLOCK NOT INSTALLED\n')
+
+    def test_all_idle_profiles_lock_with_hyprlock_before_sleep(self):
+        with tempfile.TemporaryDirectory() as directory:
+            mock = Path(directory) / 'swayidle'
+            mock.write_text('#!/bin/sh\nprintf "%s\\n" "$@"\n')
+            mock.chmod(0o755)
+            env = dict(os.environ, PATH=directory + os.pathsep + os.environ['PATH'])
+            for package in ('mango', 'mango-neo', 'mango-vm', 'mango-vm-neo'):
+                script = ROOT / package / '.config/mango/swayidle.sh'
+                result = subprocess.run([BASH, str(script)], env=env,
+                                        capture_output=True, text=True, check=True)
+                args = result.stdout.splitlines()
+                self.assertEqual(args[args.index('before-sleep') + 1], 'hyprlock --grace 0')
+                self.assertEqual(args[args.index('300') + 1], 'hyprlock --grace 0')
 
     def test_screenshot_success_failure_and_cancellation(self):
         mock = '''mkdir() { :; }
@@ -89,7 +123,7 @@ class DesktopScripts(unittest.TestCase):
             for name in ('bash', 'dirname'):
                 (tmp / name).symlink_to(shutil.which(name))
             pacman = tmp / 'pacman'
-            pacman.write_text('#!/bin/bash\n[[ "$*" == -Slq ]] || exit 99\nprintf "%s\\n" base-devel git gtklock\n')
+            pacman.write_text('#!/bin/bash\n[[ "$*" == -Slq ]] || exit 99\nprintf "%s\\n" base-devel git hyprlock\n')
             pacman.chmod(0o755)
             for name in ('sudo', 'yay', 'paru', 'git', 'meson', 'mkdir', 'stow'):
                 p = tmp / name
@@ -104,6 +138,9 @@ class DesktopScripts(unittest.TestCase):
                 self.assertIn(f'--dir={ROOT}', result.stdout)
                 self.assertIn('nm-connection-editor', result.stdout)
                 self.assertIn('python-gobject', result.stdout)
+                self.assertIn('hyprlock', result.stdout)
+                self.assertNotIn('gtklock', result.stdout)
+                self.assertNotIn('runshell', result.stdout)
                 self.assertNotIn('nextcloud-client', result.stdout)
                 self.assertNotIn('pacman-key', result.stdout)
                 if theme == 'neo':
@@ -135,6 +172,8 @@ class DesktopScripts(unittest.TestCase):
                 self.assertTrue((target / '.config/gtk-3.0/gtk.css').exists())
                 settings = (target / '.config/gtk-3.0/settings.ini').read_text()
                 self.assertIn('Bughunt-Neo' if variant == 'neo' else 'Bughunt', settings)
+                self.assertTrue((target / '.config/hypr/hyprlock.conf').is_file())
+                self.assertTrue((target / '.config/hypr/status.sh').is_file())
                 self.assertTrue(os.access(target / '.local/share/bin/snip.sh', os.X_OK))
                 self.assertTrue(os.access(target / '.local/share/bin/tofi-script.sh', os.X_OK))
 

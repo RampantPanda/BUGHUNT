@@ -215,7 +215,7 @@
         "format" : "󰐥",
 		"tooltip-format": "POWER &amp; SESSION CONTROLS",
 		"on-click": "$HOME/.config/waybar/powermenu.sh",
-		"on-click-right": "$HOME/.config/gtklock/lock.sh"
+		"on-click-right": "hyprlock --grace 0"
     },
     "custom/hostname": {
         "format": "{text}",

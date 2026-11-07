@@ -170,16 +170,11 @@ can_hibernate() {
 
 
 lock_screen() {
-
-    if command -v gtklock >/dev/null 2>&1; then
-
-        ~/.config/gtklock/lock.sh
-
-    else
-
-        loginctl lock-session
-
+    if ! command -v hyprlock >/dev/null 2>&1; then
+        message "HYPRLOCK NOT INSTALLED"
+        return 1
     fi
+    hyprlock --grace 0
 }
 
 
@@ -287,18 +282,19 @@ switch_user() {
         #
         # If the user switches back to this session later, it should still
         # require authentication.
-        if command -v gtklock >/dev/null 2>&1; then
+        if command -v hyprlock >/dev/null 2>&1; then
 
-            # Start gtklock in the background because we must continue running
+            # Start Hyprlock in the background because we must continue running
             # long enough to activate the greeter.
-            gtklock &
+            hyprlock --grace 0 &
 
             # Give the locker a moment to establish itself.
             sleep 0.3
 
         else
 
-            loginctl lock-session
+            message "HYPRLOCK NOT INSTALLED"
+            return 1
         fi
 
 

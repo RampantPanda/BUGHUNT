@@ -105,7 +105,7 @@ def main():
         suffix = '-neo' if variant == 'neo' else ''
         with tempfile.TemporaryDirectory(prefix='bughunt-theme-check-') as directory:
             config = Path(directory)
-            for app in ('colors', 'waybar', 'swaync', 'gtklock', 'eww'):
+            for app in ('colors', 'waybar', 'swaync', 'eww'):
                 package = app if app == 'swaync' else app + suffix
                 shutil.copytree(ROOT / package / '.config' / app, config / app)
             # Neo supplies settings; it uses the original GTK CSS entrypoints.
@@ -114,7 +114,7 @@ def main():
                 shutil.copytree(ROOT / 'gtk-neo/.config', config, dirs_exist_ok=True)
             groups = {
                 '3.0': ('gtk-3.0/gtk.css', 'waybar/style.css', 'waybar/cheatsheet.css',
-                        'gtklock/buglock.css', 'eww/eww.css'),
+                        'eww/eww.css'),
                 '4.0': ('gtk-4.0/gtk.css', 'swaync/style.css'),
             }
             for version, paths in groups.items():

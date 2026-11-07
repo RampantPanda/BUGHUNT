@@ -1,6 +1,6 @@
 @import url("colors.css");
 
-/* Shared shell styling for Waybar, SwayNC, wlogout, gtklock, and Eww. */
+/* Shared shell styling for Waybar, SwayNC, wlogout, and Eww. */
 
 /* Default typography and square corners. Local size/font overrides follow
  * the import; Eww keeps its existing reset and compact typography.

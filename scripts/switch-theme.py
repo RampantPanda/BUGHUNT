@@ -23,7 +23,7 @@ import uuid
 ROOT = Path(__file__).resolve().parents[1]
 STATE = Path('.local/state/bughunt-switch')
 MODES = ('BUGHUNT', 'BUGHUNT-NEO')
-PAIRED = ('colors', 'kitty', 'waybar', 'fuzzel', 'eww', 'fastfetch', 'gtklock', 'starship')
+PAIRED = ('colors', 'kitty', 'waybar', 'fuzzel', 'eww', 'fastfetch', 'hyprlock', 'starship')
 THUNDERBIRD_STYLE = Path('thunderbird/.config/thunderbird/f12qqs1c.default-release/chrome/userChrome.css')
 
 
@@ -200,17 +200,6 @@ def build_plan(target, mode, mango_profile='appearance', neo_icons='Neo-Wire'):
         if neo:
             plan.package(package + suffix)
 
-    # Modules depend on the installed gtklock ABI, not the color scheme. Keep
-    # the host's selection (including disabled modules) instead of re-enabling
-    # BUGHUNT's legacy runshell module when switching back from Neo on gtklock 5.
-    # A fresh target leaves optional modules disabled until explicitly configured.
-    relative = '.config/gtklock/config.ini'
-    installed = ini(read(target / relative))
-    plan.text(relative, set_ini(plan.current(relative), 'main', {
-        'modules': installed.get('main', 'modules', fallback=None),
-        'layout': str(target / '.config/gtklock/layout.xml'),
-    }))
-
     # Neo doesn't supply GTK CSS. Both variants need the shared import wrappers.
     for version in ('3.0', '4.0'):
         for name in ('gtk.css', 'compat.css'):
@@ -288,6 +277,19 @@ def build_plan(target, mode, mango_profile='appearance', neo_icons='Neo-Wire'):
     if mango_profile != 'appearance' or not (target / '.config/mango/config.conf').is_file():
         package = 'mango-vm' if mango_profile == 'vm' else 'mango'
         plan.package(package + suffix)
+    # Upgrade the repository's old lock commands even when preserving a host's
+    # keybindings and idle timeouts. Transaction backs these changes up as usual.
+    for name in ('config.conf', 'swayidle.sh', 'cfg/keybinds.conf',
+                 'cfg/keybinds-VM.conf', 'cfg/input.conf'):
+        relative = '.config/mango/' + name
+        content = plan.current(relative)
+        updated = content
+        for home in ('~', '$HOME', '${HOME}', str(target)):
+            updated = updated.replace(home + '/.config/gtklock/lock.sh', 'hyprlock --grace 0')
+        if updated != content:
+            mode = (plan.files[Path(relative)][1] if Path(relative) in plan.files
+                    else (target / relative).stat().st_mode & 0o777)
+            plan.text(relative, updated, mode)
     appearance = (ROOT / 'mango/.config/mango/cfg/appearance.conf').read_text()
     if neo:
         appearance += '\n' + (ROOT / 'mango-neo/.config/mango/cfg/appearance.conf').read_text()

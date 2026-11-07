@@ -73,7 +73,7 @@ class ThemeSwitch(unittest.TestCase):
 
     def test_full_round_trip_with_folded_stow_links_and_local_files(self):
         for package, relative in [('waybar-neo', '.config/waybar'),
-                                  ('gtklock-neo', '.config/gtklock'),
+                                  ('hyprlock-neo', '.config/hypr'),
                                   ('gtk-neo', '.config/gtk-3.0'),
                                   ('geany', '.config/geany'),
                                   ('colors-neo', '.local/share/color-schemes')]:
@@ -87,9 +87,7 @@ class ThemeSwitch(unittest.TestCase):
         self.write('.config/katerc', '[KTextEditor Renderer]\nColor Theme=Old\nText Font=Keep Me\n')
         before = fingerprint(self.target)
         source_before = fingerprint(ROOT / 'geany')
-        lock_before = fingerprint(ROOT / 'gtklock-neo')
-        modules = theme.ini((self.target / '.config/gtklock/config.ini').read_text()).get(
-            'main', 'modules', fallback=None)
+        lock_before = fingerprint(ROOT / 'hyprlock-neo')
         self.invoke('BUGHUNT-NEO')
         self.assertFalse((self.target / '.config/waybar').is_symlink())
         self.assertFalse((self.target / '.config/geany/geany.conf').is_symlink())
@@ -118,9 +116,9 @@ class ThemeSwitch(unittest.TestCase):
         self.assertEqual((self.target / '.config/waybar/config.jsonc').read_bytes(),
                          (ROOT / 'waybar/.config/waybar/config.jsonc').read_bytes())
         self.assertIn('swaybg -c 1d170b', (self.target / '.config/mango/cfg/autostart.conf').read_text())
-        lock = theme.ini((self.target / '.config/gtklock/config.ini').read_text())
-        self.assertEqual(lock.get('main', 'modules', fallback=None), modules)
-        self.assertTrue(Path(lock['main']['layout']).is_file())
+        self.assertEqual((self.target / '.config/hypr/hyprlock.conf').read_bytes(),
+                         (ROOT / 'hyprlock/.config/hypr/hyprlock.conf').read_bytes())
+        self.assertTrue((self.target / '.config/hypr/status.sh').is_file())
         self.invoke('toggle')
         self.assertIn('BUGHUNT-NEO\n', self.invoke('status').stdout)
         self.assertIn('swaybg -c 0e0402', (self.target / '.config/mango/cfg/autostart.conf').read_text())
@@ -132,30 +130,28 @@ class ThemeSwitch(unittest.TestCase):
         # State storage leaves its otherwise empty .local parent in a fresh target.
         self.assertEqual(after, before)
         self.assertEqual(source_before, fingerprint(ROOT / 'geany'))
-        self.assertEqual(lock_before, fingerprint(ROOT / 'gtklock-neo'))
+        self.assertEqual(lock_before, fingerprint(ROOT / 'hyprlock-neo'))
 
-    def test_gtklock_preserves_module_selection_and_uses_bundled_layout(self):
-        relative = Path('.config/gtklock/config.ini')
-        for modules in (None, '', '/usr/lib/gtklock/custom-module.so'):
-            content = '[main]\n#modules=/usr/lib/gtklock/runshell-module.so\n'
-            if modules is not None:
-                content += 'modules=' + modules + '\n'
-            self.write(relative, content)
-            for mode in theme.MODES:
-                with self.subTest(modules=modules, mode=mode):
-                    plan, _ = theme.build_plan(self.target, mode)
-                    config = theme.ini(plan.files[relative][0].decode())
-                    self.assertEqual(config.get('main', 'modules', fallback=None), modules)
-                    layout = Path(config['main']['layout'])
-                    self.assertEqual(layout, self.target / '.config/gtklock/layout.xml')
-                    self.assertIn(layout.relative_to(self.target), plan.files)
-
-    def test_fresh_target_does_not_enable_optional_gtklock_modules(self):
-        for mode in theme.MODES:
-            with self.subTest(mode=mode):
-                plan, _ = theme.build_plan(self.target, mode)
-                config = theme.ini(plan.files[Path('.config/gtklock/config.ini')][0].decode())
-                self.assertFalse(config.get('main', 'modules', fallback=''))
+    def test_legacy_lock_commands_migrate_and_restore_without_losing_preferences(self):
+        self.write('.config/mango/config.conf', 'source = ./cfg/keybinds.conf\n')
+        bindings = "bind=ALT,l,spawn_shell,sh -c '~/.config/gtklock/lock.sh'\nbind=SUPER,t,spawn,my-terminal\n"
+        idle = '#!/bin/sh\nexec swayidle -w timeout 123 "$HOME/.config/gtklock/lock.sh"\n'
+        self.write('.config/mango/cfg/keybinds.conf', bindings)
+        self.write('.config/mango/swayidle.sh', idle)
+        (self.target / '.config/mango/swayidle.sh').chmod(0o755)
+        self.write('.config/hypr/hyprlock.conf', '# personal lock settings\n')
+        self.invoke('neo')
+        current = (self.target / '.config/mango/cfg/keybinds.conf').read_text()
+        self.assertIn("sh -c 'hyprlock --grace 0'", current)
+        self.assertIn('spawn,my-terminal', current)
+        self.assertIn('timeout 123 "hyprlock --grace 0"',
+                      (self.target / '.config/mango/swayidle.sh').read_text())
+        self.assertTrue(os.access(self.target / '.config/mango/swayidle.sh', os.X_OK))
+        self.invoke('restore')
+        self.assertEqual((self.target / '.config/mango/cfg/keybinds.conf').read_text(), bindings)
+        self.assertEqual((self.target / '.config/mango/swayidle.sh').read_text(), idle)
+        self.assertEqual((self.target / '.config/hypr/hyprlock.conf').read_text(),
+                         '# personal lock settings\n')
 
     def test_current_rmpc_ansi_theme_and_working_tree_configs_are_used(self):
         rmpc = Path('.config/rmpc/themes/BUGHUNT.ron')
@@ -171,7 +167,7 @@ class ThemeSwitch(unittest.TestCase):
                 suffix = '-neo' if mode == 'BUGHUNT-NEO' else ''
                 for package, relative in [('waybar', '.config/waybar/config.jsonc'),
                                           ('waybar', '.config/waybar/style.css'),
-                                          ('gtklock', '.config/gtklock/buglock.css'),
+                                          ('hyprlock', '.config/hypr/hyprlock.conf'),
                                           ('kitty', '.config/kitty/kitty.conf')]:
                     self.assertEqual(plan.files[Path(relative)][0],
                                      (ROOT / (package + suffix) / relative).read_bytes())

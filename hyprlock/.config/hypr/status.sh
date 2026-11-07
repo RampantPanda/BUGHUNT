@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # ------------------------------------------------------------
-# Bughunt gtklock status collector
+# Bughunt Hyprlock status collector
 # ------------------------------------------------------------
 
 escape_markup() {
