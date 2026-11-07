@@ -1,4 +1,4 @@
-# Rampant-Mango
+# BUGHUNT / Rampant-Mango
 
 Panda likes Mango.
 
@@ -10,16 +10,19 @@ This is aimed at being used on Arch-based distros. I have used EndeavourOS, Cach
 
 Use GNU Stow (or GNU/Stow) to manage the files.
 
-**Use the manual setup below.** [`scripts/install.sh`](scripts/install.sh) is an
-old setup draft for my own use to make reinstalls faster and it should not be used by anyone. It changes the system's package repositories, includes personal applications, backgrounds dependent build
-steps, and leaves Stow installation as a comment. You do not need Chaotic-AUR or
-CachyOS to use these configs.
+The repository includes the amber **BUGHUNT** theme and cyan **BUGHUNT-NEO**
+variants. Use the manual setup below or review the dependency installer's dry
+run first. [`scripts/install.sh`](scripts/install.sh) uses your configured
+repositories and prints separate Stow instructions; personal applications are
+opt-in. Its runshell-module build still requires **gtklock 4**, so use manual
+setup on gtklock 5. You do not need Chaotic-AUR or CachyOS to use these configs.
 
 - [What is included](#what-is-included)
 - [Install on Arch](#install-on-arch)
 - [Before the first login](#before-the-first-login)
 - [Daily use](#daily-use)
 - [Customize the desktop](#customize-the-desktop)
+- [Switch between BUGHUNT and BUGHUNT-NEO](#switch-between-bughunt-and-bughunt-neo)
 - [Theme development](#theme-development)
 - [Troubleshooting](#troubleshooting)
 - [Updating and removing the configs](#updating-and-removing-the-configs)
@@ -47,10 +50,24 @@ Keep the checkout wherever you install it; the examples use `~/dotfiles`.
 | `fonts` | Bundled Terminus TTF fonts |
 | `fastfetch` | Optional system summary with custom ANSI artwork |
 | `eww` | Host, disk, RAM, and Proton connection widget; enabled in Mango startup |
-| `starship` | Optional Bughunt-colored shell prompt; shell initialization is not included |
+| `starship`, `starship-neo` | Shell prompt themes |
+| `fish` | Interactive Fish startup with Starship and Fastfetch, plus Copilot completions |
+| `mpd` | Music Player Daemon configuration with PipeWire output; runtime data stays local |
+| `rmpc` | Terminal MPD client configuration and BUGHUNT theme using terminal ANSI colors |
+| `icons-neo` | Neo-Wire icon theme |
+| `thunderbird` | Thunderbird UI stylesheet for an existing profile |
+
+Neo variants are also supplied for `colors`, `eww`, `fastfetch`, `fuzzel`, `gtk`,
+`gtklock`, `kitty`, `mango`, and `waybar`. Choose one Mango profile from `mango`,
+`mango-vm`, `mango-neo`, or `mango-vm-neo`; they target the same config directory.
+Other original/Neo pairs also overlap, so do not stow both wholesale. Neo GTK
+uses the original GTK CSS with Neo settings and colors. The
+[theme switcher](#switch-between-bughunt-and-bughunt-neo) handles these combinations.
 
 `geany` targets `~/.config/geany`. Its session state and runtime socket are
-ignored by Git. `mango-vm` is an alternative to `mango`; do not stow both.
+ignored by Git. MPD's directory tracks only `*.conf`: its database, playback
+state, PID files, and local playlists are ignored, including when Stow links the
+whole directory into this checkout.
 
 `scripts` contains maintenance tools and the dependency installer; it is not a
 Stow package. Fish startup configuration is included, but display manager setup,
@@ -59,6 +76,12 @@ wallpaper services, and application accounts require separate configuration.
 ## Install on Arch
 
 Run the shell examples in Bash, as your regular user. Use `sudo` only where shown.
+Clone the repository first if you have not already:
+
+```sh
+git clone https://github.com/RampantPanda/BUGHUNT.git ~/dotfiles
+cd ~/dotfiles
+```
 
 The installer covers dependencies for the checked-in desktop, including Eww,
 Fish/Starship, MPD/rmpc, Neo's Python launcher, and the network connection editor:
@@ -77,12 +100,17 @@ The preflight uses local pacman sync databases, then installation performs a ful
 
 The installer builds runshell release 4.0.0 for gtklock 4, installs the font used
 by tofi, and creates the screenshots directory. It stops on incompatible gtklock
-versions. Temporary module sources are cleaned up on failure or interruption.
+versions after the package/font steps, so it is not a complete installer for
+gtklock 5. Temporary module sources are cleaned up on failure or interruption.
 It does not add repositories, overwrite GTK settings, or enable services. Stow
 commands are printed as simulations for you to review and apply separately.
 For Neo, the first command installs the original GTK CSS while excluding its
 settings; the second installs Neo settings and the remaining packages. Remove
-the opposite variant's Stow links before switching themes.
+the opposite variant's Stow links before switching themes manually. Its Neo
+package list selects `mango-vm-neo` and shares the original Fuzzel and Starship
+configs; use the theme switcher for the full Neo appearance. Hyprlock,
+Alacritty, swaybg, and Tailscale are not in the installer's dependency list; install
+them separately if using the desktop Neo profile and its Tailscale module.
 
 The manual installation steps below remain available as an alternative.
 
@@ -90,7 +118,7 @@ Run the script regression checks without installing packages or changing desktop
 settings:
 
 ```sh
-python3 scripts/tests/test_desktop_scripts.py
+python3 -B -m unittest discover -s scripts/tests -v
 ```
 
 ### 1. Install supporting applications
@@ -99,13 +127,14 @@ Update Arch and install the official-repository packages used by this setup:
 
 ```sh
 sudo pacman -Syu --needed \
-  base-devel git stow fontconfig \
+  base-devel git stow fontconfig python python-gobject \
   kitty fuzzel swaync gtklock swayidle wlopm \
   wl-clip-persist wl-clipboard grim slurp libnotify brightnessctl \
   networkmanager nm-connection-editor bluez bluez-utils blueman jq \
   pipewire pipewire-pulse wireplumber pavucontrol \
-  thunar firefox geany yad \
-  capitaine-cursors adwaita-icon-theme gsettings-desktop-schemas \
+  thunar firefox geany yad fish fastfetch starship mpd rmpc \
+  capitaine-cursors breeze adwaita-icon-theme gsettings-desktop-schemas \
+  noto-fonts ttf-terminus-nerd ttf-space-mono-nerd \
   xdg-desktop-portal xdg-desktop-portal-gtk xdg-desktop-portal-wlr \
   xorg-xwayland polkit-gnome plasma-integration
 ```
@@ -139,15 +168,22 @@ Thunar; `gvfs` and `udisks2` are useful for removable media. Install personal
 applications such as Nextcloud, Proton, photography tools, and office software
 separately.
 
-### 2. Install the gtklock status module
+### 2. Choose the lockscreen and optional status module
 
-The lock configuration expects `/usr/lib/gtklock/runshell-module.so`.
-Install a matching module package if you have one available, or build it:
+The original gtklock config enables `/usr/lib/gtklock/runshell-module.so`;
+the Neo config comments it out for gtklock 5. If using the original config
+without a compatible module, comment out `modules=` before launching gtklock.
+The wrapper [`lock.sh`](gtklock/.config/gtklock/lock.sh) selects the bundled
+`layout.xml`; Neo's raw `config.ini` still names `layout.ui`, so use the wrapper
+or correct that setting. The theme switcher sets the correct layout path and
+preserves the installed module selection.
+
+For **gtklock 4**, the installer pins runshell 4.0.0. To build that version manually:
 
 ```sh
 sudo pacman -S --needed meson ninja pkgconf gtk3
 mkdir -p ~/src
-git clone https://gitlab.com/wef/gtklock-runshell-module.git ~/src/gtklock-runshell-module
+git clone --branch 4.0.0 --depth 1 https://gitlab.com/wef/gtklock-runshell-module.git ~/src/gtklock-runshell-module
 cd ~/src/gtklock-runshell-module
 meson setup build --prefix=/usr --libdir=lib
 meson compile -C build
@@ -159,15 +195,20 @@ This source installation is outside pacman's package tracking; keep the build
 directory if you need to maintain it. For a lockscreen without the status readout,
 remove the `modules=` line and `[runshell]` section from your gtklock config instead.
 
-### 3. Clone and link the dotfiles
+`mango-neo` uses **Hyprlock** for its lock shortcuts, idle handling, and lid-close
+command. No Hyprlock configuration is included: install and configure it yourself
+before using that profile. The original and both VM profiles use gtklock.
+Neo's bar and power-menu lock actions still use gtklock, so align those commands
+if you want one locker everywhere.
+
+### 3. Link the dotfiles
 
 ```sh
-git clone https://github.com/RampantPanda/Rampant-Mango.git ~/dotfiles
 cd ~/dotfiles
 mkdir -p ~/.config ~/.local/share ~/Pictures/Screenshots
 
 stow --simulate --verbose --target="$HOME" \
-  colors fonts cursors geany gtk mango kitty waybar swaync gtklock fuzzel tofi bin
+  colors fonts cursors geany gtk mango kitty waybar swaync gtklock fuzzel tofi bin mpd rmpc
 ```
 
 The simulation reports proposed links and conflicts. Move existing conflicting
@@ -189,7 +230,7 @@ When the simulation is clean:
 
 ```sh
 stow --verbose --target="$HOME" \
-  colors fonts cursors geany gtk mango kitty waybar swaync gtklock fuzzel tofi bin
+  colors fonts cursors geany gtk mango kitty waybar swaync gtklock fuzzel tofi bin mpd rmpc
 fc-cache -f
 gsettings set org.gnome.desktop.interface icon-theme 'Bughunt'
 ```
@@ -202,7 +243,7 @@ assume the standard `~/.config` and `~/.local/share` paths.
 Optional configs can be linked later:
 
 ```sh
-stow --target="$HOME" fastfetch eww starship
+stow --target="$HOME" fastfetch eww starship fish
 ```
 
 The helper scripts live in `~/.local/share/bin`. To invoke them by name, add
@@ -226,12 +267,22 @@ nmtui
 Skip Bluetooth if you do not use it. If you already have a network manager, decide
 which one will own your interfaces before enabling another.
 
+The checked-in Mango startup files leave SwayNC commented out and expect it to
+be managed separately. In your graphical session, enable its user service:
+
+```sh
+systemctl --user enable --now swaync.service
+```
+
+Alternatively, add `exec_once = swaync` to your active Mango startup file.
+For MPD setup, see [Music with MPD and rmpc](#music-with-mpd-and-rmpc).
+
 For graphical authentication prompts, add this to
 [`cfg/autostart.conf`](mango/.config/mango/cfg/autostart.conf) when using the
 `polkit-gnome` package above:
 
 ```ini
-exec-once = /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+exec_once = /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 ```
 
 Portal configuration is not included in this repository. To use GTK file dialogs
@@ -262,14 +313,16 @@ Review these local settings in your checkout before the first login:
    outputs if you need explicit monitor rules.
 
 2. **Eww startup.** [`autostart.conf`](mango/.config/mango/cfg/autostart.conf)
-   starts `eww daemon` with `exec-once` and opens `sysmon` with `exec`.
+   starts `eww daemon` with `exec_once` and opens `sysmon` and `logowindow` with `exec`.
    Install Eww and stow both `eww` and `colors`, or comment out both startup
    entries if you do not use the widget.
 
-3. **GTK preferences.** Both GTK settings files select the bundled `Bughunt`
-   icons, `breeze_cursors`, and Noto Sans. The installer and GSettings command
-   above also select `Bughunt`. Choose installed fonts and cursors to match your system; Mango's
-   cursor setting separately uses `capitaine-cursors`.
+3. **GTK preferences.** The original GTK 3/4 settings select the bundled `Bughunt`
+   icons, `breeze_cursors`, and Noto Sans. The original-theme GSettings command
+   above also selects `Bughunt`. Neo's raw settings have conflicting icon entries;
+   the theme switcher normalizes them to Neo-Wire by default. Choose installed
+   fonts and cursors to match your system; the original Mango config separately
+   selects `capitaine-cursors`.
 
 Create `~/Pictures/Screenshots` even if your normal Pictures directory has a
 localized name: both screenshot bindings use that exact path. Change Waybar's
@@ -281,12 +334,14 @@ display manager if the package installed a session entry. The launch command is
 in [Mango's quick start](https://mangowm.github.io/docs/quick-start/). This repo
 supplies its own config; do not copy the upstream example over it.
 
-Startup launches clipboard persistence, swayidle, Waybar, and SwayNC, and includes
-the Eww entries noted above. It does not launch Nextcloud or the personal
-applications listed in the old installer.
+Startup launches clipboard persistence, swayidle, Waybar, and the Eww entries
+noted above. `mango-neo` also starts the polkit agent and uses `swaybg` for its
+solid background. SwayNC needs the separate setup above. Nextcloud and other
+personal applications are not started by these configs.
 
 ## Daily use
 
+The shortcut table below describes the original `mango` profile.
 `Super` means the Windows/logo key. The source of truth is
 [`cfg/keybinds.conf`](mango/.config/mango/cfg/keybinds.conf), not Mango's upstream
 defaults. `Alt+H` opens a reference window; its
@@ -300,6 +355,12 @@ It includes the remaining Super shortcuts and notes conflicting or malformed
 bindings. Both references are maintained manually; run
 `~/.config/waybar/cheatsheet.sh desktop` or `~/.config/waybar/cheatsheet.sh vm`
 to open either explicitly.
+
+`mango-neo` has different bindings: `Super+Space` opens Fuzzel, `Super+W`
+relaunches its 70%-width bar, `Super+H` opens the VM reference, `Alt+R` reloads
+Mango, `Alt+L`/`Super+L` run Hyprlock, and `Ctrl+Alt+Return` runs Alacritty.
+Consult its [keybinds.conf](mango-neo/.config/mango/cfg/keybinds.conf) or the
+active VM profile instead of applying the original table to every variant.
 
 | Keys | Action |
 | --- | --- |
@@ -338,24 +399,38 @@ four-finger upward swipe toggles overview.
 
 All nine workspaces start in the `tile` layout with a 55% master area. Their bar
 labels are `NET`, `WRK`, `TRM`, `AUD`, `VID`, `EML`, `MSG`, `REM`, and `AUX`.
+Neo uses workspace icons instead of these text labels.
 These are organizational labels; there are no corresponding automatic
 application-to-workspace assignments.
 
 ### The bar and power menus
 
+The original bar uses the controls below. Neo places MPD in the center,
+shows Bluetooth and the tray directly, uses icons for most controls, and adds
+a Tailscale status/toggle. Its Python launcher creates a bar at 70% of each
+monitor's logical width.
+
 | Bar control | Action |
 | --- | --- |
-| `BUGHUNT` | Left-click for Fuzzel; right-click for the keyboard reference |
+| Hostname (original bar center) | Left-click for Fuzzel; right-click for the keyboard reference |
 | Workspace label | Activate that workspace |
 | Clock | Hover for the calendar |
-| `NFO` | Expand/collapse CPU, RAM, and temperature readings |
+| `MUS` | Expand/collapse MPD track information |
+| MPD track | Focus an existing window titled `rmpc`; it does not start the client |
 | `SYS` | Expand/collapse Bluetooth and the system tray |
 | Bluetooth (inside `SYS`) | Open Blueman Manager |
 | Volume | Scroll to adjust, click to mute, double-click for Pavucontrol |
-| Network | Open `nmtui` in a floating Kitty window |
+| Network | Original: `nmtui` in Kitty; Neo: `nm-connection-editor` |
+| Nextcloud (original) | Display client sync status; click to open Nextcloud |
+| Tailscale (Neo) | Hover for state/IP; click to run `tailscale up` or `tailscale down` |
 | `IDLE` / `ACTV` | Toggle the idle inhibitor |
 | Notification status (`000`, `!!!`, `---`, `-!-`) | Click to open notifications; right-click to toggle Do Not Disturb |
 | `PWR` | Open the Fuzzel power menu; right-click to lock |
+
+The Tailscale helper requires `tailscale`, `jq`, a running daemon, and permission
+for your user to control the connection. Remove `custom/tailscale` from Neo's
+`modules-right` if you do not use it. Nextcloud status comes from the running
+client's tray tooltip; it reports offline when the client is unavailable.
 
 The Fuzzel menu offers lock, logout, user
 switching, suspend, reboot, and power off. Hibernate appears when logind reports
@@ -375,10 +450,32 @@ your workflow. The input config separately requests suspend on lid close and
 turns displays on when it opens; this can interact with systemd-logind's own lid
 handling.
 
-The lockscreen shows the host, time, uptime, package-update age, approximate
-installation date, Wi-Fi, root-disk space, and battery. Its network readout checks
-Wi-Fi through NetworkManager, so Ethernet-only machines may show `DISCONNECTED`
-there even when networking works.
+With the runshell module enabled, gtklock shows the host, time, uptime,
+package-update age, approximate installation date, network, root-disk space,
+and battery. Its collector handles Wi-Fi, wired Ethernet, and offline states.
+The desktop Neo profile uses the same idle timeouts with Hyprlock, and launches
+Hyprlock before a one-second delay and suspend on lid close.
+
+### Music with MPD and rmpc
+
+[`mpd.conf`](mpd/.config/mpd/mpd.conf) reads music from `~/Music`, stores playlists
+in `~/Music/playlists`, and outputs through PipeWire. After installing `mpd` and
+`rmpc` and stowing both packages:
+
+```sh
+mkdir -p ~/Music/playlists
+systemctl --user enable --now mpd.service
+kitty --title rmpc rmpc
+```
+
+The client connects to `127.0.0.1:6600`; use its help (`?`) and library-update
+actions to populate the database after adding music. The bar's MPD click helper
+focuses an already running window titled `rmpc`. The BUGHUNT rmpc theme uses
+terminal ANSI colors, so it follows Kitty's selected palette.
+
+Only MPD configuration is versioned. Its database (`mpd.db`), playback state
+(`mpdstate`), PID files, and playlists are machine-local and are not pushed to
+the remote repository. They remain on disk when excluded from Git.
 
 ### Optional tools
 
@@ -399,14 +496,24 @@ Use `eww close sysmon` to hide it. The widget targets monitor `0`; change the
 geometry in `eww.yuck` for your display. Its Proton indicator searches
 NetworkManager output for a Proton connection; adapt it if you use another VPN.
 
-The optional Starship config supplies the prompt's colors and segments. Stowing
-it does not initialize Starship in your shell; keep that setup in your own shell
-configuration.
+The optional Starship config supplies the prompt's colors and segments. The
+included Fish config initializes Starship and runs Fastfetch in interactive
+shells; install both when stowing `fish`. Other shells need their own startup
+integration.
+
+Thunderbird's [userChrome.css](thunderbird/.config/thunderbird/f12qqs1c.default-release/chrome/userChrome.css)
+themes the application UI. The checked-in profile name is personal; copy the CSS
+to your existing profile's `chrome` directory, or use the theme switcher to find
+existing profiles automatically. Enable
+`toolkit.legacyUserProfileCustomizations.stylesheets` in Thunderbird's Config
+Editor and restart Thunderbird. Do not stow the personal profile name as a way
+to create or select your own account profile.
 
 ## Customize the desktop
 
 Edit the files in this checkout. Mango's top-level config sources the `cfg`
-files first and `themes/bughunt.conf` last.
+files first and `themes/bughunt.conf` last for the original desktop; Neo uses
+`themes/k.conf`. Edit the matching variant's directory when using Neo.
 
 | Change | File |
 | --- | --- |
@@ -494,9 +601,53 @@ settings. The KDE application color scheme is installed under
 `~/.local/share/color-schemes/Bughunt.colors`; select it with the KDE/Qt settings
 tool you use. Installing it does not configure every Qt application automatically.
 
+## Switch between BUGHUNT and BUGHUNT-NEO
+
+[`scripts/switch-theme.py`](scripts/switch-theme.py) applies either theme using
+the current files in this checkout. It requires Python 3.10+, Git, and installed
+desktop dependencies. From the repository root:
+
+```sh
+python3 scripts/switch-theme.py neo --dry-run
+python3 scripts/switch-theme.py neo
+python3 scripts/switch-theme.py original
+python3 scripts/switch-theme.py toggle
+python3 scripts/switch-theme.py status
+python3 scripts/switch-theme.py restore
+```
+
+It covers Mango appearance, Waybar, GTK/SwayNC, Kitty, launchers, Eww, Fastfetch,
+Starship, gtklock, icons, Geany, KDE/Qt/Kate, rmpc, and existing Thunderbird
+profiles. Neo selects Neo-Wire icons by default; use `--neo-icons Bughunt-Neo`
+for the smaller icon set. MPD configuration and state are outside its scope.
+
+By default, Mango's keybindings, input, monitors, rules, and personal startup
+commands are preserved; the Waybar launch command and the repo's solid-color
+background are adjusted. Use `--mango-profile desktop` or `--mango-profile vm`
+only when you also want to replace that complete profile.
+
+Each switch backs up displaced files and Stow links under
+`~/.local/state/bughunt-switch/` and installs **copies** without editing the
+source checkout. Edits to those installed copies no longer update the repo;
+reapply after changing source configs. `restore` undoes the latest switch,
+including saved desktop preferences; repeated restores step backward.
+Restore before returning management of those files to Stow.
+
+Normal application reloads the desktop and updates available desktop appearance
+preferences. `--no-reload` changes files only. `--target /tmp/bughunt-preview`
+uses a separate test home without affecting the running desktop. Restart
+Thunderbird to load its UI stylesheet. See the
+[full switcher guide](scripts/SWITCH-THEME.md) for scope, recovery, and backups.
+
+`scripts/apply-neo.sh` only selects Neo-Wire icons and rebuilds their cache;
+it does not switch the whole desktop. `scripts/generate-neo-icons.sh` regenerates
+application icons using local desktop entries and icon sources, and assumes
+the checkout is at `~/dotfiles`. The generated icons are already included.
+
 ### Reload changes
 
-Mango: press `Super+R`. Changes to `exec-once` entries need a new session or a
+Mango: press `Super+R` in the original profile or `Alt+R` in either desktop
+profile. Changes to `exec_once` entries need a new session or a
 manual launch. To restart the bar or reload notifications from a terminal:
 
 ```sh
@@ -505,6 +656,11 @@ waybar >/tmp/waybar.log 2>&1 &
 swaync-client --reload-config
 swaync-client --reload-css
 ```
+
+For Neo, replace the bare `waybar` command with
+`python3 ~/.config/waybar/launch.py --width-percent 70` to retain per-monitor
+widths. After applying the theme switcher, use
+`~/.config/waybar/launch-theme.sh`, which selects the active mode's launcher.
 
 Restart GTK applications after styling changes. Thunar may retain a background
 process; run `thunar --quit`, then reopen it. Gtklock loads styles on
@@ -552,11 +708,15 @@ This is a palette check, not a guarantee about every app's rendered UI.
 
 | Symptom | Check |
 | --- | --- |
-| Stow reports a conflict | Move the conflicting file to your backup, then repeat the simulation. Do not force adoption. |
+| Stow reports a conflict | Move the conflicting file to your backup, then repeat the simulation. Do not force adoption. Original and Neo packages can also conflict on local GTK bookmarks: Git ignore rules do not exclude files from Stow. After using the theme switcher, restore before switching back to Stow. |
 | Shell CSS fails to load | Stow `colors` and confirm `~/.config/colors` is alongside the app's config directory. |
 | Bar workspace module is missing | Use a Waybar build supporting `mango/workspaces`; inspect `/tmp/waybar.log`. |
 | Bluetooth manager does not open | Install `blueman`; the bar launches `blueman-manager`, not `bluetoothmenu.sh`. |
 | Notification status is missing or shows errors | Install `jq` and confirm SwayNC is running. |
+| MPD shows `DISC` | Check the user MPD service, music paths, and PipeWire output; rmpc expects `127.0.0.1:6600`. |
+| Clicking MPD does nothing | Start rmpc in a window titled `rmpc`; the helper only focuses existing windows. |
+| Neo lock shortcut fails | `mango-neo` requires a separately configured Hyprlock; its bar still invokes gtklock. |
+| Neo Tailscale toggle fails | Check that Tailscale is installed, its daemon is running, and your user can run `tailscale up`/`down`. |
 | Tofi cannot load its font | Check the `font` path in `tofi/.config/tofi/config`, or use `font = Terminus (TTF)`; run `fc-match 'Terminus (TTF)'`. |
 | Lock status module fails to load | Check its path and compatibility with your gtklock version. |
 | Eww does not appear | Install Eww, stow `eww` and `colors`, and inspect `eww logs` for errors. |
@@ -585,9 +745,9 @@ bar. The lock status collector is inside `gtklock`. The `logseq` helper embeds
 a local AppImage path and temporary mount path and needs replacing for another
 machine. Do not treat every helper as a portable application launcher.
 
-Waybar lists an undefined `custom/nextcloud` module; remove it from `modules-right`
-or implement it. Its inactive `custom/media` definition references an absent
-`mediaplayer.py`. Clipboard persistence is configured, but history is not:
+Both bars include a Nextcloud module definition and helper; only the original
+bar enables it by default. Their inactive `custom/media` definitions reference
+an absent `mediaplayer.py`. Clipboard persistence is configured, but history is not:
 installing `cliphist` alone does not add a watcher or history picker.
 
 ## Updating and removing the configs
@@ -600,15 +760,21 @@ packages you use so new files are linked, then reload the affected apps:
 cd ~/dotfiles
 git diff
 stow --restow --target="$HOME" \
-  colors fonts cursors geany gtk mango kitty waybar swaync gtklock fuzzel tofi bin
+  colors fonts cursors geany gtk mango kitty waybar swaync gtklock fuzzel tofi bin mpd rmpc
 ```
 
-To restow all packages used on this machine (including the optional configs):
+For the original-theme package set hardcoded in `scripts/stow.sh`:
 
 ```sh
 bash scripts/stow.sh --simulate --verbose
 bash scripts/stow.sh --verbose
 ```
+
+That helper does not detect your installed variant and omits Fish, MPD/rmpc,
+Thunderbird, and Neo packages. Restow your chosen packages explicitly; manage
+Thunderbird's existing profile as described above. If the theme
+switcher manages your files, reapply your selected mode after pulling instead
+of running Stow over its copies.
 
 Local repair backups live in `.stow-backups/`, which Git ignores.
 
